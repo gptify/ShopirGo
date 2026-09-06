@@ -21,7 +21,7 @@ Ushbu ilova mustaqil ta'limiy simulyator hisoblanadi va O‘zbekiston Respublika
 
 🚗 ShopirGo — O‘zbekistonda haydovchilik guvohnomasi (prava) imtihoniga tayyorlanishning eng qiziqarli va samarali o‘yinlashtirilgan (gamified) ilovasi!
 
-Quruq kitob o‘qishdan charchadingizmi? Zerikarli testlarni unuting! Endi sizni 30 yillik tajribaga ega xalqona instruktorlar — Andijonlik Shokir aka, Toshkentlik Rustam aka va Xorazmlik Polvon aka haqiqiy milliy hazillar va kinoyalar bilan o‘rgatadi!
+Quruq kitob o‘qishdan charchadingizmi? Zerikarli testlarni unuting! Endi sizni 30 yillik tajribaga ega xalqona instruktorlar — 55 yoshli Asaka afsonasi Shokir aka (Andijon) haqiqiy xalqona kinoya va chapani anjan shevasi bilan o‘rgatadi!
 
 🔥 ASOSIY IMKONIYATLAR:
 
@@ -41,8 +41,6 @@ Quruq kitob o‘qishdan charchadingizmi? Zerikarli testlarni unuting! Endi sizni
 
 👨‍🏫 3 XIL VILOYAT USTOZLARI & KAYFIYAT:
 • Shokir aka (Andijon / Asaka): Asaka zavodi tajribasi va vodiycha chaqqon kinoyalar
-• Rustam aka (Toshkent / Chilonzor): Poytaxt tirbandliklari, radar kameralari va zamonaviy kinoya
-• Polvon aka (Xorazm / Urganch): Samimiy O'g'uz lahjasi va jarangdor pahlavonona tanbehlar
 • 3 xil rejim: 🍵 Muloyim, ☕ Klassik, 🔥 Asabiy shafyor
 
 🗺️ KATTA YO'L (DUOLINGO USLUBIDA):

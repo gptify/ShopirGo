@@ -444,9 +444,244 @@ const YHQ_QUESTIONS = [
     "explanation": "Jgut ostiga uning qo'yilgan aniq vaqti (soat va daqiqasi) yozilgan qog'oz qistirilishi shart. Vaqt o'tsa to'qimalar o'ladi.",
     "svgType": "medical_firstaid_tourniquet"
   }
-];
-
-if (typeof window !== 'undefined') {
-  window.YHQ_CATEGORIES = YHQ_CATEGORIES;
-  window.YHQ_QUESTIONS = YHQ_QUESTIONS;
+,
+  {
+  "id": 21,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Sariq va oq romb shaklidagi 2.1 'Bosh yo'l' belgisi tartibga solinmagan chorrahada qanday imtiyoz beradi?",
+  "options": [
+    "A) Faqat yuk avtomobillariga yo'l berish shartini",
+    "B) Tartibga solinmagan chorrahada birinchi bo'lib o'tish imtiyozini",
+    "C) Tezlikni 100 km/soatgacha oshirish majburiyatini",
+    "D) O'ng tomondan kelayotgan barcha mashinalarni o'tkazib yuborishni"
+  ],
+  "correct": 1,
+  "rule": "YHQ 2.1-band: 'Bosh yo'l' belgisi tartibga solinmagan chorrahalarda haydovchiga birinchi bo'lib o'tish huquqini beradi.",
+  "fine": "MJtK 128-modda: Bosh yo'ldagi transportga yo'l bermaslik — 1 BHM (375.000 so'm).",
+  "explanation": "2.1 belgisi o'rnatilgan yo'lda kelayotgan haydovchi ikkinchi darajali yo'ldagilarga nisbatan ustunlikka ega.",
+  "svgType": "sign_main_road_2_1"
 }
+,
+  {
+  "id": 22,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Teskari qizil uchburchak shaklidagi 2.4 'Yo'l bering' belgisi o'rnatilgan chorrahaga yaqinlashganda nima qilish shart?",
+  "options": [
+    "A) Har qanday holatda signal chalib, tezlikni oshirish",
+    "B) Kesib o'tilayotgan (bosh yo'ldagi) barcha transport vositalariga yo'l berish",
+    "C) Yo'lda hech kim bo'lmasa ham kamida 1 daqiqa kutish",
+    "D) Faqat svetofor yo'q bo'lsa quvib o'tish"
+  ],
+  "correct": 1,
+  "rule": "YHQ 2.4-band: 'Yo'l bering' — haydovchi kesib o'tilayotgan, agar 7.13 qo'shimcha axborot belgisi bo'lsa, bosh yo'ldan kelayotganlarga yo'l berishi shart.",
+  "fine": "MJtK 128-modda: Yo'l bermaslik — 1 BHM (375.000 so'm).",
+  "explanation": "2.4 belgisi imtiyoz belgisi bo'lib, haydovchini ikkinchi darajali yo'lda ekanligini bildiradi va ustunlikka ega transportlarga yo'l berishni talab qiladi.",
+  "svgType": "sign_yield_2_4"
+}
+,
+  {
+  "id": 23,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Qizil sakkizburchak shaklidagi 2.5 'STOP' belgisi oldida to'xtash majburiymi?",
+  "options": [
+    "A) Yo'lda boshqa mashina ko'rinmasa to'xtamasdan o'tsa bo'ladi",
+    "B) Ha, yo'l mutlaqo bo'sh bo'lsa ham Stop-liniya oldida majburiy to'liq to'xtash shart",
+    "C) Faqat tezlik 60 dan yuqori bo'lsa to'xtaladi",
+    "D) Faqat YPX xodimi turganda to'xtaladi"
+  ],
+  "correct": 1,
+  "rule": "YHQ 2.5-band: 'To'xtamasdan harakatlanish taqiqlanadi' — Stop-liniya oldida, u bo'lmaganda kesib o'tilayotgan qatnov qismi chetida to'xtamasdan harakatlanish taqiqlanadi.",
+  "fine": "MJtK 128-modda: Stop belgisi talabini buzish — 1 BHM (375.000 so'm).",
+  "explanation": "2.5 belgisi oldida har bir transport vositasi g'ildiraklari to'liq to'xtashi shart (ruxsat etilgan 'roll' qilib o'tish qoidabuzarlikdir).",
+  "svgType": "sign_stop_2_5"
+}
+,
+  {
+  "id": 24,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Qizil doira ichida oq to'rtburchak (3.1 'Kirish taqiqlanadi' / 'G'isht') belgisi ta'sir zonasiga kim kira oladi?",
+  "options": [
+    "A) Shu ko'chada yashovchi barcha fuqarolar",
+    "B) Belgilangan yo'nalishli jamoat transport vositalari (avtobuslar)",
+    "C) Faqat yuk ortilgan Damaslar",
+    "D) Shoshilinch xususiy taksilar"
+  ],
+  "correct": 1,
+  "rule": "YHQ 3.1-band: 'Kirish taqiqlanadi' belgisi barcha transport vositalarining kirishini taqiqlaydi, belgilangan yo'nalishli transport vositalari bundan mustasno.",
+  "fine": "MJtK 128-modda: Taqiqlovchi belgi talabiga rioya qilmaslik — 1 BHM (375.000 so'm).",
+  "explanation": "Xalq tilida 'G'isht' deb ataluvchi ushbu belgi bir tomonlama yo'lning qarama-qarshi tomoniga o'rnatiladi va jamoat transportidan boshqa hammaga kirishni man etadi.",
+  "svgType": "sign_no_entry_3_1"
+}
+,
+  {
+  "id": 25,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k fonda ikkita qizil kesishgan chiziq (3.27 'To'xtash taqiqlanadi') belgisi nimani bildiradi?",
+  "options": [
+    "A) 5 daqiqagacha odam mindirish uchun to'xtasa bo'ladi",
+    "B) Transport vositalarining to'xtashini ham, to'xtab turishini ham mutlaqo taqiqlaydi",
+    "C) Faqat yuk tushirish uchun to'xtashga ruxsat beradi",
+    "D) Kechasi soat 22:00 dan keyin to'xtashga ruxsat beradi"
+  ],
+  "correct": 1,
+  "rule": "YHQ 3.27-band: 'To'xtash taqiqlanadi' — transport vositalarining to'xtashi va to'xtab turishi taqiqlanadi (yo'nalishli transport vositalari bekatlari bundan mustasno).",
+  "fine": "MJtK 128-6-modda: To'xtash yoki to'xtab turish qoidalarini buzish — 2 BHM (750.000 so'm).",
+  "explanation": "3.27 belgisi 3.28 dan farqli o'laroq hatto 1 soniyaga ham to'xtashni man etadi!",
+  "svgType": "sign_no_stopping_3_27"
+}
+,
+  {
+  "id": 26,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k fonda bitta qizil qiya chiziq tushirilgan 3.28 'To'xtab turish taqiqlanadi' belgisi nimaga ruxsat beradi?",
+  "options": [
+    "A) Kechasi mashinani ertalabgacha qoldirib ketishga",
+    "B) Yo'lovchilarni chiqarish/tushirish yoki yuk ortish uchun 5 daqiqagacha to'xtashga",
+    "C) Istalgan vaqt davomida to'xtab turishga",
+    "D) Boshqa mashinalarni kutib turishga"
+  ],
+  "correct": 1,
+  "rule": "YHQ 3.28-band: 5 daqiqagacha bo'lgan to'xtashga, shuningdek yo'lovchilarni chiqarish/tushirish bilan bog'liq bo'lsa undan ko'proqqa ruxsat etiladi.",
+  "fine": "MJtK 128-6-modda: 2 BHM (750.000 so'm).",
+  "explanation": "3.28 belgisida qisqa muddatli to'xtash (5 daqiqagacha) mumkin, ammo uzoq muddatli to'xtab turish taqiqlanadi.",
+  "svgType": "sign_no_parking_3_28"
+}
+,
+  {
+  "id": 27,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k doira ichida oq strelka yuqoriga qaragan (4.1.1 'Harakat faqat to'g'riga') belgisi oldida qaysi tomonga burilish mumkin?",
+  "options": [
+    "A) O'ngga va chapga erkin burilish mumkin",
+    "B) Faqat to'g'ri yo'nalishda harakatlanish shart, burilish taqiqlanadi",
+    "C) Faqat qayrilib olishga ruxsat beriladi",
+    "D) Faqat svetofor sariq bo'lganda burilish mumkin"
+  ],
+  "correct": 1,
+  "rule": "YHQ 4.1.1-band: Buyuruvchi belgi — faqat ko'rsatilgan (to'g'ri) yo'nalishda harakatlanishga ruxsat beradi.",
+  "fine": "MJtK 128-modda: Buyuruvchi belgi talabini buzish — 1 BHM (375.000 so'm).",
+  "explanation": "4.1.1 chorraha oldiga qo'yilsa, shu chorrahada o'ngga, chapga burilish yoki qayrilib olish mutlaqo taqiqlanadi.",
+  "svgType": "sign_mandatory_straight_4_1_1"
+}
+,
+  {
+  "id": 28,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k kvadrat ichida oq uchburchak va piyoda tasvirlangan 5.16 belgisi nimani anglatadi?",
+  "options": [
+    "A) Yer osti piyodalar o'tish yo'lini",
+    "B) Piyodalar o'tish joyi chegarasini va haydovchining piyodalarga yo'l berish majburiyatini",
+    "C) Piyodalarning yo'lga chiqishi taqiqlangan zonani",
+    "D) Bolalar o'yin maydonchasini"
+  ],
+  "correct": 1,
+  "rule": "YHQ 5.16.1, 5.16.2-bandlar: Piyodalar o'tish joyining chegaralarini belgilaydi. Haydovchi piyodalarga yo'l berishi shart.",
+  "fine": "MJtK 128-modda: Piyodaga yo'l bermaslik — 1 BHM (375.000 so'm).",
+  "explanation": "5.16 belgisi tartibga solinmagan piyodalar o'tish joyida o'rnatiladi va haydovchiga piyodalarga to'liq ustunlik berishni yuklaydi.",
+  "svgType": "sign_pedestrian_crossing_5_16"
+}
+,
+  {
+  "id": 29,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Qizil uchburchak ichida yugurayotgan bolalar tasvirlangan (1.23 'Bolalar') belgisi nimadan ogohlantiradi?",
+  "options": [
+    "A) Bolalarni mashinada tashish taqiqlanganidan",
+    "B) Maktab yoki bolalar bog'chasiga tutash yo'lda to'satdan bolalar chiqib qolish xavfidan",
+    "C) Bolalar uchun maxsus velosiped yo'lagidan",
+    "D) Piyodalar yo'lagi yo'qligidan"
+  ],
+  "correct": 1,
+  "rule": "YHQ 1.23-band: Bolalar muassasalariga tutash yo'l qismida bolalar paydo bo'lish xavfi haqida ogohlantiradi.",
+  "fine": "Ogohlantiruvchi belgi: Haydovchi tezlikni pasaytirishi va ehtiyotkor bo'lishi shart.",
+  "explanation": "Ushbu belgini ko'rgan haydovchi darhol tezlikni kamaytirishi va tormoz bosishga tayyor turishi shart.",
+  "svgType": "sign_warning_children_1_23"
+}
+,
+  {
+  "id": 30,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "3.18.2 'Chapga burilish taqiqlanadi' belgisi o'rnatilgan chorrahada qayrilib olish (orqaga burilish) mumkinmi?",
+  "options": [
+    "A) Yo'q, chapga burilish taqiqlansa, qayrilish ham avtomatik taqiqlanadi",
+    "B) Ha, belgi faqat chapga burilishni taqiqlaydi, lekin qayrilib olishga ruxsat beradi",
+    "C) Faqat yuk avtomobillariga ruxsat beriladi",
+    "D) Faqat kechasi ruxsat beriladi"
+  ],
+  "correct": 1,
+  "rule": "YHQ 3.18.2-band: 'Chapga burilish taqiqlanadi' belgisi qayrilib olishni (orqaga burilishni) taqiqlamaydi.",
+  "fine": "MJtK 128-modda: Belgiga rioya qilmaslik — 1 BHM (375.000 so'm).",
+  "explanation": "Bu YHQ imtihonlaridagi eng mashhur savollardan biridir: 3.18.2 belgisi faqat chapga burilishni man etadi, qayrilib olish esa qoidaga muvofiq ruxsat etiladi!",
+  "svgType": "sign_no_left_turn_3_18_2"
+}
+,
+  {
+  "id": 31,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k kvadrat ichida oq 'P' harfi (5.15 'To'xtab turish joyi') qanday ma'noni anglatadi?",
+  "options": [
+    "A) Politsiya postini",
+    "B) Transport vositalarini to'xtab turishiga (parkovka) ruxsat etilgan maxsus joyni",
+    "C) Pullik avtomobil yo'lini",
+    "D) Piyodalar zonasini"
+  ],
+  "correct": 1,
+  "rule": "YHQ 5.15-band: 'To'xtab turish joyi' — transport vositalarini to'xtab turishiga ruxsat etilgan maxsus hududni belgilaydi.",
+  "fine": "Ruxsat beruvchi axborot belgisi.",
+  "explanation": "5.15 belgisi avtomobillarni xavfsiz va qonuniy to'xtab turish joyini ko'rsatadi.",
+  "svgType": "sign_parking_5_15"
+}
+,
+  {
+  "id": 32,
+  "ticket": 2,
+  "category": "road_signs",
+  "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+  "isNew2026": false,
+  "q": "Ko'k doira ichida aylanma oq strelkalar (4.3 'Aylana bo'ylab harakatlanish') qanday harakatlanishni buyuradi?",
+  "options": [
+    "A) Istalgan tomonga to'g'ri kesib o'tishni",
+    "B) Faqat strelkalar ko'rsatgan yo'nalishda (soat miliga teskari) aylana bo'ylab harakatlanishni",
+    "C) Aylana markazida to'xtab turishni",
+    "D) Faqat o'ngga burilib to'xtashni"
+  ],
+  "correct": 1,
+  "rule": "YHQ 4.3-band: 'Aylana bo'ylab harakatlanish' — strelkalar ko'rsatgan yo'nalish bo'ylab harakatlanishga ruxsat etiladi.",
+  "fine": "MJtK 128-modda: Aylana qoidasini buzish — 1 BHM (375.000 so'm).",
+  "explanation": "4.3 belgisi o'rnatilgan aylanada harakatlanayotgan mashinalar yangi qoidalarga ko'ra ustunlikka ega.",
+  "svgType": "sign_roundabout_4_3"
+}
+];

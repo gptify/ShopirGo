@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+  <!-- Cache-Control Meta Headers (Bust Telegram WebView Cache) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
@@ -181,6 +185,23 @@
           </button>
           <button onclick="setSarcasm('spicy')" id="sarcasm-spicy" class="px-2 py-1 rounded-lg text-[9.5px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap shrink-0">
             🔥 Asabiy
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Gender Switcher (1-Tap: Uka / Singlim) -->
+      <div class="flex items-center justify-between bg-slate-900/95 border border-amber-500/30 px-3 py-1.5 rounded-xl mb-2 shadow-sm">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-xs">🗣️</span>
+          <span class="text-[10.5px] text-slate-300 font-medium">Shokir aka muomalasi:</span>
+          <span id="quick-gender-label" class="text-[10.5px] font-black text-amber-300">"Uka" (Sen)</span>
+        </div>
+        <div class="flex items-center space-x-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+          <button onclick="setDemographicGender('male')" id="quick-btn-male" class="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 transition active:scale-95">
+            👨 Uka (Sen)
+          </button>
+          <button onclick="setDemographicGender('female')" id="quick-btn-female" class="px-2 py-0.5 rounded-md text-[10px] font-black text-slate-400 hover:text-white transition active:scale-95">
+            👩 Singlim (Siz)
           </button>
         </div>
       </div>
@@ -1635,27 +1656,56 @@
       return res;
     }
 
-    function setDemographicGender(gender) {
+        function setDemographicGender(gender) {
       state.userGender = gender;
       localStorage.setItem('shopirgo_gender', gender);
       const maleBtn = document.getElementById('demo-gender-male');
       const femaleBtn = document.getElementById('demo-gender-female');
+      const qMaleBtn = document.getElementById('quick-btn-male');
+      const qFemaleBtn = document.getElementById('quick-btn-female');
+      const qLabel = document.getElementById('quick-gender-label');
 
       if (gender === 'male') {
         if (maleBtn) maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-emerald-500/80 bg-emerald-500/15 text-white transition flex items-center justify-center space-x-1.5";
         if (femaleBtn) femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        if (qMaleBtn) qMaleBtn.className = "px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow transition active:scale-95";
+        if (qFemaleBtn) qFemaleBtn.className = "px-2 py-0.5 rounded-md text-[10px] font-black text-slate-400 hover:text-white transition active:scale-95";
+        if (qLabel) qLabel.innerText = '"Uka" (Sen)';
         const yTag = document.getElementById('demo-tag-young'); if (yTag) yTag.innerText = '"Uka" (Sen)';
         const mTag = document.getElementById('demo-tag-mid'); if (mTag) mTag.innerText = '"Uka" (Sen)';
         const eTag = document.getElementById('demo-tag-elder'); if (eTag) eTag.innerText = '"Aka" (Siz)';
       } else {
         if (femaleBtn) femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-pink-500/80 bg-pink-500/15 text-white transition flex items-center justify-center space-x-1.5";
         if (maleBtn) maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        if (qFemaleBtn) qFemaleBtn.className = "px-2 py-0.5 rounded-md text-[10px] font-black bg-pink-500/20 text-pink-300 border border-pink-500/50 shadow transition active:scale-95";
+        if (qMaleBtn) qMaleBtn.className = "px-2 py-0.5 rounded-md text-[10px] font-black text-slate-400 hover:text-white transition active:scale-95";
+        if (qLabel) qLabel.innerText = '"Singlim" (Siz)';
         const yTag = document.getElementById('demo-tag-young'); if (yTag) yTag.innerText = '"Singlim" (Siz)';
         const mTag = document.getElementById('demo-tag-mid'); if (mTag) mTag.innerText = '"Singlim" (Siz)';
         const eTag = document.getElementById('demo-tag-elder'); if (eTag) eTag.innerText = '"Opa" (Siz)';
       }
       updateDemographicPreview();
       AudioEngine.playCoin();
+    }
+
+    // Auto-detect gender from Telegram profile first name if not set
+    function autoDetectTelegramGender() {
+      try {
+        const saved = localStorage.getItem('shopirgo_gender');
+        if (saved) return saved;
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+          const fn = (window.Telegram.WebApp.initDataUnsafe.user.first_name || "").toLowerCase().trim();
+          const femaleEndings = ['a', 'o', 'ya', 'va', 'na', 'ra', 'da', 'la', 'za', 'sa', 'ta', 'fa', 'ma', 'ka', 'oy', 'xon', 'hon', 'bonu', 'begim', 'poshsha', 'bibi', 'gul', 'moh', 'diyor', 'asal', 'rayhon', 'zuhra', 'fotima', 'nargiz', 'nilufar', 'sevara', 'feruza', 'shaxnoza', 'shahnoza', 'gulnoza', 'umida', 'madina', 'dilnoza', 'nozima', 'malika', 'kamola', 'komila', 'dildora', 'diyora', 'barno', 'ra\'no'];
+          const maleExceptions = ['hamza', 'ilhom', 'rustam', 'shuxrat', 'shuhrat', 'jasur', 'sardor', 'bobur', 'alisher', 'bekzod', 'sherzod', 'javohir', 'jamshid', 'farrux', 'otabek', 'ulug\'bek', 'abbos', 'azizbek', 'temur', 'nodir', 'umid', 'anvar', 'eldor', 'shavkat', 'bahodir', 'sanjar', 'doniyor', 'islom', 'muhammad', 'ali', 'vali'];
+          for (const m of maleExceptions) {
+            if (fn.includes(m)) return 'male';
+          }
+          for (const f of femaleEndings) {
+            if (fn.endsWith(f) || fn.includes(f)) return 'female';
+          }
+        }
+      } catch(e) {}
+      return 'male';
     }
 
     function setDemographicAge(ageGroup) {
@@ -1693,9 +1743,9 @@
         let baseQuote = "";
         if (!isElder) {
           if (isFemale) {
-            baseQuote = "Singlim, rulga o'tiring! Kamarni taqib oling, bugun Sergeli va Asaka chorrahasini birga ko'rib chiqamiz.";
+            baseQuote = "Singlim, o'tiring! Asaka Cobaltini sekin-asta, bittalab o'rganamiz-da. Kamarni taqib oling!";
           } else {
-            baseQuote = "Qani uka, rulga o'tir! Bugun seni Sergeli va Asaka chorrahasida sinab ko'raman-da!";
+            baseQuote = "Qani uka, o'tir! Asaka Cobaltini gazini bos, Sergeli va Asaka chorrahasida birga sinab ko'ramiz-da!";
           }
         } else {
           if (isFemale) {
@@ -1720,7 +1770,7 @@
 
     // --- STATE MANAGEMENT ---
     const state = {
-      userGender: localStorage.getItem('shopirgo_gender') || 'male',      // 'male' | 'female'
+      userGender: autoDetectTelegramGender(),      // 'male' | 'female'
       userAgeGroup: localStorage.getItem('shopirgo_age_group') || 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
       userAge: 22,
       streak: 3,
@@ -2383,6 +2433,235 @@
         explanation: "2023–2024 yildan boshlab poytaxt va viloyat markazlarida tezlik 70 dan 60 km/soatga tushirildi.",
         svgType: "speed_sign_60"
       }
+    ,
+{
+      "id": 21,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Sariq va oq romb shaklidagi 2.1 'Bosh yo'l' belgisi tartibga solinmagan chorrahada qanday imtiyoz beradi?",
+      "options": [
+            "A) Faqat yuk avtomobillariga yo'l berish shartini",
+            "B) Tartibga solinmagan chorrahada birinchi bo'lib o'tish imtiyozini",
+            "C) Tezlikni 100 km/soatgacha oshirish majburiyatini",
+            "D) O'ng tomondan kelayotgan barcha mashinalarni o'tkazib yuborishni"
+      ],
+      "correct": 1,
+      "rule": "YHQ 2.1-band: 'Bosh yo'l' belgisi tartibga solinmagan chorrahalarda haydovchiga birinchi bo'lib o'tish huquqini beradi.",
+      "fine": "MJtK 128-modda: Bosh yo'ldagi transportga yo'l bermaslik — 1 BHM (375.000 so'm).",
+      "explanation": "2.1 belgisi o'rnatilgan yo'lda kelayotgan haydovchi ikkinchi darajali yo'ldagilarga nisbatan ustunlikka ega.",
+      "svgType": "sign_main_road_2_1"
+},
+{
+      "id": 22,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Teskari qizil uchburchak shaklidagi 2.4 'Yo'l bering' belgisi o'rnatilgan chorrahaga yaqinlashganda nima qilish shart?",
+      "options": [
+            "A) Har qanday holatda signal chalib, tezlikni oshirish",
+            "B) Kesib o'tilayotgan (bosh yo'ldagi) barcha transport vositalariga yo'l berish",
+            "C) Yo'lda hech kim bo'lmasa ham kamida 1 daqiqa kutish",
+            "D) Faqat svetofor yo'q bo'lsa quvib o'tish"
+      ],
+      "correct": 1,
+      "rule": "YHQ 2.4-band: 'Yo'l bering' — haydovchi kesib o'tilayotgan, agar 7.13 qo'shimcha axborot belgisi bo'lsa, bosh yo'ldan kelayotganlarga yo'l berishi shart.",
+      "fine": "MJtK 128-modda: Yo'l bermaslik — 1 BHM (375.000 so'm).",
+      "explanation": "2.4 belgisi imtiyoz belgisi bo'lib, haydovchini ikkinchi darajali yo'lda ekanligini bildiradi va ustunlikka ega transportlarga yo'l berishni talab qiladi.",
+      "svgType": "sign_yield_2_4"
+},
+{
+      "id": 23,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Qizil sakkizburchak shaklidagi 2.5 'STOP' belgisi oldida to'xtash majburiymi?",
+      "options": [
+            "A) Yo'lda boshqa mashina ko'rinmasa to'xtamasdan o'tsa bo'ladi",
+            "B) Ha, yo'l mutlaqo bo'sh bo'lsa ham Stop-liniya oldida majburiy to'liq to'xtash shart",
+            "C) Faqat tezlik 60 dan yuqori bo'lsa to'xtaladi",
+            "D) Faqat YPX xodimi turganda to'xtaladi"
+      ],
+      "correct": 1,
+      "rule": "YHQ 2.5-band: 'To'xtamasdan harakatlanish taqiqlanadi' — Stop-liniya oldida, u bo'lmaganda kesib o'tilayotgan qatnov qismi chetida to'xtamasdan harakatlanish taqiqlanadi.",
+      "fine": "MJtK 128-modda: Stop belgisi talabini buzish — 1 BHM (375.000 so'm).",
+      "explanation": "2.5 belgisi oldida har bir transport vositasi g'ildiraklari to'liq to'xtashi shart (ruxsat etilgan 'roll' qilib o'tish qoidabuzarlikdir).",
+      "svgType": "sign_stop_2_5"
+},
+{
+      "id": 24,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Qizil doira ichida oq to'rtburchak (3.1 'Kirish taqiqlanadi' / 'G'isht') belgisi ta'sir zonasiga kim kira oladi?",
+      "options": [
+            "A) Shu ko'chada yashovchi barcha fuqarolar",
+            "B) Belgilangan yo'nalishli jamoat transport vositalari (avtobuslar)",
+            "C) Faqat yuk ortilgan Damaslar",
+            "D) Shoshilinch xususiy taksilar"
+      ],
+      "correct": 1,
+      "rule": "YHQ 3.1-band: 'Kirish taqiqlanadi' belgisi barcha transport vositalarining kirishini taqiqlaydi, belgilangan yo'nalishli transport vositalari bundan mustasno.",
+      "fine": "MJtK 128-modda: Taqiqlovchi belgi talabiga rioya qilmaslik — 1 BHM (375.000 so'm).",
+      "explanation": "Xalq tilida 'G'isht' deb ataluvchi ushbu belgi bir tomonlama yo'lning qarama-qarshi tomoniga o'rnatiladi va jamoat transportidan boshqa hammaga kirishni man etadi.",
+      "svgType": "sign_no_entry_3_1"
+},
+{
+      "id": 25,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k fonda ikkita qizil kesishgan chiziq (3.27 'To'xtash taqiqlanadi') belgisi nimani bildiradi?",
+      "options": [
+            "A) 5 daqiqagacha odam mindirish uchun to'xtasa bo'ladi",
+            "B) Transport vositalarining to'xtashini ham, to'xtab turishini ham mutlaqo taqiqlaydi",
+            "C) Faqat yuk tushirish uchun to'xtashga ruxsat beradi",
+            "D) Kechasi soat 22:00 dan keyin to'xtashga ruxsat beradi"
+      ],
+      "correct": 1,
+      "rule": "YHQ 3.27-band: 'To'xtash taqiqlanadi' — transport vositalarining to'xtashi va to'xtab turishi taqiqlanadi (yo'nalishli transport vositalari bekatlari bundan mustasno).",
+      "fine": "MJtK 128-6-modda: To'xtash yoki to'xtab turish qoidalarini buzish — 2 BHM (750.000 so'm).",
+      "explanation": "3.27 belgisi 3.28 dan farqli o'laroq hatto 1 soniyaga ham to'xtashni man etadi!",
+      "svgType": "sign_no_stopping_3_27"
+},
+{
+      "id": 26,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k fonda bitta qizil qiya chiziq tushirilgan 3.28 'To'xtab turish taqiqlanadi' belgisi nimaga ruxsat beradi?",
+      "options": [
+            "A) Kechasi mashinani ertalabgacha qoldirib ketishga",
+            "B) Yo'lovchilarni chiqarish/tushirish yoki yuk ortish uchun 5 daqiqagacha to'xtashga",
+            "C) Istalgan vaqt davomida to'xtab turishga",
+            "D) Boshqa mashinalarni kutib turishga"
+      ],
+      "correct": 1,
+      "rule": "YHQ 3.28-band: 5 daqiqagacha bo'lgan to'xtashga, shuningdek yo'lovchilarni chiqarish/tushirish bilan bog'liq bo'lsa undan ko'proqqa ruxsat etiladi.",
+      "fine": "MJtK 128-6-modda: 2 BHM (750.000 so'm).",
+      "explanation": "3.28 belgisida qisqa muddatli to'xtash (5 daqiqagacha) mumkin, ammo uzoq muddatli to'xtab turish taqiqlanadi.",
+      "svgType": "sign_no_parking_3_28"
+},
+{
+      "id": 27,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k doira ichida oq strelka yuqoriga qaragan (4.1.1 'Harakat faqat to'g'riga') belgisi oldida qaysi tomonga burilish mumkin?",
+      "options": [
+            "A) O'ngga va chapga erkin burilish mumkin",
+            "B) Faqat to'g'ri yo'nalishda harakatlanish shart, burilish taqiqlanadi",
+            "C) Faqat qayrilib olishga ruxsat beriladi",
+            "D) Faqat svetofor sariq bo'lganda burilish mumkin"
+      ],
+      "correct": 1,
+      "rule": "YHQ 4.1.1-band: Buyuruvchi belgi — faqat ko'rsatilgan (to'g'ri) yo'nalishda harakatlanishga ruxsat beradi.",
+      "fine": "MJtK 128-modda: Buyuruvchi belgi talabini buzish — 1 BHM (375.000 so'm).",
+      "explanation": "4.1.1 chorraha oldiga qo'yilsa, shu chorrahada o'ngga, chapga burilish yoki qayrilib olish mutlaqo taqiqlanadi.",
+      "svgType": "sign_mandatory_straight_4_1_1"
+},
+{
+      "id": 28,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k kvadrat ichida oq uchburchak va piyoda tasvirlangan 5.16 belgisi nimani anglatadi?",
+      "options": [
+            "A) Yer osti piyodalar o'tish yo'lini",
+            "B) Piyodalar o'tish joyi chegarasini va haydovchining piyodalarga yo'l berish majburiyatini",
+            "C) Piyodalarning yo'lga chiqishi taqiqlangan zonani",
+            "D) Bolalar o'yin maydonchasini"
+      ],
+      "correct": 1,
+      "rule": "YHQ 5.16.1, 5.16.2-bandlar: Piyodalar o'tish joyining chegaralarini belgilaydi. Haydovchi piyodalarga yo'l berishi shart.",
+      "fine": "MJtK 128-modda: Piyodaga yo'l bermaslik — 1 BHM (375.000 so'm).",
+      "explanation": "5.16 belgisi tartibga solinmagan piyodalar o'tish joyida o'rnatiladi va haydovchiga piyodalarga to'liq ustunlik berishni yuklaydi.",
+      "svgType": "sign_pedestrian_crossing_5_16"
+},
+{
+      "id": 29,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Qizil uchburchak ichida yugurayotgan bolalar tasvirlangan (1.23 'Bolalar') belgisi nimadan ogohlantiradi?",
+      "options": [
+            "A) Bolalarni mashinada tashish taqiqlanganidan",
+            "B) Maktab yoki bolalar bog'chasiga tutash yo'lda to'satdan bolalar chiqib qolish xavfidan",
+            "C) Bolalar uchun maxsus velosiped yo'lagidan",
+            "D) Piyodalar yo'lagi yo'qligidan"
+      ],
+      "correct": 1,
+      "rule": "YHQ 1.23-band: Bolalar muassasalariga tutash yo'l qismida bolalar paydo bo'lish xavfi haqida ogohlantiradi.",
+      "fine": "Ogohlantiruvchi belgi: Haydovchi tezlikni pasaytirishi va ehtiyotkor bo'lishi shart.",
+      "explanation": "Ushbu belgini ko'rgan haydovchi darhol tezlikni kamaytirishi va tormoz bosishga tayyor turishi shart.",
+      "svgType": "sign_warning_children_1_23"
+},
+{
+      "id": 30,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "3.18.2 'Chapga burilish taqiqlanadi' belgisi o'rnatilgan chorrahada qayrilib olish (orqaga burilish) mumkinmi?",
+      "options": [
+            "A) Yo'q, chapga burilish taqiqlansa, qayrilish ham avtomatik taqiqlanadi",
+            "B) Ha, belgi faqat chapga burilishni taqiqlaydi, lekin qayrilib olishga ruxsat beradi",
+            "C) Faqat yuk avtomobillariga ruxsat beriladi",
+            "D) Faqat kechasi ruxsat beriladi"
+      ],
+      "correct": 1,
+      "rule": "YHQ 3.18.2-band: 'Chapga burilish taqiqlanadi' belgisi qayrilib olishni (orqaga burilishni) taqiqlamaydi.",
+      "fine": "MJtK 128-modda: Belgiga rioya qilmaslik — 1 BHM (375.000 so'm).",
+      "explanation": "Bu YHQ imtihonlaridagi eng mashhur savollardan biridir: 3.18.2 belgisi faqat chapga burilishni man etadi, qayrilib olish esa qoidaga muvofiq ruxsat etiladi!",
+      "svgType": "sign_no_left_turn_3_18_2"
+},
+{
+      "id": 31,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k kvadrat ichida oq 'P' harfi (5.15 'To'xtab turish joyi') qanday ma'noni anglatadi?",
+      "options": [
+            "A) Politsiya postini",
+            "B) Transport vositalarini to'xtab turishiga (parkovka) ruxsat etilgan maxsus joyni",
+            "C) Pullik avtomobil yo'lini",
+            "D) Piyodalar zonasini"
+      ],
+      "correct": 1,
+      "rule": "YHQ 5.15-band: 'To'xtab turish joyi' — transport vositalarini to'xtab turishiga ruxsat etilgan maxsus hududni belgilaydi.",
+      "fine": "Ruxsat beruvchi axborot belgisi.",
+      "explanation": "5.15 belgisi avtomobillarni xavfsiz va qonuniy to'xtab turish joyini ko'rsatadi.",
+      "svgType": "sign_parking_5_15"
+},
+{
+      "id": 32,
+      "ticket": 2,
+      "category": "road_signs",
+      "categoryName": "🛑 Rasmiy Yo'l Belgilari",
+      "isNew2026": false,
+      "q": "Ko'k doira ichida aylanma oq strelkalar (4.3 'Aylana bo'ylab harakatlanish') qanday harakatlanishni buyuradi?",
+      "options": [
+            "A) Istalgan tomonga to'g'ri kesib o'tishni",
+            "B) Faqat strelkalar ko'rsatgan yo'nalishda (soat miliga teskari) aylana bo'ylab harakatlanishni",
+            "C) Aylana markazida to'xtab turishni",
+            "D) Faqat o'ngga burilib to'xtashni"
+      ],
+      "correct": 1,
+      "rule": "YHQ 4.3-band: 'Aylana bo'ylab harakatlanish' — strelkalar ko'rsatgan yo'nalish bo'ylab harakatlanishga ruxsat etiladi.",
+      "fine": "MJtK 128-modda: Aylana qoidasini buzish — 1 BHM (375.000 so'm).",
+      "explanation": "4.3 belgisi o'rnatilgan aylanada harakatlanayotgan mashinalar yangi qoidalarga ko'ra ustunlikka ega.",
+      "svgType": "sign_roundabout_4_3"
+}
     ];
 
     let currentQuizList = LocalYHQQuestions;
@@ -2393,6 +2672,170 @@
     // --- SVG TRAFFIC SITUATION DIAGRAM RENDERER ---
     function renderQuestionSVG(svgType) {
       switch(svgType) {
+        case 'sign_main_road_2_1':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="60" width="400" height="60" fill="#1E293B"/>
+            <line x1="200" y1="0" x2="200" y2="180" stroke="#F8FAFC" stroke-width="2.5" stroke-dasharray="14,12"/>
+            <g transform="translate(60, 25)">
+              <rect x="25" y="45" width="6" height="65" fill="#64748B"/>
+              <polygon points="28,5 56,33 28,61 0,33" fill="#FFFFFF"/>
+              <polygon points="28,12 49,33 28,54 7,33" fill="#FBBF24"/>
+            </g>
+            <g transform="translate(185, 120)">
+              <rect width="30" height="42" rx="4" fill="#10B981"/>
+              <text x="15" y="25" fill="#FFF" font-size="9" font-weight="900" text-anchor="middle">SIZ</text>
+            </g>
+            <rect x="150" y="8" width="235" height="28" rx="6" fill="#020617" stroke="#FBBF24" stroke-width="1.5"/>
+            <text x="267" y="26" fill="#FBBF24" font-size="10.5" font-weight="900" text-anchor="middle">2.1 BOSH YO'L (USTUNLIK SIZDA)</text>
+          </svg>`;
+
+        case 'sign_stop_2_5':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="60" width="400" height="60" fill="#1E293B"/>
+            <line x1="160" y1="120" x2="240" y2="120" stroke="#FFFFFF" stroke-width="5"/>
+            <text x="200" y="115" fill="#FFFFFF" font-size="8" font-weight="bold" text-anchor="middle">STOP-CHIZIQ</text>
+            <g transform="translate(50, 20)">
+              <rect x="27" y="55" width="6" height="65" fill="#64748B"/>
+              <polygon points="18,0 42,0 60,18 60,42 42,60 18,60 0,42 0,18" fill="#DC2626"/>
+              <polygon points="20,3 40,3 57,20 57,40 40,57 20,57 3,40 3,20" fill="#FFFFFF"/>
+              <polygon points="21,5 39,5 55,21 55,39 39,55 21,55 5,39 5,21" fill="#DC2626"/>
+              <text x="30" y="36" fill="#FFFFFF" font-size="14" font-weight="900" text-anchor="middle" font-family="sans-serif">STOP</text>
+            </g>
+            <rect x="130" y="8" width="255" height="28" rx="6" fill="#020617" stroke="#DC2626" stroke-width="1.5"/>
+            <text x="257" y="26" fill="#EF4444" font-size="10" font-weight="900" text-anchor="middle">2.5 TO'XTAMASDAN O'TISH TAQIQLANADI</text>
+          </svg>`;
+
+        case 'sign_no_entry_3_1':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="130" y="30" width="140" height="150" fill="#1E293B"/>
+            <line x1="200" y1="30" x2="200" y2="180" stroke="#EF4444" stroke-width="3"/>
+            <g transform="translate(170, 45)">
+              <circle cx="30" cy="30" r="28" fill="#DC2626"/>
+              <rect x="10" y="25" width="40" height="10" rx="2" fill="#FFFFFF"/>
+            </g>
+            <rect x="60" y="8" width="280" height="28" rx="6" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="200" y="26" fill="#EF4444" font-size="10.5" font-weight="900" text-anchor="middle">3.1 KIRISH TAQIQLANADI (G'ISHT)</text>
+          </svg>`;
+
+        case 'sign_no_stopping_3_27':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <g transform="translate(60, 20)">
+              <rect x="27" y="55" width="6" height="65" fill="#64748B"/>
+              <circle cx="30" cy="30" r="28" fill="#2563EB" stroke="#DC2626" stroke-width="6"/>
+              <line x1="10" y1="10" x2="50" y2="50" stroke="#DC2626" stroke-width="6"/>
+              <line x1="50" y1="10" x2="10" y2="50" stroke="#DC2626" stroke-width="6"/>
+            </g>
+            <rect x="130" y="10" width="250" height="28" rx="6" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="255" y="28" fill="#EF4444" font-size="10.5" font-weight="900" text-anchor="middle">3.27 TO'XTASH TAQIQLANADI (X)</text>
+          </svg>`;
+
+        case 'sign_no_parking_3_28':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <g transform="translate(60, 20)">
+              <rect x="27" y="55" width="6" height="65" fill="#64748B"/>
+              <circle cx="30" cy="30" r="28" fill="#2563EB" stroke="#DC2626" stroke-width="6"/>
+              <line x1="10" y1="50" x2="50" y2="10" stroke="#DC2626" stroke-width="6"/>
+            </g>
+            <rect x="130" y="10" width="255" height="28" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+            <text x="257" y="28" fill="#38BDF8" font-size="10" font-weight="900" text-anchor="middle">3.28 TO'XTAB TURISH TAQIQLANADI (/)</text>
+          </svg>`;
+
+        case 'sign_mandatory_straight_4_1_1':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="60" width="400" height="60" fill="#1E293B"/>
+            <g transform="translate(50, 25)">
+              <rect x="27" y="55" width="6" height="65" fill="#64748B"/>
+              <circle cx="30" cy="30" r="28" fill="#2563EB"/>
+              <line x1="30" y1="48" x2="30" y2="15" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+              <polygon points="30,8 20,22 40,22" fill="#FFFFFF"/>
+            </g>
+            <rect x="120" y="10" width="265" height="28" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+            <text x="252" y="28" fill="#38BDF8" font-size="10.5" font-weight="900" text-anchor="middle">4.1.1 HARAKAT FAQAT TO'G'RIGA (↑)</text>
+          </svg>`;
+
+        case 'sign_pedestrian_crossing_5_16':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <g transform="translate(180, 40)">
+              <rect x="0" y="0" width="10" height="140" fill="#F8FAFC"/>
+              <rect x="18" y="0" width="10" height="140" fill="#F8FAFC"/>
+              <rect x="36" y="0" width="10" height="140" fill="#F8FAFC"/>
+            </g>
+            <g transform="translate(50, 25)">
+              <rect width="56" height="56" rx="6" fill="#2563EB"/>
+              <polygon points="28,6 50,48 6,48" fill="#FFFFFF"/>
+              <circle cx="28" cy="18" r="4" fill="#020617"/>
+              <path d="M28,23 L28,34 L22,46 M28,34 L34,46 M22,30 L34,26" stroke="#020617" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+            <rect x="120" y="8" width="265" height="28" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+            <text x="252" y="26" fill="#38BDF8" font-size="10" font-weight="900" text-anchor="middle">5.16 PIYODALAR O'TISH JOYI (ZEBRA)</text>
+          </svg>`;
+
+        case 'sign_warning_children_1_23':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <g transform="translate(60, 20)">
+              <polygon points="30,5 60,55 0,55" fill="#DC2626"/>
+              <polygon points="30,16 52,50 8,50" fill="#FFFFFF"/>
+              <text x="30" y="44" font-size="18" text-anchor="middle">🚸</text>
+            </g>
+            <rect x="130" y="10" width="255" height="28" rx="6" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="257" y="28" fill="#EF4444" font-size="10.5" font-weight="900" text-anchor="middle">1.23 OGOHLANTIRISH: BOLALAR</text>
+          </svg>`;
+
+        case 'sign_no_left_turn_3_18_2':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="60" width="400" height="60" fill="#1E293B"/>
+            <g transform="translate(50, 25)">
+              <circle cx="30" cy="30" r="28" fill="#FFFFFF" stroke="#DC2626" stroke-width="6"/>
+              <path d="M30,45 L30,28 Q30,20 20,20 L12,20" stroke="#020617" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <polygon points="12,14 2,20 12,26" fill="#020617"/>
+              <line x1="8" y1="52" x2="52" y2="8" stroke="#DC2626" stroke-width="6"/>
+            </g>
+            <rect x="110" y="10" width="280" height="28" rx="6" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="250" y="28" fill="#EF4444" font-size="9.5" font-weight="900" text-anchor="middle">3.18.2 CHAPGA BURILISH TAQIQLANADI (Qayrilish mumkin!)</text>
+          </svg>`;
+
+        case 'sign_parking_5_15':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <g transform="translate(60, 25)">
+              <rect width="56" height="56" rx="8" fill="#2563EB"/>
+              <text x="28" y="42" fill="#FFFFFF" font-size="34" font-weight="900" text-anchor="middle" font-family="sans-serif">P</text>
+            </g>
+            <rect x="130" y="10" width="255" height="28" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+            <text x="257" y="28" fill="#38BDF8" font-size="10.5" font-weight="900" text-anchor="middle">5.15 TO'XTAB TURISH JOYI (PARKOVKA)</text>
+          </svg>`;
+
+        case 'sign_roundabout_4_3':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <circle cx="200" cy="90" r="50" fill="#1E293B" stroke="#64748B" stroke-width="30"/>
+            <circle cx="200" cy="90" r="30" fill="#0F172A"/>
+            <g transform="translate(50, 25)">
+              <circle cx="30" cy="30" r="28" fill="#2563EB"/>
+              <text x="30" y="38" fill="#FFFFFF" font-size="24" text-anchor="middle">🔄</text>
+            </g>
+            <rect x="120" y="10" width="265" height="28" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+            <text x="252" y="28" fill="#38BDF8" font-size="10" font-weight="900" text-anchor="middle">4.3 AYLANA BO'YLAB HARAKATLANISH</text>
+          </svg>`;
+
         case 'speed_sign_60':
           return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
             <rect width="400" height="180" fill="#0F172A"/>
@@ -2987,11 +3430,8 @@
     function startCategoryQuiz(catId) {
       quizMode = 'category';
       syncQuizActiveCar();
-      syncQuizActiveCar();
-      syncQuizActiveCar();
-      syncQuizActiveCar();
       const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
-      currentQuizList = allQ.filter(q => q.category === catId);
+      currentQuizList = allQ.filter(q => q.category === catId || ((catId === 'signs' || catId === 'road_signs') && (q.category === 'signs' || q.category === 'road_signs')));
       if (currentQuizList.length === 0) currentQuizList = allQ;
       state.quizIndex = 0;
       state.mistakesCount = 0;
