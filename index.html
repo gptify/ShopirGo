@@ -159,14 +159,14 @@
             </div>
             <span id="mascot-mood-badge" class="absolute -bottom-1 -right-1 text-[9px] bg-slate-850 rounded-full px-1 border border-slate-700">☕</span>
           </div>
-          <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Ustoz viloyatini almashtirish">
+          <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Profil va Shokir aka sozlamalari">
             <div class="flex items-center space-x-1">
               <span id="instructor-name" class="font-black text-xs text-amber-400 leading-tight">Shokir aka</span>
-              <span id="instructor-region-pill" class="text-[7.5px] bg-amber-500/25 text-amber-300 font-bold px-1 py-0.2 rounded-full border border-amber-500/30">Andijon</span>
+              <span id="instructor-region-pill" class="text-[7.5px] bg-amber-500/25 text-amber-300 font-bold px-1.5 py-0.5 rounded-full border border-amber-500/30">Andijon • Asaka</span>
             </div>
             <div id="instructor-badge" class="text-[8.5px] text-slate-400 leading-tight flex items-center space-x-1 mt-0.5">
-              <span>55 yosh</span>
-              <span class="text-amber-400 text-[8px] font-semibold underline">✎ almashtirish</span>
+              <span>55 yosh • Bosh ustoz</span>
+              <span class="text-amber-400 text-[8px] font-semibold underline ml-1">⚙️ Sozlash</span>
             </div>
           </div>
         </div>
@@ -217,46 +217,46 @@
 
         <!-- UPPER SLIDING MENU (SWIPEABLE / SCROLLABLE TO RIGHT ACROSS MODES & TOPICS) -->
         <div class="w-full mb-3 shrink-0">
-          <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1 -mx-1" id="upper-sliding-menu" style="-webkit-overflow-scrolling: touch;">
+          <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar scroll-smooth py-1.5 px-1 -mx-1" id="upper-sliding-menu" style="-webkit-overflow-scrolling: touch;">
             <!-- Highway Mode -->
-            <button onclick="switchStudyMode('highway')" id="mode-btn-highway" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center space-x-1.5 shrink-0 shadow-sm transition active:scale-95">
+            <button onclick="switchStudyMode('highway')" id="mode-btn-highway" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center space-x-1.5 shrink-0 shadow-sm transition active:scale-95">
               <span>🗺️</span>
               <span>Katta Yo'l</span>
             </button>
             <!-- All Topics -->
-            <button onclick="switchStudyMode('topics')" id="mode-btn-topics" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="switchStudyMode('topics')" id="mode-btn-topics" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>📚</span>
               <span>Mavzular</span>
-              <span class="text-[8px] bg-amber-500/30 text-amber-300 px-1 py-0.2 rounded-full font-black">8</span>
+              <span class="text-[8.5px] bg-amber-500/30 text-amber-300 px-1.5 py-0.2 rounded-full font-black">8</span>
             </button>
             <!-- Quick Topic 1: 2026 Yangi Qoidalar -->
-            <button onclick="startCategoryQuiz('new_2026')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="startCategoryQuiz('new_2026')" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>⚡</span>
               <span>2026 Yangi Qoidalar</span>
-              <span class="text-[7px] bg-emerald-500 text-slate-950 px-1 py-0.2 rounded font-black uppercase">Yangi</span>
+              <span class="text-[8px] bg-emerald-500 text-slate-950 px-1.5 py-0.2 rounded-md font-black uppercase">Yangi</span>
             </button>
             <!-- Quick Topic 2: Belgilar -->
-            <button onclick="startCategoryQuiz('signs')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="startCategoryQuiz('signs')" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>🛑</span>
               <span>Yo'l belgilari</span>
             </button>
             <!-- Quick Topic 3: Svetofor -->
-            <button onclick="startCategoryQuiz('lights')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="startCategoryQuiz('lights')" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>🚦</span>
               <span>Svetofor</span>
             </button>
             <!-- Quick Topic 4: Kruglavoy -->
-            <button onclick="startCategoryQuiz('roundabout')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="startCategoryQuiz('roundabout')" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>🔄</span>
               <span>Aylana (Krug)</span>
             </button>
             <!-- Quick Topic 5: Avtodrom -->
-            <button onclick="startCategoryQuiz('autodrome')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="startCategoryQuiz('autodrome')" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>🅿️</span>
               <span>Avtodrom</span>
             </button>
             <!-- Real Davlat Imtihoni -->
-            <button onclick="switchStudyMode('exam')" id="mode-btn-exam" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+            <button onclick="switchStudyMode('exam')" id="mode-btn-exam" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-black whitespace-nowrap bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
               <span>⏱️</span>
               <span>Davlat Imtihoni</span>
             </button>
@@ -886,34 +886,29 @@
           <div class="w-16 h-16 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-xl shrink-0 bg-slate-900">
             <img id="proto-onboard-avatar" src="assets/mascot/shokir_default.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
           </div>
-          <div>
-            <div class="flex items-center justify-between"><div id="proto-onboard-sub" class="text-xs font-bold text-amber-400">Andijon • Asaka avtomaktabi</div><button onclick="closeWelcomeModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-2.5 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <div id="proto-onboard-sub" class="text-xs font-bold text-amber-400">Andijon • Asaka avtomaktabi</div>
+              <button onclick="closeWelcomeModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-2.5 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button>
+            </div>
             <h3 id="proto-onboard-title" class="text-base font-black text-white">Shokir aka (55 yoshda • 32 yillik ustoz)</h3>
-            <p id="proto-onboard-prompt" class="text-xs text-slate-400 mt-0.5">Qaysi viloyat ustozi bilan o'rganamiz?</p>
+            <p id="proto-onboard-prompt" class="text-xs text-slate-400 mt-0.5">Shokir aka yoshingiz va jinsingizga qarab hurmat bilan o'rgatadi</p>
           </div>
         </div>
 
-        <!-- Step 1: Regional Instructor Selector -->
-        <div class="mb-3">
-          <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">
-            1. Ustoz viloyatini tanlang:
-          </label>
-          <div class="grid grid-cols-3 gap-1.5">
-            <button onclick="selectInstructorRegion('andijon')" id="proto-reg-andijon" class="p-2 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition">
-              <div class="text-base">🏎️</div>
-              <div class="text-[11px] font-black text-amber-300">Andijon</div>
-              <div class="text-[8px] text-slate-300">Shokir aka</div>
-            </button>
-            <button onclick="selectInstructorRegion('toshkent')" id="proto-reg-toshkent" class="p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
-              <div class="text-base">🏙️</div>
-              <div class="text-[11px] font-bold text-slate-300">Toshkent</div>
-              <div class="text-[8px] text-slate-400">Rustam aka</div>
-            </button>
-            <button onclick="selectInstructorRegion('xorazm')" id="proto-reg-xorazm" class="p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
-              <div class="text-base">🏜️</div>
-              <div class="text-[11px] font-bold text-slate-300">Xorazm</div>
-              <div class="text-[8px] text-slate-400">Polvon aka</div>
-            </button>
+        <!-- Step 1: Shokir aka - Yagona Bosh Ustoz (Andijon • Asaka) -->
+        <div class="mb-3 bg-gradient-to-r from-amber-500/15 via-slate-900 to-amber-500/5 p-3 rounded-2xl border border-amber-500/40 flex items-center space-x-3 shadow-md">
+          <div class="w-12 h-12 rounded-xl overflow-hidden border-2 border-amber-500/60 shrink-0 bg-slate-950">
+            <img src="assets/mascot/shokir_default.jpg" class="w-full h-full object-cover object-top" alt="Shokir aka" />
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-xs font-black text-white">Shokir aka (55 yoshda)</span>
+              <span class="text-[8px] bg-amber-500/30 text-amber-300 font-bold px-1.5 py-0.2 rounded-full border border-amber-500/40">Andijon • Asaka</span>
+            </div>
+            <p class="text-[10.5px] text-slate-300 mt-0.5 leading-snug">
+              Asaka avtozavodi faxriysi, 32 yillik tajribali chapani anjanlik ustoz. Sizning yoshingiz va jinsingizga mos gapiradi.
+            </p>
           </div>
         </div>
 
@@ -1146,15 +1141,15 @@
 
         <!-- Question Text & Category Tags -->
         <div>
-          <div class="flex items-center space-x-1.5 mb-1.5 flex-wrap gap-y-1">
-            <span id="q-category-pill" class="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
+          <div class="flex items-center space-x-1.5 mb-2 flex-wrap gap-y-1">
+            <span id="q-category-pill" class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg font-semibold border border-slate-700">
               2024–2026 Yangi Qoidalar
             </span>
-            <span id="q-new-tag" class="hidden text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md font-black border border-emerald-500/30">
+            <span id="q-new-tag" class="hidden text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-lg font-black border border-emerald-500/30">
               ⚡ 2026 Yangi Qoida
             </span>
           </div>
-          <h3 id="q-text" class="text-xs sm:text-sm font-bold text-white leading-snug">
+          <h3 id="q-text" class="text-sm sm:text-base font-bold text-white leading-relaxed tracking-wide">
             Yuklanmoqda...
           </h3>
         </div>
@@ -1456,6 +1451,28 @@
       }
     }
 
+    // Resolves pre-authored authentic phrases with 100% strict grammar
+    function resolveInstructorSpeech(item) {
+      if (!item) return "";
+      if (typeof item === 'string') return formatInstructorSpeech(item);
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
+
+      if (!isFemale && !isElder) {
+        // Young male (<55): 100% pure SEN
+        return item.sen;
+      } else if (isFemale) {
+        // Female (all ages): 100% pure SIZ
+        if (isElder && item.siz_f) {
+          return item.siz_f.replace(/\bsinglim\b/g, "opa").replace(/\bSinglim\b/g, "Opa");
+        }
+        return item.siz_f;
+      } else {
+        // Elder male (55+): 100% pure SIZ
+        return item.siz_m;
+      }
+    }
+
     function formatInstructorSpeech(rawText) {
       if (!rawText) return "";
       const isFemale = (state.userGender === 'female');
@@ -1483,20 +1500,9 @@
       res = res.replace(/\bJo'ra\b/g, honCap);
       res = res.replace(/\binim\b/g, hon);
       res = res.replace(/\bInim\b/g, honCap);
-      if (isFemale || isElder) {
-        res = res.replace(/\bog'am\b/g, hon);
-        res = res.replace(/\bOg'am\b/g, honCap);
-        res = res.replace(/\bog'asi\b/g, hon);
-        res = res.replace(/\bOg'asi\b/g, honCap);
-        res = res.replace(/\bbrat\b/g, hon);
-        res = res.replace(/\bBrat\b/g, honCap);
-        res = res.replace(/\bo'rto\b/g, hon);
-        res = res.replace(/\bO'rto\b/g, honCap);
-      }
 
       // 2. RULE 1: YOUNGER MAN / GUY -> MUST SAY SEN (NOT SIZ)
       if (isYoungMale) {
-        // Pronouns
         res = res.replace(/\bsizni\b/g, "seni");
         res = res.replace(/\bSizni\b/g, "Seni");
         res = res.replace(/\bsizga\b/g, "senga");
@@ -1528,7 +1534,6 @@
         res = res.replace(/\bshoshilmang\b/g, "shoshilma");
         res = res.replace(/\bShoshilmang\b/g, "Shoshilma");
         res = res.replace(/\bto'xtang\b/g, "to'xta");
-        res = res.replace(/\bqaren\b/g, "qara");
         res = res.replace(/\bqarang\b/g, "qara");
         res = res.replace(/\boling\b/g, "ol");
         res = res.replace(/\byoqing\b/g, "yoq");
@@ -1547,36 +1552,22 @@
         res = res.replace(/\byurasiz\b/g, "yurasan");
         res = res.replace(/\bqilasiz-a\b/g, "qilasan-a");
         res = res.replace(/\bqilasiz\b/g, "qilasan");
-        res = res.replace(/\bbosvurasiz\b/g, "bosaverasan");
         res = res.replace(/\bbosaverasiz\b/g, "bosaverasan");
-        res = res.replace(/\bne qivosiz\b/g, "ne qilyapsan");
-        res = res.replace(/\bnima qivos\b/g, "nima qilyapsan");
         res = res.replace(/\bnima qilyapsiz\b/g, "nima qilyapsan");
-        res = res.replace(/\bo'ylavosizmi\b/g, "o'ylayapsanmi");
         res = res.replace(/\bo'ylayapsizmi\b/g, "o'ylayapsanmi");
         res = res.replace(/\bbosmaysizmi\b/g, "bosmaysanmi");
         res = res.replace(/\bto'xtatmaysizmi\b/g, "to'xtatmaysanmi");
         res = res.replace(/\bqilmaysizmi\b/g, "qilmaysanmi");
         res = res.replace(/\bishlatmaysizmi\b/g, "ishlatmaysanmi");
-        res = res.replace(/\bko'rmasangiz\b/g, "ko'rmasang");
-        res = res.replace(/\bbo'lsangiz\b/g, "bo'lsang");
-        res = res.replace(/\bqilsangiz\b/g, "qilsang");
-        res = res.replace(/\bo'rgansangiz\b/g, "o'rgansang");
         res = res.replace(/\btopdingiz\b/g, "topding");
         res = res.replace(/\bo'tdingiz\b/g, "o'tding");
         res = res.replace(/\bhaydadingiz\b/g, "haydading");
-        res = res.replace(/\bbo'bsiz\b/g, "bo'libsan");
         res = res.replace(/\bbo'libsiz\b/g, "bo'libsan");
-        res = res.replace(/\bqoldingiz\b/g, "qolding");
-        res = res.replace(/\bketdingiz\b/g, "ketding");
         res = res.replace(/\bbilasizmi\b/g, "bilasanmi");
-        res = res.replace(/\bbilyapsizmi\b/g, "bilyapsanmi");
-        res = res.replace(/\bbilyangmi\b/g, "bilasanmi");
       }
 
-      // 3. RULE 2: WOMEN (YOUNG OR ELDER) & ELDER MEN -> ALWAYS SIZ (HURMAT BILAN)
+      // 3. RULE 2: WOMEN & ELDER MEN -> ALWAYS SIZ
       if (isFemale || isElder) {
-        // Pronouns
         res = res.replace(/\bseni\b/g, "sizni");
         res = res.replace(/\bSeni\b/g, "Sizni");
         res = res.replace(/\bsenga\b/g, "sizga");
@@ -1627,38 +1618,18 @@
         res = res.replace(/\bqilasan-a\b/g, "qilasiz-a");
         res = res.replace(/\bqilasan\b/g, "qilasiz");
         res = res.replace(/\bbosaverasan\b/g, "bosaverasiz");
-        res = res.replace(/\bbosvurasan\b/g, "bosaverasiz");
         res = res.replace(/\bnima qilyapsan\b/g, "nima qilyapsiz");
         res = res.replace(/\bqilyapsan\b/g, "qilyapsiz");
-        res = res.replace(/\bqivossan\b/g, "qilyapsiz");
         res = res.replace(/\bo'ylayapsanmi\b/g, "o'ylayapsizmi");
         res = res.replace(/\bbosmaysanmi\b/g, "bosmaysizmi");
         res = res.replace(/\bto'xtatmaysanmi\b/g, "to'xtatmaysizmi");
         res = res.replace(/\bqilmaysanmi\b/g, "qilmaysizmi");
         res = res.replace(/\bishlatmaysanmi\b/g, "ishlatmaysizmi");
-        res = res.replace(/\bko'rmasang\b/g, "ko'rmasangiz");
-        res = res.replace(/\bbo'lsang\b/g, "bo'lsangiz");
-        res = res.replace(/\bqilsang\b/g, "qilsangiz");
-        res = res.replace(/\bo'rgansang\b/g, "o'rgansangiz");
         res = res.replace(/\btopding\b/g, "topdingiz");
         res = res.replace(/\bo'tding\b/g, "o'tdingiz");
         res = res.replace(/\bhaydading\b/g, "haydadingiz");
         res = res.replace(/\bbo'libsan\b/g, "bo'libsiz");
-        res = res.replace(/\bbo'bsan\b/g, "bo'libsiz");
-        res = res.replace(/\bqolding\b/g, "qoldingiz");
-        res = res.replace(/\bketding\b/g, "ketdingiz");
         res = res.replace(/\bbilasanmi\b/g, "bilasizmi");
-        res = res.replace(/\bbilyapsanmi\b/g, "bilyapsizmi");
-
-        if (isFemale) {
-          res = res.replace(/\bshafyor\b/g, "haydovchi");
-          res = res.replace(/\bkallangni ishlat\b/g, "diqqat qiling");
-          res = res.replace(/\bkallani ishlat\b/g, "e'tiborli bo'ling");
-          res = res.replace(/\bne qivosiz\b/g, "nima qilyapsiz");
-          res = res.replace(/\bko'zingiz qattedi\b/g, "ko'zingiz qayerda edi");
-          res = res.replace(/\bbosvurasiz\b/g, "bosaverasiz");
-          res = res.replace(/\bo'ylavosizmi\b/g, "o'ylayapsizmi");
-        }
       }
 
       return res;
@@ -1736,15 +1707,15 @@
         homeQuoteEl.innerText = `"${baseQuote}"`;
       }
 
-      // Update modal previews
+      // Update modal previews using pre-authored authentic dialect
       const mildQ = document.getElementById('preview-quote-mild');
-      if (mildQ) mildQ.innerText = formatInstructorSpeech(`"Shoshilmang uka, aylanay. Asakada moshinani bittadan terishadi, siz ham sekin-asta o'rganasiz-da."`);
+      if (mildQ) mildQ.innerText = `"${resolveInstructorSpeech(InstructorsDB.andijon.roasts.mild[0])}"`;
 
       const medQ = document.getElementById('preview-quote-med');
-      if (medQ) medQ.innerText = formatInstructorSpeech(`"Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku!"`);
+      if (medQ) medQ.innerText = `"${resolveInstructorSpeech(InstructorsDB.andijon.roasts.medium[0])}"`;
 
       const spicyQ = document.getElementById('preview-quote-spicy');
-      if (spicyQ) spicyQ.innerText = formatInstructorSpeech(`"Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?!"`);
+      if (spicyQ) spicyQ.innerText = `"${resolveInstructorSpeech(InstructorsDB.andijon.roasts.spicy[0])}"`;
     }
 
     // --- STATE MANAGEMENT ---
@@ -1757,7 +1728,7 @@
       carHealth: 70,
       carTier: 2,
       sarcasm: 'medium', // mild, medium, spicy
-      region: 'andijon',  // andijon, toshkent, xorazm
+      region: 'andijon', // Locked to Shokir aka (Andijon)  // andijon, toshkent, xorazm
       activeTab: 'map',
       quizIndex: 0,
       mistakesCount: 0
@@ -1853,162 +1824,541 @@
       }
     };
 
-    // --- REGIONAL INSTRUCTORS DATABASE (ANDIJON, TOSHKENT, XORAZM) ---
-        const InstructorsDB = {
-      "andijon": {
-            "id": "andijon",
-            "name": "Shokir aka (55 yoshda)",
-            "regionName": "Andijon",
-            "sub": "Andijon • Asaka avtomaktabi (32 yillik staj)",
-            "badge": "55 yoshli Asaka afsonasi",
-            "tagline": "55 yoshli Asaka avtomobil zavodi faxriysi — 32 yillik tajriba bilan yoshga va jinsga qarab hurmat bilan o'rgatadi.",
-            "quotes": {
-                  "mild": "Shoshilmang uka, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, siz ham sekin-asta o'rganasiz-da.",
-                  "med": "Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku! Tormozni bosing-da!",
-                  "medium": "Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku! Tormozni bosing-da!",
-                  "spicy": "Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?! O'zingizni Asaka bozorida yuribman deb o'ylavosizmi?!"
-            },
-            "praises": [
-                  "Iye, otangizga rahmat uka! Haqiqiy Andijoncha chaqqon shafyor bo'bsiz!",
-                  "Balli! Mana buni haydash desa bo'ladi! Ertaga Asaka zavodiga sinovchi qilib ishga olamiz sizni!",
-                  "Yashang jo'ra! Bitta qaynoq Andijon somsasi mendan bugun!",
-                  "Ana bo'larkan-ku! Chiroyli, tartibli o'tdingiz!",
-                  "Bitta qarab to'g'ri topdingiz-a, otangizga balli!"
-            ],
-            "roasts": {
-                  "mild": [
-                        "Shoshilmasdan qoidani bittalab o'rganing, aylanay.",
-                        "Svetofor qizil yondimi, tormozni bosib to'xtash shart-da, uka.",
-                        "Krugda aylanadagi moshina birinchi o'tadi, shoshilmang jo'ra."
-                  ],
-                  "med": [
-                        "Svetoforning qizili senga tavsiya emas, qonun-ku uka! Tormozni bosmaysizmi?!",
-                        "Stop-liniyani bosib o'tvotti bu! YPX kamerasiga 187 ming ehson muborak bo'lsin!",
-                        "Aylanada kim birinchi o'tadi? Damas emas, aylana ichidagi moshina-da, aylanay!",
-                        "Pavarotni yoqish vodiyda pullik bo'p qoldimi? Rulni burishdan oldin chiroqni yoqing-da!",
-                        "Radar 60 dan oshma deyapti, siz bo'lsa to'yga shoshgandek uchasiz! Jarima yo'lda ana!",
-                        "Oylik qayoqqa ketdi deb yurmang tag'in, jarimalarni to'lashga zo'rg'a yetadi bu ketishda!"
-                  ],
-                  "medium": [
-                        "Svetoforning qizili senga tavsiya emas, qonun-ku uka! Tormozni bosmaysizmi?!",
-                        "Stop-liniyani bosib o'tvotti bu! YPX kamerasiga 187 ming ehson muborak bo'lsin!",
-                        "Aylanada kim birinchi o'tadi? Damas emas, aylana ichidagi moshina-da, aylanay!",
-                        "Pavarotni yoqish vodiyda pullik bo'p qoldimi? Rulni burishdan oldin chiroqni yoqing-da!",
-                        "Radar 60 dan oshma deyapti, siz bo'lsa to'yga shoshgandek uchasiz! Jarima yo'lda ana!",
-                        "Oylik qayoqqa ketdi deb yurmang tag'in, jarimalarni to'lashga zo'rg'a yetadi bu ketishda!"
-                  ],
-                  "spicy": [
-                        "Iya uka, ko'zingiz qattedi?! Svetofor qizarib bo'ldi, siz gazni bosvurasizmi?!",
-                        "Sizga moshina tugul samakat ham berib bo'lmaydi bu yurishda! Piyodalarga rahmingiz kelsin!",
-                        "Moshinaning burni chorrahaga kirib ketdi-ku! Piyodalar tomidan sakrab o'tsinmi endi?!",
-                        "Tovba qildim, Asakada ming mashaqqat bilan terilgan Cobaltni bir kunda uvol qilasiz-a!",
-                        "Kallani ishlatmaysizmi, birodar?! Avariya qilib qo'yishingizga bir qarich qoldi-ku!"
-                  ]
-            }
-      },
-      "toshkent": {
-            "id": "toshkent",
-            "name": "Rustam aka",
-            "regionName": "Toshkent",
-            "sub": "Toshkent • Chilonzor avtomaktabi",
-            "badge": "Chilonzor probkalari ustasi",
-            "tagline": "Poytaxt probkalari ustasi — Chilonzor ko'chalari kinoyasi va haqiqiy shahar shafyori tili bilan.",
-            "quotes": {
-                  "mild": "Sekinroq uka. Toshkent ko'chalari keng bo'lgani bilan, kameralar har burchakda turibdi, qoidani buzma.",
-                  "med": "Eee bratiwka, nima qvos?! Chilonzor probkasida qolib ketmagan bo'sen hali haydovchiman dema! Stop-liniyani ezvordiz-ku!",
-                  "medium": "Eee bratiwka, nima qvos?! Chilonzor probkasida qolib ketmagan bo'sen hali haydovchiman dema! Stop-liniyani ezvordiz-ku!",
-                  "spicy": "Eee uka, Yunusobodga yetmasdan moshinani jarima maydonchasiga tiqasan shekilli bu yurishda?!"
-            },
-            "praises": [
-                  "Chotki! Gap yo'q uka, Toshkenni ko'chasini biladigan bola ekansan!",
-                  "Molodets! Chilonzorda birinchi marta krugdan to'g'ri o'tgan shafyorni ko'rdim!",
-                  "Kallenga balli brat! Amir Temurdagi hamma kameralar senga qarsak chalvotti!",
-                  "O'rto, bitta chipta bersak Toshkent Cityda poygaga chiqsang ham bo'larkan!",
-                  "Mala-des! Hamma qoidani suv qilib ichvorgan ekansan-ku!"
-            ],
-            "roasts": {
-                  "mild": [
-                        "Shoshilmasdan qaren, poytaxtda hamma narsa hisob-kitobli.",
-                        "Svetofor qizilida to'xtash shart bratiwka, kameralar 24 soat ishlayapti.",
-                        "Krugda qoidaga qaren, probka qilib qo'ymela."
-                  ],
-                  "med": [
-                        "Amir Temurdagi yengi radar seni shartta rasmga oldi! Jarima SMS-i keladi hozir, tabriklaymiz!",
-                        "Avtobus yo'lagiga (A-polosa) tiqvoldiz-ku moshinani, bratiwka! 562 ming so'm jarima muborak!",
-                        "Chilonzor metrosining yonida bunaqa burilsang, orqandagi Malibu signal chalib qulog'ingni teshadi!",
-                        "Stop-liniyani ezvordiz-ku, o'rto! Chiziqni ustiga chiqib to'xtash shartmidi?!",
-                        "Pavarotnikni yoqing brat, poytaxtda akkumulyatoringizdan pul yechib olmaydi!",
-                        "Krugda krugdagi moshin ustun-da o'rto, 'man shoshvomman' deb kirvurasanmi?!"
-                  ],
-                  "medium": [
-                        "Amir Temurdagi yengi radar seni shartta rasmga oldi! Jarima SMS-i keladi hozir, tabriklaymiz!",
-                        "Avtobus yo'lagiga (A-polosa) tiqvoldiz-ku moshinani, bratiwka! 562 ming so'm jarima muborak!",
-                        "Chilonzor metrosining yonida bunaqa burilsang, orqandagi Malibu signal chalib qulog'ingni teshadi!",
-                        "Stop-liniyani ezvordiz-ku, o'rto! Chiziqni ustiga chiqib to'xtash shartmidi?!",
-                        "Pavarotnikni yoqing brat, poytaxtda akkumulyatoringizdan pul yechib olmaydi!",
-                        "Krugda krugdagi moshin ustun-da o'rto, 'man shoshvomman' deb kirvurasanmi?!"
-                  ],
-                  "spicy": [
-                        "Kallani ishlat, o'rto! Toshkentda emas, dalada traktor haydagandek yuryapsan!",
-                        "Svetofor qizarib bo'ldi-ku, nimaga qarab turibsan?! Butun Chilonzor signallab yubordi orqangda!",
-                        "Bunaqa yurishda senga poytaxtda pravani faqat tushingda ko'rish qoladi, uka!",
-                        "Chorrahani o'rtasiga tiqilib qolding-ku! Endi orqadagi 50 ta mashina seni 'duo' qilyapti!",
-                        "Tezlik 100 ga chiqdi, lekin kallada aql 20 da qotib qoldi-ku bratiwka!"
-                  ]
-            }
-      },
-      "xorazm": {
-            "id": "xorazm",
-            "name": "Polvon aka",
-            "regionName": "Xorazm",
-            "sub": "Xorazm • Urganch avtomaktabi",
-            "badge": "Urganch va Xiva pahlavoni",
-            "tagline": "Urganch va Xiva yo'llari pahlavoni — jarangdor O'g'uz lahjasi, samimiy qalb va toza Xorazmcha tanbehlar bilan.",
-            "quotes": {
-                  "mild": "Biyoqa qara og'am, shoshilma. Qoidani sekin-sekin o'rgansang, yo'ling ravon bo'ladi, inim.",
-                  "med": "Ie og'am, nima etyansan?! Urganch kruginda bunaqa qilsang moshinni urib olasan-ku! Stop-chiziqni bosma!",
-                  "medium": "Ie og'am, nima etyansan?! Urganch kruginda bunaqa qilsang moshinni urib olasan-ku! Stop-chiziqni bosma!",
-                  "spicy": "Voy dodingni beray og'asi, ko'zing qayoqda yotibdi?! Svetofor qizil yonib duribdi-ku, ne gozni bosyansan?!"
-            },
-            "praises": [
-                  "Bora-kalla og'am! Xosh haydading! Xorazmning eng zo'r shafyori bo'lding-ku!",
-                  "Yashasin inim! Biyoqa qara, to'ppa-to'g'ri! Bitta shirin Xorazm qovuni mendan!",
-                  "Otangga ming balli og'am! Endi Xivagacha go'ngling to'q getaverasan!",
-                  "Qoyil og'asi! Urganch ko'chalarinda senga teng galadigani yo'q!",
-                  "Balli! Mana shunday haydasang, hech qaysi YPX to'xtatmaydi seni!"
-            ],
-            "roasts": {
-                  "mild": [
-                        "Biyoqa qara og'am, qoidani sekin-sekin o'rganish garak.",
-                        "Svetofor qizil yonganda durish garak, inim, shoshilma.",
-                        "Krugdagi moshin birinchi o'tadi, bilyangmi og'asi?"
-                  ],
-                  "med": [
-                        "Ie og'asi, stop-chiziqni bosib getding-ku! YPX noziri biyoqqa galyotir ana!",
-                        "Aylanada kim birinchi o'tadi? Krugga girgan odam-da og'am, bilyangmi?!",
-                        "Pavarotnik yoqish esingdan chiqdimi? Moshinning chirog'i bekorga qo'yilmagan-ku!",
-                        "Yana bitta jarima galyotir, og'am! Pulingni tejab hayda-da!",
-                        "Qizil chiroqqa goz bosma og'asi, moshinda tormoz ham bor-ku!",
-                        "Radar 60 deb duribdi, nega 90 bilan getyansan, to'yga shoshyangmi?!"
-                  ],
-                  "medium": [
-                        "Ie og'asi, stop-chiziqni bosib getding-ku! YPX noziri biyoqqa galyotir ana!",
-                        "Aylanada kim birinchi o'tadi? Krugga girgan odam-da og'am, bilyangmi?!",
-                        "Pavarotnik yoqish esingdan chiqdimi? Moshinning chirog'i bekorga qo'yilmagan-ku!",
-                        "Yana bitta jarima galyotir, og'am! Pulingni tejab hayda-da!",
-                        "Qizil chiroqqa goz bosma og'asi, moshinda tormoz ham bor-ku!",
-                        "Radar 60 deb duribdi, nega 90 bilan getyansan, to'yga shoshyangmi?!"
-                  ],
-                  "spicy": [
-                        "Voy dodingni beray og'asi, senga rulni kim berdi o'zi?! Butun Urganchni oyog'ini osmonga qilasan-ku!",
-                        "Ko'zingni ochsang bo'lmaydimi, inim?! Svetofor qizil yondi, gozni emas tormozni bosish garak edi!",
-                        "Bunday haydasang Xiva darvozasina yetmasdan jarima maydonchasina getasan-ku!",
-                        "Ie og'am, krugda shunday burilsang moshin ag'darilib getadi-ku!",
-                        "Miyang qayoqda qoldi og'asi?! Piyodani bosib getay deding-ku!"
-                  ]
-            }
-      }
+    // --- REGIONAL INSTRUCTORS DATABASE (EXCLUSIVE: SHOKIR AKA - ANDIJON) ---
+    const AndijonPhrases = {
+  "mild": [
+    {
+      "sen": "Shoshilmasdan qoidani bittalab o'rgan-da, uka, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, sen ham sekin-asta o'rganasan.",
+      "siz_f": "Shoshilmang singlim, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, siz ham sekin-asta o'rganasiz-da.",
+      "siz_m": "Shoshilmasdan qoidani bittalab ko'rib chiqamiz aka, aylanay. Siz bilan sekin-asta yangilab olamiz."
+    },
+    {
+      "sen": "Svetofor qizil yondimi, tormozni bosib to'xtash shart-da, uka. Shoshilma, manzil qochib ketmaydi.",
+      "siz_f": "Svetofor qizil yondimi, tormozni bosib to'xtash shart-da, singlim. Shoshilmang, manzil qochib ketmaydi.",
+      "siz_m": "Svetofor qizil yondimi, tormozni bosib to'xtash shart-da, aka. Shoshilmang, bexatar yetib olamiz."
+    },
+    {
+      "sen": "Aylanada aylanadagi moshina birinchi o'tadi, shoshilma uka. Sekin yo'l berib o'tishni o'rgan-da.",
+      "siz_f": "Aylanada aylanadagi mashina birinchi o'tadi, shoshilmang singlim. Sekin yo'l berib o'tishni o'rganib olasiz.",
+      "siz_m": "Aylanada aylanadagi mashina birinchi o'tadi aka, yangi qoidada ichkaridagilar mutlaq ustun."
+    },
+    {
+      "sen": "Uka, ko'zguga qarab keyin buril-da. Chap tomoningda moshina bor edi-ku.",
+      "siz_f": "Singlim, ko'zguga qarab keyin buriling-da. Chap tomoningizda mashina bor edi-ku.",
+      "siz_m": "Aka, ko'zguga qarab keyin buriling-da. Chap tomoningizdagi mashinani ko'rib oling."
+    },
+    {
+      "sen": "Pavarotnikni yoqib qo'ygin, uka, aylanay. Pavarotnik yoqishga Andijonda pul so'ramaydi.",
+      "siz_f": "Pavarotnikni yoqib qo'ying singlim, aylanay. Burilishdan oldin boshqalar ham qayoqqa burilishingizni bilsin.",
+      "siz_m": "Pavarotnikni yoqib qo'ying aka, aylanay. Burilishdan oldin chiroqni yoqsak xavfsiz bo'ladi."
+    },
+    {
+      "sen": "Oldingdagi masofani saqla, uka. Cobaltning tormozi zo'r bo'lsa ham, qishda sirpanadi.",
+      "siz_f": "Oldingizdagi masofani saqlang, singlim. Cobaltning tormozi yaxshi bo'lsa ham, oraliq masofa kerak.",
+      "siz_m": "Oldingizdagi masofani saqlang aka. Har qanday ob-havoda oraliq masofa xavfsizlik garovi."
+    },
+    {
+      "sen": "Uka, shoshilma. YHQ qoidalarini diqqat bilan o'qisang hammasi esingda qoladi.",
+      "siz_f": "Singlim, shoshilmang. YHQ qoidalarini diqqat bilan o'qisangiz hammasi esingizda qoladi.",
+      "siz_m": "Aka, shoshilmang. Yangi qoidalarni diqqat bilan ko'rib chiqsak esingizda mustahkam qoladi."
+    },
+    {
+      "sen": "Belgiga e'tibor ber, uka. Bosh yo'l belgisi turganda ikkinchi darajali yo'ldagilarga qarab turasanmi?",
+      "siz_f": "Belgiga e'tibor bering, singlim. Bosh yo'l belgisi turganda ikkinchi darajali yo'ldagilarga yo'l berilmaydi.",
+      "siz_m": "Belgiga e'tibor bering aka. Bosh yo'l belgisi turganda ustunlik siz tomonda bo'ladi."
+    },
+    {
+      "sen": "Piyodalar yo'lagida odam bormi — to'xta-da, uka. Savob bo'ladi, qoida ham shuni aytadi.",
+      "siz_f": "Piyodalar yo'lagida odam bormi — to'xtang-da, singlim. Savob bo'ladi, qoida ham shuni talab qiladi.",
+      "siz_m": "Piyodalar yo'lagida odam bormi — to'xtang-da, aka. Piyodaga yo'l berish eng muhim qoida."
+    },
+    {
+      "sen": "Tezlikni 60 dan oshirma, uka, aylanay. Shahar ichida poyga o'ynamaymiz-ku.",
+      "siz_f": "Tezlikni 60 dan oshirmang singlim, aylanay. Shahar ichida me'yorda harakatlanish zarur.",
+      "siz_m": "Tezlikni 60 dan oshirmang aka, aylanay. Shahar ichida sekin va tartibli yuramiz."
+    },
+    {
+      "sen": "Uka, chiziqlarni bosib yurgandan ko'ra o'z polasangda tekis yursang bo'lmaydimi?",
+      "siz_f": "Singlim, chiziqlarni bosmasdan o'z yo'lagingizda tekis yursangiz ancha qulay bo'ladi.",
+      "siz_m": "Aka, chiziqlarni bosmasdan o'z yo'lagingizda yursangiz, orqadagilar ham to'g'ri mo'ljal oladi."
+    },
+    {
+      "sen": "Tormozni ohista bos-da, uka. Moshinaning ichidagi odamlar oldinga uchib ketmasin.",
+      "siz_f": "Tormozni ohista bosing-da, singlim. Mashina ravon to'xtasa, ichidagilar ham xotirjam o'tiradi.",
+      "siz_m": "Tormozni ohista bosing-da aka. Mashinani ravon to'xtatish haqiqiy ustaning belgisi."
+    },
+    {
+      "sen": "Kamarni taqib olgin, uka. Xavfsizlik har doim birinchi o'rinda turishi kerak.",
+      "siz_f": "Kamarni taqib oling singlim. Xavfsizlik har doim birinchi o'rinda turishi kerak.",
+      "siz_m": "Kamarni taqib oling aka. Xavfsizlik kamari har bir safarda birinchi qoida."
+    },
+    {
+      "sen": "Chorrahaga kirishdan oldin atrofingga qarab ol-da, uka. Shoshmasang bexatar o'tasan.",
+      "siz_f": "Chorrahaga kirishdan oldin atrofingizga qarab oling-da, singlim. Shoshmasangiz bexatar o'tasiz.",
+      "siz_m": "Chorrahaga kirishdan oldin atrofingizga qarab oling aka. Shoshmasak bexatar o'tamiz."
+    },
+    {
+      "sen": "Uka, aylanay, bu savolda shoshilib javob berding. Yana bir bor diqqat bilan o'qib ko'r.",
+      "siz_f": "Singlim, aylanay, bu savolda shoshilib javob berdingiz. Yana bir bor diqqat bilan o'qib ko'ring.",
+      "siz_m": "Aka, aylanay, bu savolda shoshildingiz. Yana bir bor diqqat bilan o'qib ko'ring."
+    },
+    {
+      "sen": "Asaka yo'llarida tartib kerak, uka. Qoidaga amal qilsang mashinang ham butun yuradi.",
+      "siz_f": "Yo'llarda doim tartib kerak, singlim. Qoidaga amal qilsangiz mashinangiz ham soz yuradi.",
+      "siz_m": "Yo'llarda doim tartib kerak aka. Qoidaga amal qilsangiz safaringiz doim bexatar bo'ladi."
+    },
+    {
+      "sen": "Stop-belgisini ko'rdingmi, to'liq to'xtab keyin harakatlan, uka.",
+      "siz_f": "Stop-belgisini ko'rdingizmi, to'liq to'xtab keyin harakatlaning, singlim.",
+      "siz_m": "Stop-belgisini ko'rdingizmi, to'liq to'xtab keyin harakatlaning aka."
+    },
+    {
+      "sen": "Chiroqlarni vaqtida yoqib yur, uka. Qorong'ida yo tumanda chiroqsiz yurib bo'lmaydi.",
+      "siz_f": "Chiroqlarni vaqtida yoqib yuring singlim. Qorong'ida yoki tumanda chiroq juda zarur.",
+      "siz_m": "Chiroqlarni vaqtida yoqib yuring aka. Yo'lda ko'rinish darajasi muhim."
+    },
+    {
+      "sen": "Uka, rulni ikki qo'llab ushla. Bitta qo'lda telefon, bitta qo'lda rul tutib bo'lmaydi.",
+      "siz_f": "Singlim, rulni ikki qo'llab ushlang. Rulni to'g'ri ushlasangiz mashina siz aytgandek yuradi.",
+      "siz_m": "Aka, rulni doimo ishonchli ushlang. Diqqat yo'lda bo'lsa hech qachon adashmaysiz."
+    },
+    {
+      "sen": "O'ng tomoningdagi xavfga e'tibor ber, uka. Teng huquqli chorrahada o'ngdagi moshina birinchi o'tadi.",
+      "siz_f": "O'ng tomoningizdagi xavfga e'tibor bering singlim. Teng huquqli chorrahada o'ngdagi mashinaga yo'l bering.",
+      "siz_m": "O'ng tomoningizdagi xavfga e'tibor bering aka. O'ng qo'l qoidasini unutmang."
+    },
+    {
+      "sen": "Uka, qoidani yaxshi bilmasang avtodromda qiynalasan. Sekin-sekin yodlab olgin.",
+      "siz_f": "Singlim, qoidalarni yaxshilab o'rganib olsangiz amaliy haydashda juda oson bo'ladi.",
+      "siz_m": "Aka, yangi qoidalarni bir qator yodga olib olsak imtihonda yengil bo'ladi."
+    },
+    {
+      "sen": "Faralarni uzoqqa yoqib ro'parangdagi mashinaning ko'zini qamashtirma, uka.",
+      "siz_f": "Uzoqni yorituvchi chiroqlarni o'z vaqtida yaqiniga o'tkazing, singlim, ro'paradagilarga xalaqit bermang.",
+      "siz_m": "Uzoqni yorituvchi chiroqlarni o'z vaqtida yaqiniga o'tkazing aka, madaniyatli haydovchi shunday qiladi."
+    },
+    {
+      "sen": "Qayrilib olish joyini to'g'ri tanla, uka. Chiziq ruxsat bermagan joydan qayrilma.",
+      "siz_f": "Qayrilib olish joyini to'g'ri tanlang singlim. Yo'l chizig'i ruxsat bergan joydan buriling.",
+      "siz_m": "Qayrilib olish joyini to'g'ri tanlang aka. Yaxlit chiziqni bosib qayrilmaymiz."
+    },
+    {
+      "sen": "Uka, aylanay, YHQ qoidasini bilsang ko'chada boshing baland yuradi.",
+      "siz_f": "Singlim, aylanay, YHQ qoidalarini yaxshi bilsangiz ko'chada doim bexavotir yurasiz.",
+      "siz_m": "Aka, aylanay, qoidalarni yaxshi bilsak yo'lda hech qanday muammo bo'lmaydi."
+    },
+    {
+      "sen": "Shoshilmagan shafyor manziliga bexatar yetadi, uka. Sekinroq va ehtiyotkorroq bo'l.",
+      "siz_f": "Shoshilmagan haydovchi manziliga bexatar yetadi singlim. Sekinroq va ehtiyotkorroq bo'ling.",
+      "siz_m": "Shoshilmagan haydovchi manziliga bexatar yetadi aka. Salomatlik va xavfsizlik eng asosiysi."
+    }
+  ],
+  "medium": [
+    {
+      "sen": "Svetoforning qizili senga tavsiya emas, qonun-ku uka! Tormozni bosmaysanmi?!",
+      "siz_f": "Svetoforning qizili sizga tavsiya emas, qonun-ku singlim! Tormozni bosmaysizmi?!",
+      "siz_m": "Svetoforning qizili sizga tavsiya emas, qonun-ku aka! Tormozni bosmaysizmi?!"
+    },
+    {
+      "sen": "Stop-liniyani bosib o'tding-ku, uka! YPX kamerasiga 187 ming ehson muborak bo'lsin!",
+      "siz_f": "Stop-liniyani bosib o'tdingiz-ku, singlim! YPX kamerasiga jarima tushmasin, ehtiyot bo'ling-da!",
+      "siz_m": "Stop-liniyani bosib o'tdingiz-ku aka! YPX kamerasiga 187 ming ehson bo'ldi-da!"
+    },
+    {
+      "sen": "Aylanada kim birinchi o'tadi? Damas emas, aylana ichidagi moshina-da, aylanay! Yo'l ber-da!",
+      "siz_f": "Aylanada kim birinchi o'tadi? Aylana ichidagi mashina-da, aylanay! Yo'l bering-da singlim!",
+      "siz_m": "Aylanada kim birinchi o'tadi aka? Aylana ichidagi mashina birinchi o'tadi-da, aylanay!"
+    },
+    {
+      "sen": "Pavarotnikni yoqish vodiyda pullik bo'lib qoldimi, uka?! Rulni burishdan oldin chiroqni yoq-da!",
+      "siz_f": "Pavarotnikni yoqib qo'ying singlim! Rulni burishdan oldin chiroqni yoqsangiz orqadagilar ham biladi-da!",
+      "siz_m": "Pavarotnikni yoqib qo'ying aka! Rulni burishdan oldin chiroqni yoqsak xavfsiz bo'ladi-da!"
+    },
+    {
+      "sen": "Radar 60 dan oshma deyapti, sen bo'lsa to'yga shoshgandek 90 da uchasan! Jarima yo'lda ana!",
+      "siz_f": "Radar 60 dan oshmang deyapti, siz bo'lsa shoshilyapsiz singlim! Jarima kelmasin, sekinroq yuring-da!",
+      "siz_m": "Radar 60 dan oshmang deyapti aka, siz bo'lsa to'yga shoshgandek yurasiz! Pensiya pulini jarimaga to'lamaylik!"
+    },
+    {
+      "sen": "Oylik qayoqqa ketdi deb yig'lab yurma tag'in, uka, jarimalarni to'lashga zo'rg'a yetasan bu ketishda!",
+      "siz_f": "Jarima to'lash oson emas singlim, qoidalarga diqqat qilsangiz hech qanday jarima to'lamaysiz!",
+      "siz_m": "Oylik qayoqqa ketdi deb yurmang tag'in aka, jarimalarni to'lashga zo'rg'a yetamiz bu ketishda!"
+    },
+    {
+      "sen": "Hov uka, nima qilyapsan?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysan-ku! Tormozni bos-da!",
+      "siz_f": "Hov singlim, mashinani ehtiyot qiling-da! Yangi Cobaltni asrab haydash kerak, tormozni bosing-da!",
+      "siz_m": "Hov aka, nima qilyapsiz?! Yangi Cobaltni ezib tashlaymiz-ku, tormozni bosing-da!"
+    },
+    {
+      "sen": "Oldi ochiq-ku uka, o't-da! Nega svetoforning yashilida serrayib turibsan, orqandagilar signal chalib yotibdi!",
+      "siz_f": "Oldingiz ochiq-ku singlim, o'ting-da! Yashil chiroq yonganda dadil harakatlaning, to'xtab turmang!",
+      "siz_m": "Oldingiz ochiq-ku aka, o'ting-da! Yashil chiroqda dadil yursak orqadagilar ham tinch o'tadi!"
+    },
+    {
+      "sen": "Kallang bormi, uka?! Eshshak arava haydamayapsan-ku, bunda tormoz bor, bos-da!",
+      "siz_f": "Diqqatli bo'ling singlim! Mashinaning tormozi bor, xavf tug'ilganda sekin bosing-da!",
+      "siz_m": "Diqqat qiling aka! Mashinada tormoz bor, xavf tug'ilganda vaqtida bosing-da!"
+    },
+    {
+      "sen": "Asaka zavodida temir buralib ketadi-ku munaqa qilsang, uka! Moshinani uvol qilding-ku!",
+      "siz_f": "Mashinani ehtiyotlang singlim! Asaka mashinasi o'zingizniki, qoidaga qarab ohista haydang!",
+      "siz_m": "Mashinani ehtiyot qilaylik aka! Asaka mashinasi uvol bo'lmasin, qoidaga qarab haydang!"
+    },
+    {
+      "sen": "Uka, seni ko'zing qayoqda edi?! Yo'lning o'rtasida bittada to'xtab olasanmi, orqangdan urishsa nima bo'ladi?!",
+      "siz_f": "Singlim, sizni ko'zingiz qayoqda edi?! Yo'lning o'rtasida birdan to'xtab olmang-da, orqadan urishmasin!",
+      "siz_m": "Aka, sizni ko'zingiz qayoqda edi?! Yo'lning o'rtasida birdan to'xtab olmang-da, orqadan urib ketishmasin!"
+    },
+    {
+      "sen": "Aylanaga 'men shoshilyapman' deb kirib ketaverasanmi, uka?! Qoida hamma uchun bir xil!",
+      "siz_f": "Aylanaga shoshilib kirmang singlim! Qoida bo'yicha aylanadagi mashinaga yo'l bering-da!",
+      "siz_m": "Aylanaga shoshilib kirmaylik aka! Qoida hamma uchun bir xil, aylanadagiga yo'l beraylik!"
+    },
+    {
+      "sen": "Piyodalar yo'lagida odam o'tayapti-ku, uka! Gazni bosishga nima bor, to'xtab yo'l ber-da!",
+      "siz_f": "Piyodalar yo'lagida odam o'tayapti-ku singlim! Gazni bosmang, to'xtab yo'l bering-da!",
+      "siz_m": "Piyodalar yo'lagida odam o'tayapti-ku aka! Gazni bosmaylik, to'xtab yo'l beraylik!"
+    },
+    {
+      "sen": "Bu ketishda senga prava emas, jarima kvitansiyasi berishadi, uka! Sal hushyorroq bo'l!",
+      "siz_f": "Bu ketishda imtihondan o'tish qiyin bo'ladi singlim! Sal hushyorroq bo'ling-da!",
+      "siz_m": "Bu ketishda jarimaga ko'milib qolamiz aka! Sal hushyorroq bo'ling-da!"
+    },
+    {
+      "sen": "Chorrahaning o'rtasiga tiqilib olding-ku, uka! Endi hamma senga qarab bosh chayqab o'tadi!",
+      "siz_f": "Chorrahaning o'rtasida to'xtab qoldingiz-ku singlim! Chiqib ketishga ishonch bo'lmasa kirmang-da!",
+      "siz_m": "Chorrahaning o'rtasida qolib ketdingiz-ku aka! Chorrahani to'sib qo'ymaylik!"
+    },
+    {
+      "sen": "Znakni ko'zing ko'rmadimi, uka? 'Kirish taqiqlanadi' degan belgiga qarab kirib ketyapsan-ku!",
+      "siz_f": "Belgini ko'rmay qoldingizmi singlim? 'Kirish taqiqlanadi' belgisi turibdi-ku!",
+      "siz_m": "Belgini ko'rmay qoldingizmi aka? 'Kirish taqiqlanadi' belgisiga kirib ketmaylik!"
+    },
+    {
+      "sen": "Rulni buncha egovlaysan, uka?! Bitta to'g'ri chiziqda yurish shunchalik qiyinmi senga?!",
+      "siz_f": "Rulni xotirjam ushlang singlim! O'z polasangizda tekis yursangiz ancha yengil bo'ladi!",
+      "siz_m": "Rulni xotirjam boshqaring aka! Bir tekisda harakatlanish eng to'g'risi!"
+    },
+    {
+      "sen": "Shoshib qayoqqa ketyapsan, uka? Asaka bozorida somsa tugab qoladimi?!",
+      "siz_f": "Bunday shoshilmang singlim! Shoshilgan bilan manzil yaqinlashib qolmaydi, xavfsizlik kerak!",
+      "siz_m": "Bunday shoshilmang aka! Qayerga shoshamiz, salomatlik va xavfsizlik muhimroq!"
+    },
+    {
+      "sen": "Kamarni taqmabsan, chiroqni yoqmabsan, yana o'zingcha katta shafyorsan-a, uka?!",
+      "siz_f": "Kamarni taqib, chiroqlarni yoqib oling singlim. Shunda haqiqiy namunali haydovchi bo'lasiz!",
+      "siz_m": "Kamarni taqib, chiroqlarni yoqib olaylik aka. O'rnak bo'lib haydashimiz kerak-ku!"
+    },
+    {
+      "sen": "Bosh yo'ldagi mashinaning yo'liga chiqib ketding-ku, uka! Tormozni ezmasang avariya bo'lardi hozir!",
+      "siz_f": "Bosh yo'ldagi mashinaga yo'l bering singlim! Sal bo'lmasa xavfli holat yuzaga kelardi!",
+      "siz_m": "Bosh yo'ldagi mashinaga yo'l bering aka! Bosh yo'ldagilar har doim ustun bo'ladi!"
+    },
+    {
+      "sen": "Telefonni qo'ygin uka, yo'lga qara! Instagramga layk bosaman deb moshinani ariqqa tiqasan!",
+      "siz_f": "Telefonga chalg'imang singlim, yo'lga qarang! Yo'lda bir soniya chalg'ish ham xavfli!",
+      "siz_m": "Telefonga qaramaylik aka, yo'lga qaraylik! Diqqat yo'lda bo'lishi kerak!"
+    },
+    {
+      "sen": "Tezlikni pasaytir, uka! Shaharning ichi senga poyga trassasi emas!",
+      "siz_f": "Tezlikni pasaytiring singlim! Shahar ichida me'yorda yurish qonun-qoidadir!",
+      "siz_m": "Tezlikni pasaytiring aka! Shahar ko'chasida ehtiyotkorlik birinchi o'rinda!"
+    },
+    {
+      "sen": "Qani aql, uka? Burilayotganda ko'zguga qaramasang yonboshdagi Matizni majaqlab ketasan-ku!",
+      "siz_f": "E'tiborli bo'ling singlim! Burilishdan oldin ko'zguga qarab oling, yonboshda mashina bo'lishi mumkin!",
+      "siz_m": "Diqqat qiling aka! Burilishdan oldin ko'zguga qarab olmasak yondagi mashinaga xavf tug'iladi!"
+    },
+    {
+      "sen": "Stop-liniyadan 2 metr o'tib to'xtading-ku, uka! Kameraning obyektivida chiroyli chiqibsan, tabriklayman!",
+      "siz_f": "Stop-liniyadan o'tib ketmang singlim! Kamera darrov rasmga oladi, chiziqdan oldin to'xtang-da!",
+      "siz_m": "Stop-liniyadan o'tib ketmang aka! Kameraga tushib qolmaylik, chiziqdan oldin to'xtang-da!"
+    },
+    {
+      "sen": "Uka, seni haydashingni ko'rgan inspektor pensiyaga ketgisi kelib qoladi-ku!",
+      "siz_f": "Singlim, qoidalarni yana bir bor takrorlab oling, imtihonda qiynalib qolmang!",
+      "siz_m": "Aka, qoidalarni yaxshilab eslab olaylik, imtihondan birinchi urinishda o'taylik!"
+    }
+  ],
+  "spicy": [
+    {
+      "sen": "Iya uka, seni ko'zing qayoqda edi?! Svetofor qizarib ketdi-ku, nega gazni bosaverasan?! Asaka bozorida yuribman deb o'ylayapsanmi?!",
+      "siz_f": "Iya singlim, sizni ko'zingiz qayoqda edi?! Svetofor qizarib ketdi-ku, nega gazni bosaverasiz?! Ehtiyot bo'ling-da!",
+      "siz_m": "Iya aka, sizni ko'zingiz qayoqda edi?! Svetofor qizarib ketdi-ku, nega gazni bosaverasiz?! Ehtiyot bo'ling-da!"
+    },
+    {
+      "sen": "Senga moshina tugul samakat ham berib bo'lmaydi bu yurishda, uka! Piyodalarga rahming kelsin-da!",
+      "siz_f": "Singlim, diqqat qiling-da! Piyodalarga va boshqa mashinalarga e'tiborli bo'ling, xavfsizlik zarur!",
+      "siz_m": "Aka, diqqat qiling-da! Piyodalarga va yo'ldagilarga e'tiborli bo'laylik, xavfsizlik birinchi o'rinda!"
+    },
+    {
+      "sen": "Moshinaning burni chorrahaga kirib ketdi-ku, uka! Piyodalar tomidan sakrab o'tsinmi endi?!",
+      "siz_f": "Mashinaning burni piyodalar yo'lagiga kirib ketdi-ku singlim! Sekinroq va oldinroq to'xtash kerak edi-da!",
+      "siz_m": "Mashinaning burni piyodalar yo'lagiga kirib ketdi-ku aka! Chiziqdan oldin to'xtash kerak edi-da!"
+    },
+    {
+      "sen": "Tovba qildim, Asakada ming mashaqqat bilan terilgan Cobaltni bir kunda uvol qilasan-a, uka!",
+      "siz_f": "Singlim, mashinani ehtiyotlang! Asaka zavodidan chiqqan mashinani tartib bilan haydang-da!",
+      "siz_m": "Aka, mashinani ehtiyot qilaylik! Yangi mashinani tartibli va ehtiyotlab haydash kerak-da!"
+    },
+    {
+      "sen": "Kallangni ishlatmaysanmi, uka?! Avariya qilib qo'yishingga bir qarich qoldi-ku!",
+      "siz_f": "E'tiborli bo'ling singlim! Avariya xavfi bor joyda shoshilmaslik kerak-ku!",
+      "siz_m": "Diqqat qiling aka! Avariya xavfi bo'lmasligi uchun qoidaga rioya qilaylik!"
+    },
+    {
+      "sen": "Seni ko'zing qayoqda edi, uka?! Belgini ko'rmay qoldingmi, yo ko'zing telefondami?!",
+      "siz_f": "Sizni ko'zingiz qayoqda edi singlim?! Belgiga qaramay o'tib ketdingiz-ku!",
+      "siz_m": "Sizni ko'zingiz qayoqda edi aka?! Belgiga qaramay o'tib ketdik-ku!"
+    },
+    {
+      "sen": "Qani senga aql, uka?! Qarama-qarshi yo'lga chiqib olib yana shafyorman deb kerilasan-a!",
+      "siz_f": "Qarama-qarshi yo'lga chiqib ketmang singlim! Bu juda xavfli qoidabuzarlik!",
+      "siz_m": "Qarama-qarshi yo'lga chiqib ketmaylik aka! Bu eng jiddiy qoidabuzarlik hisoblanadi!"
+    },
+    {
+      "sen": "Bratva, bu ketishda senga prava emas, velosiped ruxsatnomasi ham berishmaydi!",
+      "siz_f": "Singlim, bunday xatolar bilan imtihondan o'tib bo'lmaydi! Qoidalarni puxta o'rganing!",
+      "siz_m": "Aka, bunday xatolar bilan imtihon topshira olmaymiz! Qoidalarni puxta takrorlaylik!"
+    },
+    {
+      "sen": "Svetoforning yashili yonib o'chdi, sariq o'tdi, qizil yondi — sen bo'lsa hali ham gazni bosyapsan-a, uka?!",
+      "siz_f": "Sariq chiroq yonganda to'xtashga tayyorlaning singlim, gazni bosib o'tishga urinmang!",
+      "siz_m": "Sariq chiroq yonganda to'xtashga tayyorlanaylik aka, qizilda o'tib ketmaylik!"
+    },
+    {
+      "sen": "Moshinaning ichidagi hamma ro'zg'or ag'darilib ketdi-ku, uka! Tormozni buncha tepasan?!",
+      "siz_f": "Tormozni keskin bosmang singlim! Sekin-asta, ravon to'xtating-da!",
+      "siz_m": "Tormozni keskin bosmang aka! Mashinani ravon to'xtatish xavfsizroq!"
+    },
+    {
+      "sen": "Aylanada aylana ichidagi moshinaga yo'l bermay suqilib kirding-ku! Haydovchilik madaniyati bormi senda?!",
+      "siz_f": "Aylanada ichkaridagi mashinaga yo'l bermay kirmang singlim! Madaniyatli haydovchi qoidaga bo'ysunadi!",
+      "siz_m": "Aylanadagi mashinaga yo'l berib keyin kiraylik aka! Madaniyatli haydash shuni talab qiladi!"
+    },
+    {
+      "sen": "Radar 50 degan joyda 95 bilan o'tding-ku, uka! YPX xodimlari seni kutib olgisi kelib qoldi ana!",
+      "siz_f": "Tezlikni oshirib yubordingiz singlim! Belgilangan tezlikdan oshmaslik shart!",
+      "siz_m": "Tezlikni oshirib yubordik aka! Belgilangan tezlik me'yoriga amal qilaylik!"
+    },
+    {
+      "sen": "O'ngga burilaman deb chapga rulni buralar ekansan-da, uka! Pavarotnikni ham teskari yoqding!",
+      "siz_f": "Burilish chirog'ini to'g'ri yoqing singlim! Qayoqqa burilmoqchi bo'lsangiz o'sha tomonni yoqing-da!",
+      "siz_m": "Burilish chirog'ini to'g'ri yoqaylik aka! Qayoqqa burilsak o'sha tomonni ko'rsataylik!"
+    },
+    {
+      "sen": "Bu yurishda sening jarimalaring yangi Trekerning puli bo'ladi-ku, uka! Aqlingni yig'!",
+      "siz_f": "Jarimalar ko'payib ketmasin singlim! Qoidani bilsangiz bir so'm ham jarima to'lamaysiz!",
+      "siz_m": "Jarimalar ko'payib ketmasin aka! Pensiya pulini qadrlaylik, qoidaga amal qilaylik!"
+    },
+    {
+      "sen": "Piyodalar yo'lagida odamni ko'rib tezlikni oshirding-ku! O'zingni kompyuter o'yinida deb o'ylayapsanmi?!",
+      "siz_f": "Piyodani ko'rganda darhol sekinlating singlim! Inson hayoti eng muhimi!",
+      "siz_m": "Piyodani ko'rganda darhol sekinlataylik aka! Inson xavfsizligi eng birinchi o'rinda!"
+    },
+    {
+      "sen": "Shoshib qayoqqa uchayapsan, uka?! O'limga navbat yo'q, sekinroq hayda-da!",
+      "siz_f": "Bunday shoshmang singlim! Yo'l xatolarni kechirmaydi, sekinroq va ehtiyotkorroq haydang-da!",
+      "siz_m": "Bunday shoshmaylik aka! Sekinroq yursak manzilga sog'-omon yetamiz!"
+    },
+    {
+      "sen": "Ko'zguga qaramasdan qatorni almashtirding-ku, uka! Orqadagi Nexia tormoz bermaganda shatakka olingan eding!",
+      "siz_f": "Qatorni almashtirishdan oldin ko'zguga qarang singlim! Orqadagi mashinalarga xalaqit bermang!",
+      "siz_m": "Qatorni almashtirishdan oldin ko'zguga qaraylik aka! Yon-atrofdagilarga xavf tug'dirmaylik!"
+    },
+    {
+      "sen": "Chorrahani bloklab qo'yding-ku, uka! Endi 100 ta mashina seni 'olqishlab' turibdi!",
+      "siz_f": "Chorrahani to'sib qo'ymang singlim! Tiqilinch bo'lsa chorrahaga kirmaslik kerak!",
+      "siz_m": "Chorrahani to'sib qo'ymaylik aka! Probka bo'lsa chorrahaga kirmay turish kerak!"
+    },
+    {
+      "sen": "Kamarni taqmagansan, tezlik 100 da, tormozing g'ijirlaydi — yana o'zingcha Shumaхersan-a, uka?!",
+      "siz_f": "Kamarni taqib, tezlikni pasaytiring singlim! Xavfsizlik qoidalariga to'liq amal qilish kerak!",
+      "siz_m": "Kamarni taqib, tezlikni pasaytiraylik aka! O'zimizni va boshqalarni xatarga qo'ymaylik!"
+    },
+    {
+      "sen": "Seni prava olish imtihoningga borgan inspektorga sabr bersin, uka!",
+      "siz_f": "Singlim, imtihon inspektori oldida bunday xatolar qilmang, hozirdan puxta o'rganing!",
+      "siz_m": "Aka, inspektor oldida xijolat bo'lmaslik uchun qoidalarni mustahkamlab olaylik!"
+    },
+    {
+      "sen": "Oldingdagi mashinaning orqasiga yopishib olding-ku! Bir metr oraliq qoldirishni bilmaysanmi?!",
+      "siz_f": "Oldingizdagi mashinaga bunchalik yaqin bormang singlim! Xavfsiz masofa saqlang-da!",
+      "siz_m": "Oldingizdagi mashinaga bunchalik yaqin bormaylik aka! Oraliq masofa saqlash zarur!"
+    },
+    {
+      "sen": "Qayrilib olish taqiqlangan joyda qayrilib butun ko'chani to'sib qo'yding, uka!",
+      "siz_f": "Taqiqlangan joydan qayrilmang singlim! Qayrilib olish ruxsat etilgan joygacha boring-da!",
+      "siz_m": "Taqiqlangan joydan qayrilmaylik aka! Qoida ruxsat bergan joydan qayrilaylik!"
+    },
+    {
+      "sen": "Bitta savolni to'g'ri topolmaysan-u, ertaga Sergeli ko'chasiga chiqib nima qilmoqchisan?!",
+      "siz_f": "Savollarga diqqat bilan javob bering singlim! Real ko'chada har bir qaror muhim!",
+      "siz_m": "Savollarni diqqat bilan ko'rib chiqaylik aka! Ko'chada har bir vaziyatga tayyor bo'lish kerak!"
+    },
+    {
+      "sen": "Kallani ishlat, uka! YHQ qoidasi o'yinchoq emas, har bir moddasi qon bilan yozilgan!",
+      "siz_f": "Diqqatli bo'ling singlim! YHQ qoidalari hazil emas, insonlar xavfsizligi uchun ishlab chiqilgan!",
+      "siz_m": "Hushyor bo'laylik aka! Yo'l qoidasi inson hayoti bilan bog'liq eng muhim tartibotdir!"
+    },
+    {
+      "sen": "Seni bu haydashingni ko'rib Asaka zavodi mashina ishlab chiqarishni to'xtatgisi keladi-ku, uka!",
+      "siz_f": "Singlim, harakatlaringizni tartibga soling, namunali haydovchi bo'lishga harakat qiling!",
+      "siz_m": "Aka, qoidalar bo'yicha namunali haydovchi bo'laylik, yoshlarga ibrat bo'lishimiz kerak!"
+    }
+  ],
+  "praises": [
+    {
+      "sen": "Yashavor, uka! Mana buni haydash desa bo'ladi! Asakaning bolasisan-da o'ziyam!",
+      "siz_f": "Barakalla, singlim! Judayam to'g'ri va tartibli topdingiz! Mana buni namunali haydash desa bo'ladi!",
+      "siz_m": "Yashang, aka! Tajriba baribir o'z so'zini aytadi, bittada to'g'ri topdingiz!"
+    },
+    {
+      "sen": "Otangga rahmat, uka! Bitta qarab to'g'ri topding! Haqiqiy Andijoncha chaqqon shafyor bo'libsan!",
+      "siz_f": "Otangizga rahmat, singlim! Qoidalarga shunaqa rioya qilsangiz yo'lda doim xotirjam yurasiz!",
+      "siz_m": "Otangizga rahmat aka! Mana buni haqiqiy usta haydovchi desa bo'ladi!"
+    },
+    {
+      "sen": "Balli, uka! Ertaga Asaka avtozavodiga sinovchi-haydovchi qilib ishga olamiz seni!",
+      "siz_f": "Balli, singlim! Bitta qarab to'g'ri javobni belgiladingiz, ofarin!",
+      "siz_m": "Balli aka! Yangi 2026 qoidalarini ham yoshlardan yaxshi bilasiz!"
+    },
+    {
+      "sen": "Gap yo'q, uka! Bitta qaynoq Andijon somsasi mendan bugun!",
+      "siz_f": "Ana bo'larkan-ku! Chiroyli va tartibli o'tdingiz, singlim! Rulni dadil ushlang!",
+      "siz_m": "Ana bo'larkan-ku! Chiroyli va tartibli o'tdingiz aka!"
+    },
+    {
+      "sen": "Ana bo'larkan-ku! Chiroyli, tartibli o'tding! Rulni mahkam ushla!",
+      "siz_f": "Gap yo'q, singlim! Bitta shirin choy va Andijon somsasi mendan sizga!",
+      "siz_m": "Gap yo'q aka, bitta issiq choy mendan sizga!"
+    },
+    {
+      "sen": "Barakalla, uka! GAI kelsa ham, YPX kamerasiga tushsang ham yuzing yorug' bo'ladi!",
+      "siz_f": "Barakalla singlim! YPX inspektori ham sizning bu javobingizga faqat havas qiladi!",
+      "siz_m": "Barakalla aka! Har qanday YPX inspektori oldida yuzimiz yorug' bo'ladi!"
+    },
+    {
+      "sen": "Mana bu boshqa gap! Qoidani besh barmog'ingdek bilasan-ku, uka!",
+      "siz_f": "Mana bu boshqa gap! Qoidani besh barmog'ingizdek bilasiz-ku, singlim!",
+      "siz_m": "Mana bu boshqa gap! Qoidani besh barmog'ingizdek bilasiz-ku aka!"
+    },
+    {
+      "sen": "O'rgilay sendan, uka! Bu ketishda birinchi urinishdayoq prava cho'ntakda bo'ladi!",
+      "siz_f": "Ofarin singlim! Bu ketishda birinchi urinishdayoq haydovchilik guvohnomasini qo'lga kiritasiz!",
+      "siz_m": "Ofarin aka! Birinchi urinishdayoq imtihonni topshirib chiqasiz!"
+    },
+    {
+      "sen": "Asaka Cobalti seni qo'lingda yayraydi-da, uka! Rulga juda mos tushding!",
+      "siz_f": "Asaka mashinasi sizning qo'lingizda juda chiroyli va tartibli yuradi, singlim!",
+      "siz_m": "Mashina sizning boshqaruvingizda juda ravon va ishonchli yuradi aka!"
+    },
+    {
+      "sen": "Qoyil, uka! Hatto tajribali shafyorlar ham bu savolda adashardi, sen bo'lsa bittada topding!",
+      "siz_f": "Qoyil singlim! Hatto tajribali haydovchilar adashadigan savolni bittada to'g'ri topdingiz!",
+      "siz_m": "Qoyil aka! Murakkab savol edi, lekin tajribangiz bilan darhol to'g'ri javobni topdingiz!"
+    },
+    {
+      "sen": "Otangga balli, uka! Yo'l harakati qoidalarini suv qilib ichib yuboribsan-ku!",
+      "siz_f": "Otangizga balli singlim! Yo'l harakati qoidalarini judayam chuqur o'rganibsiz!",
+      "siz_m": "Otangizga balli aka! YHQ qoidalarini juda puxta bilasiz!"
+    },
+    {
+      "sen": "Malades! Sergeli avtodromida ham shunday haydasang, inspektor o'zi o'rnidan turib qarsak chaladi!",
+      "siz_f": "Malades singlim! Avtodromda ham xuddi shunday namunali o'tasiz, ko'nglim to'q!",
+      "siz_m": "Malades aka! Avtodromda ham xuddi shunday namunali o'tishingizga ishonaman!"
+    },
+    {
+      "sen": "Ko'zing o'tkir ekan, uka! Znakniyam, chorrahaniyam bir zumda ilg'ab olding!",
+      "siz_f": "Ko'zingiz o'tkir ekan singlim! Yo'l belgisini va chorrahani bir qarashda aniq ilg'adingiz!",
+      "siz_m": "Ko'zingiz o'tkir ekan aka! Belgini va chorraha holatini darrov aniqladingiz!"
+    },
+    {
+      "sen": "Mana buni professionallik desa bo'ladi, uka! YHQ qoidasini shunday bilish kerak!",
+      "siz_f": "Mana buni madaniyatli haydash desa bo'ladi, singlim! Qoidalarni shunday bilish kerak!",
+      "siz_m": "Mana buni haqiqiy usta haydovchi desa bo'ladi aka! Qoidalarni shunday bilish kerak!"
+    },
+    {
+      "sen": "Zo'r, uka! Toshkentning eng tiqilinch probkasida ham qiynalmay chiqib ketasan bu bilim bilan!",
+      "siz_f": "Zo'r singlim! Katta yo'lda ham hech ikkilanmasdan, ravon harakatlanasiz bu bilim bilan!",
+      "siz_m": "Zo'r aka! Katta yo'lda ham, tirbandlikda ham xotirjam harakatlanasiz!"
+    },
+    {
+      "sen": "Ofarin, uka! Chiroyli burilding, pavarotnikni ham vaqtida yoqding, hech qanday xato yo'q!",
+      "siz_f": "Ofarin singlim! Burilish qoidasini ham, yo'l ustunligini ham juda aniq bajardingiz!",
+      "siz_m": "Ofarin aka! Barcha harakatlarni juda aniq va xatosiz bajardingiz!"
+    },
+    {
+      "sen": "Qo'ling dard ko'rmasin, uka! Asaka avtomobilsozlari senga o'xshagan shafyorni ko'rsa xursand bo'ladi!",
+      "siz_f": "Qo'lingiz dard ko'rmasin singlim! Namunali haydovchilik sizga yarashadi!",
+      "siz_m": "Qo'lingiz dard ko'rmasin aka! Namunali haydash madaniyatini ko'rsatdingiz!"
+    },
+    {
+      "sen": "Yashang, uka! O'ng tomondan kelayotganga yo'l berishni aniq bilding!",
+      "siz_f": "Yashang singlim! Yo'l berish qoidasini to'ppa-to'g'ri belgiladingiz!",
+      "siz_m": "Yashang aka! Yo'l berish qoidasini to'ppa-to'g'ri belgiladingiz!"
+    },
+    {
+      "sen": "Ana shunday! Qoidani buzmasdan haydash — eng katta obro', uka!",
+      "siz_f": "Ana shunday! Qoidaga qat'iy amal qilib haydash — eng to'g'ri yo'l singlim!",
+      "siz_m": "Ana shunday! Qoidani buzmasdan haydash — eng katta obro' aka!"
+    },
+    {
+      "sen": "Bitta savolda ham adashmading, uka! Sen bilan Andijondan Toshkentgacha bemalol borish mumkin!",
+      "siz_f": "Bitta savolda ham adashmadingiz singlim! Siz namunali haydovchi bo'lasiz!",
+      "siz_m": "Bitta savolda ham adashmadingiz aka! Siz bilan uzoq yo'lga xotirjam chiqsa bo'ladi!"
+    },
+    {
+      "sen": "Tasanno, uka! 2026-yilning yangi qoidasini ham darrov o'zlashtirib olibsan!",
+      "siz_f": "Tasanno singlim! 2026-yilning yangi qoidalarini ham darhol o'zlashtirib olibsiz!",
+      "siz_m": "Tasanno aka! Yangi 2026 qoidalarini ham darrov o'zlashtirib olibsiz!"
+    },
+    {
+      "sen": "Uka, sen bilan furgonda ketsayam ko'ngil to'q bo'ladi, barakalla!",
+      "siz_f": "Siz bilan har qanday uzoq yo'lga xotirjam chiqsa bo'ladi singlim, barakalla!",
+      "siz_m": "Siz bilan har qanday safarga xotirjam chiqsa bo'ladi aka, barakalla!"
+    },
+    {
+      "sen": "Aylanada kim ustunligini bitta ko'rishda topding-a, uka! Haqiqiy bilim bu!",
+      "siz_f": "Aylanadagi ustunlik qoidasini bittada to'g'ri topdingiz singlim! Haqiqiy bilim bu!",
+      "siz_m": "Aylanadagi ustunlik qoidasini bittada to'g'ri topdingiz aka! Haqiqiy bilim bu!"
+    },
+    {
+      "sen": "To'ppa-to'g'ri, uka! Stop-liniyani bosmading, tezlikni me'yorida ushlading!",
+      "siz_f": "To'ppa-to'g'ri singlim! Har bir harakatingiz me'yorida va xavfsiz!",
+      "siz_m": "To'ppa-to'g'ri aka! Har bir harakatingiz me'yorida va xavfsiz!"
+    },
+    {
+      "sen": "Barakalla, uka! Mana shunday davom etsang ertaga davlat imtihonidan 20/20 bilan o'tib kelasan!",
+      "siz_f": "Barakalla singlim! Mana shunday davom etsangiz davlat imtihonidan a'lo baho bilan o'tasiz!",
+      "siz_m": "Barakalla aka! Mana shunday davom etsak davlat imtihonidan 20/20 bilan o'tamiz!"
+    }
+  ]
 };
+
+    const InstructorsDB = {
+      "andijon": {
+        "id": "andijon",
+        "name": "Shokir aka",
+        "regionName": "Andijon",
+        "sub": "Andijon • Asaka avtomaktabi (32 yillik staj)",
+        "badge": "55 yoshli Asaka afsonasi",
+        "tagline": "55 yoshli Asaka avtomobil zavodi faxriysi — 32 yillik tajriba bilan yoshga va jinsga qarab hurmat bilan o'rgatadi.",
+        "quotes": {
+          "mild": "Shoshilmasdan qoidani bittalab o'rgan-da, uka, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, sen ham sekin-asta o'rganasan.",
+          "med": "Hov uka, nima qilyapsan?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysan-ku! Tormozni bos-da!",
+          "medium": "Hov uka, nima qilyapsan?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysan-ku! Tormozni bos-da!",
+          "spicy": "Iya uka, seni ko'zing qayoqda edi?! Svetofor qizarib ketdi-ku, nega gazni bosaverasan?! Asaka bozorida yuribman deb o'ylayapsanmi?!"
+        },
+        "praises": AndijonPhrases.praises,
+        "roasts": {
+          "mild": AndijonPhrases.mild,
+          "med": AndijonPhrases.medium,
+          "medium": AndijonPhrases.medium,
+          "spicy": AndijonPhrases.spicy
+        }
+      }
+    };
 
     // --- QUESTIONS BANK ---
     // --- YHQ QUESTION BANK ENGINE (VERIFIED 2024-2026) ---
@@ -2515,72 +2865,6 @@
     }
 
     // --- REGIONAL INSTRUCTOR SELECTION ---
-    function selectInstructorRegion(reg) {
-      state.region = reg;
-      const inst = InstructorsDB[reg] || InstructorsDB.andijon;
-
-      // Update region button styles in onboarding modal
-      ['andijon', 'toshkent', 'xorazm'].forEach(r => {
-        const b = document.getElementById(`proto-reg-${r}`);
-        if (b) {
-          if (r === reg) {
-            b.className = "p-2 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition shadow-md";
-            const nameSpan = b.querySelector('.text-\\[11px\\]');
-            if (nameSpan) nameSpan.className = "text-[11px] font-black text-amber-300";
-          } else {
-            b.className = "p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition";
-            const nameSpan = b.querySelector('.text-\\[11px\\]');
-            if (nameSpan) nameSpan.className = "text-[11px] font-bold text-slate-300";
-          }
-        }
-      });
-
-      // Update modal header info
-      const subEl = document.getElementById('proto-onboard-sub');
-      if (subEl) subEl.innerText = inst.sub;
-      const titleEl = document.getElementById('proto-onboard-title');
-      if (titleEl) {
-        if (reg === 'andijon') titleEl.innerText = "Shokir aka (30 yillik ustoz)";
-        else if (reg === 'toshkent') titleEl.innerText = "Rustam aka (Poytaxt ustozi)";
-        else titleEl.innerText = "Polvon aka (Urganch ustozi)";
-      }
-
-      // Update modal preview cards with authentic dialect quotes
-      const prevTitleMed = document.getElementById('preview-title-med');
-      if (prevTitleMed) prevTitleMed.innerText = `${inst.name} (${inst.regionName}cha)`;
-      const prevDescMed = document.getElementById('preview-desc-med');
-      if (prevDescMed) prevDescMed.innerText = inst.tagline;
-
-      const quoteMild = document.getElementById('preview-quote-mild');
-      if (quoteMild) quoteMild.innerText = inst.quotes.mild;
-      const quoteMed = document.getElementById('preview-quote-med');
-      if (quoteMed) quoteMed.innerText = inst.quotes.medium;
-      const quoteSpicy = document.getElementById('preview-quote-spicy');
-      if (quoteSpicy) quoteSpicy.innerText = inst.quotes.spicy;
-
-      // Update main screen instructor card
-      updateInstructorUI();
-      AudioEngine.playHonk();
-    }
-
-    function updateInstructorUI() {
-      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
-      const nameEl = document.getElementById('instructor-name');
-      if (nameEl) nameEl.innerText = inst.name;
-      const regPill = document.getElementById('instructor-region-pill');
-      if (regPill) regPill.innerText = inst.regionName;
-      const badgeEl = document.getElementById('instructor-badge');
-      if (badgeEl) {
-        const subPart = inst.sub.split('•')[1]?.trim() || inst.badge;
-        badgeEl.innerHTML = `<span>${subPart}</span> <span class="text-amber-400 text-[8px] font-semibold underline">✎ almashtirish</span>`;
-      }
-
-      const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
-      const quote = inst.quotes[moodKey] || inst.quotes.medium;
-      const quoteEl = document.getElementById('shokir-quote');
-      if (quoteEl) quoteEl.innerText = quote;
-    }
-
     function openWelcomeModal() {
       const modal = document.getElementById('welcome-mood-modal');
       if (modal) {
@@ -2589,12 +2873,27 @@
       }
     }
 
+    function closeWelcomeModal() {
+      const modal = document.getElementById('welcome-mood-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+    }
+
+    function selectInstructorRegion(reg) {
+      state.region = 'andijon'; // Lock exclusively to Shokir aka (Andijon)
+      updateInstructorUI();
+      updateDemographicPreview();
+    }
+
     function playRandomRoast() {
-      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const inst = InstructorsDB.andijon;
       const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
       const roasts = inst.roasts[moodKey] || inst.roasts.medium;
       const r = roasts[Math.floor(Math.random() * roasts.length)];
-      document.getElementById('shokir-quote').innerText = `"${formatInstructorSpeech(r)}"`;
+      const roast = resolveInstructorSpeech(r);
+      document.getElementById('shokir-quote').innerText = `"${roast}"`;
       AudioEngine.playHonk();
     }
 
@@ -2782,7 +3081,7 @@
       const isCorrect = choiceIdx === q.correct;
       fbBox.classList.remove('hidden');
 
-      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const inst = InstructorsDB.andijon;
       const isFemale = (state.userGender === 'female');
       const isElder = (state.userAgeGroup === 'elder');
       const hon = getHonorificTitle();
@@ -2793,14 +3092,15 @@
         document.getElementById('fb-avatar-wrap').className = "w-14 h-14 rounded-2xl overflow-hidden border-2 border-emerald-500/50 shrink-0 shadow-lg bg-slate-900";
         document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_default.jpg";
         
+        // Clean feedback title: No redundant instructor name or age!
         const titlePraise = isFemale ? (isElder ? "To'g'ri, opa!" : "To'g'ri, singlim!") : (isElder ? "To'g'ri topdingiz, aka!" : "To'g'ri, uka!");
-        document.getElementById('fb-title').innerText = `${titlePraise} (${inst.name})`;
+        document.getElementById('fb-title').innerText = titlePraise;
         document.getElementById('fb-title').className = "font-bold text-xs text-emerald-400";
         document.getElementById('fb-fine').innerText = "+100 XP";
         document.getElementById('fb-fine').className = "text-[11px] font-bold text-emerald-400";
         
         const rawPraise = inst.praises[Math.floor(Math.random() * inst.praises.length)];
-        const praise = formatInstructorSpeech(rawPraise);
+        const praise = resolveInstructorSpeech(rawPraise);
         document.getElementById('fb-roast').innerText = `"${praise}"`;
         document.getElementById('shokir-quote').innerText = `"${praise}"`;
       } else {
@@ -2821,8 +3121,9 @@
           document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_facepalm.jpg";
         }
 
+        // Clean feedback title: No redundant instructor name or age!
         const titleRoast = isFemale ? (isElder ? "Noto'g'ri bo'ldi, opa!" : "Noto'g'ri, singlim!") : (isElder ? "Noto'g'ri bo'ldi, aka!" : "Noto'g'ri, uka!");
-        document.getElementById('fb-title').innerText = `${titleRoast} (${inst.name})`;
+        document.getElementById('fb-title').innerText = titleRoast;
         document.getElementById('fb-title').className = "font-bold text-xs text-red-400";
         document.getElementById('fb-fine').innerText = "-150,000 UZS JARIMA";
         document.getElementById('fb-fine').className = "text-[11px] font-bold text-red-400";
@@ -2830,7 +3131,7 @@
         const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
         const roasts = inst.roasts[moodKey] || inst.roasts.medium;
         const rawRoast = roasts[Math.floor(Math.random() * roasts.length)];
-        const roast = formatInstructorSpeech(rawRoast);
+        const roast = resolveInstructorSpeech(rawRoast);
         document.getElementById('fb-roast').innerText = `"${roast}"`;
         document.getElementById('shokir-quote').innerText = `"${roast}"`;
       }
@@ -2857,6 +3158,11 @@
     }
 
     function nextQuestion() {
+      const qc = document.getElementById('quiz-container');
+      if (qc) {
+        qc.scrollTop = 0;
+        qc.scrollTo({ top: 0, behavior: 'instant' });
+      }
       if (state.quizIndex < currentQuizList.length - 1) {
         state.quizIndex++;
         loadQuestion();
