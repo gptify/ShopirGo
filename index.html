@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ShopirGo — Sarcastic Driving App (TMA)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            darkbg: '#0B0F17',
+            cardbg: '#151D2C',
+            accent: '#22C55E',
+            accentHover: '#16A34A',
+            danger: '#EF4444',
+            warning: '#F59E0B',
+            telegram: '#24A1DE',
+            road: '#1E293B',
+            roadStripe: '#94A3B8'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="assets/data/yhq_questions_db.js"></script>
+  <style>
+    /* Custom scrollbar & road styles */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    @keyframes roadMove {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -40; }
+    }
+    .road-dashes {
+      stroke-dasharray: 10, 15;
+      animation: roadMove 1.2s linear infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8); }
+    }
+    .node-active {
+      animation: pulseGlow 2s infinite;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake-anim {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes floatCoin {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-40px); }
+    }
+    .fine-anim {
+      animation: floatCoin 1.2s ease-out forwards;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 28px;
+      border-width: 8px 8px 0;
+      border-style: solid;
+      border-color: #1E293B transparent transparent;
+    }
+  </style>
+</head>
+<body class="text-slate-100 flex flex-col justify-center items-center min-h-screen p-2 sm:p-6 select-none" style="background: radial-gradient(circle at 50% 20%, #151D2C 0%, #080C14 80%); min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+
+  <!-- Desktop Presentation Header -->
+  <div class="hidden sm:flex items-center space-x-3 mb-3 text-xs text-slate-400">
+    <span class="bg-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">📱 TMA Simulyatori</span>
+    <span>O'zbekiston YHQ va Shokir aka interaktiv prototipi</span>
+    <span class="text-slate-600">•</span>
+    <span class="text-amber-400 font-medium">Barcha tugmalar ishlaydi</span>
+  </div>
+
+  <!-- Main Mobile Device Bezel (Flagship Phone Frame) -->
+  <div class="relative w-full max-w-[410px] h-[860px] sm:h-[880px] bg-[#0B0F17] sm:rounded-[44px] shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden sm:border-[8px] sm:border-slate-800 ring-1 ring-slate-700/60" style="background-color: #0B0F17;">
+
+    <!-- Dynamic Island / Speaker Notch (Desktop View) -->
+    <div class="hidden sm:flex w-full items-center justify-between px-6 pt-2 pb-1 bg-cardbg shrink-0 z-40 border-b border-slate-800/40">
+      <span class="text-[11px] font-bold text-slate-300">9:41</span>
+      <div class="w-24 h-4 bg-black rounded-full flex items-center justify-end px-2 space-x-1.5 shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-slate-900 border border-slate-800"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/70"></span>
+      </div>
+      <div class="flex items-center space-x-1 text-[11px] text-slate-300">
+        <span>📶</span>
+        <span>🔋</span>
+      </div>
+    </div>
+
+    <!-- TOP TELEGRAM NATIVE BAR -->
+    <header class="bg-cardbg/80 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between shrink-0 z-30">
+      <div class="flex items-center space-x-2.5">
+        <div class="relative">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-emerald-500 flex items-center justify-center text-lg font-bold border-2 border-slate-700">
+            🏎️
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-emerald-500 w-3.5 h-3.5 rounded-full border-2 border-darkbg"></span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1.5">
+            <h1 class="font-bold text-sm text-white">Ibrohim</h1>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-medium px-1.5 py-0.5 rounded border border-emerald-500/30">Shogird</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Cobalt olishga 42 kun qoldi</p>
+        </div>
+      </div>
+
+      <!-- Live Stats (Streak & Fine Wallet) -->
+      <div class="flex items-center space-x-2">
+        <!-- Streak -->
+        <div class="flex items-center space-x-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-amber-500/30 text-amber-400 text-xs font-semibold">
+          <span>🔥</span>
+          <span id="streak-val">3</span>
+        </div>
+        <!-- Fine Wallet -->
+        <div onclick="openStore('wallet')" class="cursor-pointer flex items-center space-x-1 bg-slate-800/80 hover:bg-slate-700/80 transition px-2.5 py-1 rounded-full border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+          <span>💰</span>
+          <span id="wallet-val">850k</span>
+        </div>
+        <button onclick="openLegalModal()" class="cursor-pointer flex items-center space-x-1 bg-slate-800/80 hover:bg-slate-700/80 transition px-2 py-1 rounded-full border border-slate-750 text-slate-300 text-xs font-semibold" title="Qonunchilik manbalari va rasmiy ogohlantirish"><span>⚖️</span><span>Manba</span></button>
+      </div>
+    </header>
+
+    <!-- INSTRUCTOR SHOKIR AKA INTERACTIVE BAR -->
+    <div class="bg-slate-900/90 px-3.5 py-3 border-b border-slate-800 shrink-0 z-20 flex flex-col space-y-2.5">
+      <!-- Row 1: Mascot Profile + Prominent Segmented Mood Switcher -->
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div class="relative cursor-pointer shrink-0" onclick="playRandomRoast()" title="Ustoz gapiradi (ovoz bilan)">
+            <div id="mascot-face" class="w-11 h-11 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-md hover:scale-105 transition bg-slate-900">
+              <img id="mascot-img" src="assets/mascot/shokir_default.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
+            </div>
+            <span id="mascot-mood-badge" class="absolute -bottom-1 -right-1 text-[10px] bg-slate-850 rounded-full px-1 border border-slate-700">☕</span>
+          </div>
+          <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Ustoz viloyatini almashtirish">
+            <div class="flex items-center space-x-1.5">
+              <span id="instructor-name" class="font-black text-xs text-amber-400 leading-tight truncate">Shokir aka</span>
+              <span id="instructor-region-pill" class="text-[8px] bg-amber-500/25 text-amber-300 font-bold px-1.5 py-0.5 rounded-full border border-amber-500/30">Andijon</span>
+            </div>
+            <div id="instructor-badge" class="text-[9px] text-slate-400 leading-tight flex items-center space-x-1 mt-0.5">
+              <span>Asaka avtomaktabi</span>
+              <span class="text-amber-400 text-[8px] font-semibold underline">✎ almashtirish</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prominent Segmented Mood Controller -->
+        <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center space-x-1 shrink-0">
+          <button onclick="setSarcasm('mild')" id="sarcasm-mild" class="px-2 py-1 rounded-lg text-[10px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+            🍵 Muloyim
+          </button>
+          <button onclick="setSarcasm('medium')" id="sarcasm-med" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition whitespace-nowrap shadow-sm">
+            ☕ Klassik
+          </button>
+          <button onclick="setSarcasm('spicy')" id="sarcasm-spicy" class="px-2 py-1 rounded-lg text-[10px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+            🔥 Asabiy
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: Dynamic Dialogue Bubble -->
+      <div class="bg-slate-850/90 border border-slate-750/70 rounded-xl p-2.5 text-xs text-slate-200 flex items-start space-x-2">
+        <span class="text-amber-400 text-xs shrink-0 mt-0.5">💬</span>
+        <p id="shokir-quote" class="italic text-slate-300 text-[11px] leading-relaxed flex-1">
+          "Qani uka, rulga o'tiring! Bugun sizni Sergeli va Asaka chorrahasida sinab ko'ramiz-da."
+        </p>
+      </div>
+    </div>
+
+    <!-- MAIN SCROLLABLE CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto relative" id="main-content">
+
+      <!-- TAB 1: ROAD MAP (DUOLINGO HIGHWAY) -->
+      <div id="tab-map" class="min-h-full p-4 flex flex-col items-center pb-24">
+        
+        <!-- Active Car Quick Banner on Road Map -->
+        <div onclick="switchTab('garage')" class="cursor-pointer w-full bg-slate-900/90 hover:bg-slate-850 border border-slate-800 p-2.5 rounded-2xl mb-3 flex items-center justify-between transition shadow-md">
+          <div class="flex items-center space-x-3 min-w-0">
+            <img src="assets/cars/toy_matiz.jpg" alt="Matiz II" class="w-12 h-9 object-cover rounded-xl border border-emerald-500/40 shadow shrink-0" />
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-white flex items-center space-x-1.5">
+                <span class="truncate">Daewoo Matiz II</span>
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-semibold whitespace-nowrap">2-bosqich</span>
+              </div>
+              <div class="text-[10px] text-slate-400 truncate">Garaj: Damas, Cobalt, Gentra ➔</div>
+            </div>
+          </div>
+          <span class="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1.5 rounded-xl border border-emerald-500/20 whitespace-nowrap shrink-0">Garaj ➔</span>
+        </div>
+
+        <!-- Study Mode Segmented Switcher -->
+        <div class="w-full bg-slate-900/90 p-1 rounded-2xl border border-slate-800 mb-3 grid grid-cols-3 gap-1 shadow-md">
+          <button onclick="switchStudyMode('highway')" id="mode-btn-highway" class="py-2 px-1 text-center rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition flex items-center justify-center space-x-1">
+            <span>🗺️</span>
+            <span>Katta Yo'l</span>
+          </button>
+          <button onclick="switchStudyMode('topics')" id="mode-btn-topics" class="py-2 px-1 text-center rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center space-x-1">
+            <span>📚</span>
+            <span>Mavzular</span>
+            <span class="text-[8px] bg-amber-500/30 text-amber-300 px-1 py-0.2 rounded font-black">2026</span>
+          </button>
+          <button onclick="switchStudyMode('exam')" id="mode-btn-exam" class="py-2 px-1 text-center rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center space-x-1">
+            <span>⏱️</span>
+            <span>Imtihon</span>
+          </button>
+        </div>
+
+        <!-- VIEW 1: HIGHWAY TRACK (Duolingo Style Road) -->
+        <div id="study-view-highway" class="w-full flex flex-col items-center">
+          <!-- Welcome Banner -->
+          <div class="w-full bg-gradient-to-r from-emerald-950/40 via-cardbg to-slate-900 border border-emerald-500/20 rounded-2xl p-3.5 mb-6 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">1-Bo'lim • Sergeli Avtodrom</div>
+              <h2 class="text-sm font-bold text-white mt-0.5">Chorrahada Ustunlik Qoidalari</h2>
+              <p class="text-xs text-slate-400 mt-0.5">3 / 5 bilet topshirildi</p>
+            </div>
+            <button onclick="startLevel(3)" class="bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center space-x-1 shadow-lg shadow-emerald-500/20">
+              <span>Davom etish</span>
+              <span>▶</span>
+            </button>
+          </div>
+
+        <!-- The Winding Highway Track -->
+        <div class="relative w-full max-w-[320px] flex flex-col items-center py-4">
+          
+          <!-- Background Road Curve SVG -->
+          <svg class="absolute top-0 left-0 w-full h-full pointer-events-none z-0" viewBox="0 0 320 620" fill="none">
+            <!-- Road Asphalt -->
+            <path d="M 160,20 C 260,80 270,160 160,220 C 50,280 60,380 160,440 C 250,500 240,580 160,610" 
+                  stroke="#1E293B" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Road Center Dashed Line -->
+            <path class="road-dashes" d="M 160,20 C 260,80 270,160 160,220 C 50,280 60,380 160,440 C 250,500 240,580 160,610" 
+                  stroke="#E2E8F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <!-- Road Nodes (Milestones) -->
+          <div class="relative z-10 w-full flex flex-col space-y-12">
+            
+            <!-- Node 1: Completed -->
+            <div class="flex items-center justify-center">
+              <div class="relative cursor-pointer group" onclick="showLevelDetails(1)">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-slate-900 shadow-xl flex items-center justify-center text-white text-xl">
+                  ✓
+                </div>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded text-[10px] text-slate-300">
+                  Yo'l belgilari ⭐⭐⭐
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 2: Completed -->
+            <div class="flex items-center justify-end pr-8">
+              <div class="relative cursor-pointer group" onclick="showLevelDetails(2)">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-slate-900 shadow-xl flex items-center justify-center text-white text-xl">
+                  ✓
+                </div>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded text-[10px] text-slate-300">
+                  Svetofor qoidalari ⭐⭐⭐
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 3: CURRENT ACTIVE LEVEL (Animated Toy Car on it) -->
+            <div class="flex items-center justify-center">
+              <div class="relative cursor-pointer" onclick="startLevel(3)">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white node-active shadow-2xl flex flex-col items-center justify-center text-slate-950">
+                  <span class="text-2xl">🚦</span>
+                  <span class="text-[10px] font-black uppercase tracking-wider">Boshlash</span>
+                </div>
+                <!-- Real 3D Toy Car Avatar parked on Node -->
+                <div class="absolute -top-5 -right-5 w-14 h-10 rounded-xl overflow-hidden border-2 border-emerald-400 shadow-2xl animate-bounce">
+                  <img src="assets/cars/toy_matiz.jpg" class="w-full h-full object-cover" />
+                </div>
+                <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-emerald-500 text-slate-950 font-bold px-2.5 py-0.5 rounded-full text-xs shadow-md">
+                  Chorrahalar (3/5)
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 4: Locked (Aylana Harakat / Roundabout) -->
+            <div class="flex items-center justify-start pl-8">
+              <div class="relative opacity-60 cursor-not-allowed">
+                <div class="w-16 h-16 rounded-full bg-slate-800 border-4 border-slate-900 flex items-center justify-center text-slate-500 text-xl">
+                  🔒
+                </div>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 px-2 py-0.5 rounded text-[10px] text-slate-500">
+                  Aylana harakat (Krug)
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 5: Locked (Avtodrom) -->
+            <div class="flex items-center justify-center">
+              <div class="relative opacity-60 cursor-not-allowed">
+                <div class="w-16 h-16 rounded-full bg-slate-800 border-4 border-slate-900 flex items-center justify-center text-slate-500 text-xl">
+                  🔒
+                </div>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900 px-2 py-0.5 rounded text-[10px] text-slate-500">
+                  Avtodrom: Estakada & Garaj
+                </div>
+              </div>
+            </div>
+
+            <!-- Node 6: Boss Level (Real Imtihon) -->
+            <div class="flex items-center justify-end pr-10">
+              <div class="relative cursor-pointer" onclick="startExamMode()">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500/30 to-slate-800 border-2 border-amber-500/50 hover:border-amber-400 shadow-xl flex flex-col items-center justify-center text-amber-400 transition hover:scale-105">
+                  <span class="text-2xl">🏆</span>
+                  <span class="text-[9px] font-bold mt-1">DAVLAT IMTIHONI</span>
+                  <span class="text-[7px] bg-amber-500/20 px-1 py-0.2 rounded font-black text-amber-300">20 savol</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        </div> <!-- /study-view-highway -->
+
+        <!-- VIEW 2: TOPICS & CATEGORIES (8 Curated YHQ Topics) -->
+        <div id="study-view-topics" class="w-full hidden space-y-2.5 my-1">
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 mb-2 flex items-center justify-between">
+            <div>
+              <h3 class="text-xs font-bold text-white flex items-center space-x-1.5">
+                <span>📚</span>
+                <span>Yo'nalishlar Bo'yicha O'rganish</span>
+              </h3>
+              <p class="text-[10px] text-slate-400 mt-0.5">O'zingiz zaif deb bilgan mavzuni tanlang va xatolarsiz mashq qiling</p>
+            </div>
+            <span class="text-xs bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded-lg border border-amber-500/30">8 mavzu</span>
+          </div>
+
+          <!-- Category 1: 2024-2026 Yangi Qoidalar -->
+          <div onclick="startCategoryQuiz('new_2026')" class="cursor-pointer p-3 rounded-2xl border-2 border-emerald-500/80 bg-emerald-950/25 hover:bg-emerald-900/30 transition flex items-center justify-between shadow-lg">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-xl shrink-0">
+                ⚡
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center space-x-1.5">
+                  <h4 class="text-xs font-black text-emerald-300">2024–2026 Yangi Qoidalar</h4>
+                  <span class="text-[8px] bg-emerald-500/30 text-emerald-300 px-1.5 py-0.2 rounded font-black">YANGI TAHRIR</span>
+                </div>
+                <p class="text-[10px] text-slate-300 mt-0.5 truncate">60 km/soat shahar tezligi, samakatlar, A-polosa va yangi radarlar</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-emerald-400 bg-emerald-500/20 px-2 py-1 rounded-xl border border-emerald-500/30 shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 2: Chorrahalar & Aylanalar -->
+          <div onclick="startCategoryQuiz('intersections')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                🔄
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Chorrahalar & Aylanalar (Krug)</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Teng ahamiyatli, bosh yo'l va aylana harakat ustunligi</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 3: Tezlik & Radar Qoidalari -->
+          <div onclick="startCategoryQuiz('speed_limits')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                📸
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Tezlik & Radar Qoidalari</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Aholi punktlari, maktab zonalari va +5 km/soat radar xatoligi</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 4: Yo'l Belgilari & Chiziqlari -->
+          <div onclick="startCategoryQuiz('road_signs')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                🛑
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Yo'l Belgilari & Chiziqlari</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Taqiqlovchi, imtiyoz, stop-liniya (1.12) va chiziqlar</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 5: Manevrlar & Quvib O'tish -->
+          <div onclick="startCategoryQuiz('maneuvers')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                ↔️
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Qayta Tizilish & Quvib O'tish</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Pavarotnik yoqish, quvib o'tish taqiqlangan joylar</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 6: To'xtash & To'xtab Turish -->
+          <div onclick="startCategoryQuiz('stopping_parking')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                🅿️
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">To'xtash & To'xtab Turish</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Chorrahada (5m), bekatda (15m), piyodalar o'tish joyida</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 7: Jarimalar & MJtK Moddalari -->
+          <div onclick="startCategoryQuiz('fines_mjtk')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                ⚖️
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Jarimalar & MJtK Moddalari</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Telefon tutish (3 BHM), qizil chiroq, BHM miqdorlari</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+
+          <!-- Category 8: Xavfsizlik & Tibbiy Yordam -->
+          <div onclick="startCategoryQuiz('safety_firstaid')" class="cursor-pointer p-3 rounded-2xl border border-slate-800 bg-slate-900/80 hover:bg-slate-850 transition flex items-center justify-between">
+            <div class="flex items-center space-x-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl shrink-0">
+                🩹
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-xs font-bold text-white">Xavfsizlik & Tibbiy Yordam</h4>
+                <p class="text-[10px] text-slate-400 mt-0.5 truncate">Bolalar kreslosi, jgut qo'yish muddatlari, birinchi yordam</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded-xl shrink-0">Boshlash ➔</span>
+          </div>
+        </div> <!-- /study-view-topics -->
+
+        <!-- VIEW 3: OFFICIAL EXAM SIMULATOR PREVIEW BANNER -->
+        <div id="study-view-exam" class="w-full hidden space-y-3 my-1">
+          <div class="bg-gradient-to-br from-slate-900 via-cardbg to-slate-950 p-5 rounded-3xl border-2 border-amber-500/50 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 text-8xl opacity-10 pointer-events-none">🏆</div>
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>🏛️</span>
+              <span>DYP Rasmiy Imtihon Markazi Formati</span>
+            </div>
+            <h3 class="text-lg font-black text-white leading-tight">
+              Davlat Yo'l Harakati Xavfsizligi Xizmati Test Simulyatori
+            </h3>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              Haqiqiy kompyuterlashtirilgan imtihon muhiti: 20 ta tasodifiy savol, 20 daqiqa vaqt va qat'iy qoidalar.
+            </p>
+
+            <!-- Rules Grid -->
+            <div class="grid grid-cols-3 gap-2 my-4 text-center">
+              <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800">
+                <div class="text-[10px] text-slate-400">Savollar</div>
+                <div class="text-base font-black text-white">20 ta</div>
+              </div>
+              <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800">
+                <div class="text-[10px] text-slate-400">Vaqt</div>
+                <div class="text-base font-black text-amber-300">20 daqiqa</div>
+              </div>
+              <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800">
+                <div class="text-[10px] text-slate-400">Maks. xato</div>
+                <div class="text-base font-black text-red-400">2 ta (limit)</div>
+              </div>
+            </div>
+
+            <!-- Start Exam Button -->
+            <button onclick="startExamMode()" class="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black py-3.5 rounded-2xl text-xs shadow-lg shadow-amber-500/25 flex items-center justify-center space-x-2 transition active:scale-95">
+              <span class="text-base">🚀</span>
+              <span class="text-sm">Rasmiy Imtihonni Boshlash (20 daqiqa)</span>
+            </button>
+          </div>
+        </div> <!-- /study-view-exam -->
+
+      </div>
+
+      <!-- TAB 2: TRASSADA POYGA 1V1 (REINVENTED MULTIPLAYER DRAG DUEL) -->
+      <div id="tab-race" class="hidden p-4 min-h-full flex flex-col justify-between pb-24">
+        <div>
+          <!-- Header -->
+          <div class="text-center my-3">
+            <span class="text-xs bg-amber-500/20 text-amber-400 font-bold px-3 py-1 rounded-full border border-amber-500/30">
+              🏁 JONLI POYGA DUELI
+            </span>
+            <h2 class="text-xl font-black text-white mt-2">TRASSADA POYGA: KIM BIRINCHI?</h2>
+            <p class="text-xs text-slate-400 max-w-xs mx-auto mt-1">
+              Savollarga tez va to'g'ri javob berib, do'stingizdan oldin 100m marraga yetib boring! Xato qilsangiz, radarga tushasiz.
+            </p>
+          </div>
+
+          <!-- Real-time 2-Lane Drag Strip -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 my-4 space-y-4 relative overflow-hidden shadow-inner">
+            <!-- Road Finish Line -->
+            <div class="absolute right-4 top-0 bottom-0 w-4 border-l-2 border-dashed border-white/60 bg-gradient-to-r from-transparent to-amber-500/20 flex items-center justify-center">
+              <span class="text-base">🏁</span>
+            </div>
+
+            <!-- Lane 1: Player (Cobalt) -->
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1.5">
+                <span class="text-emerald-400 flex items-center space-x-1.5">
+                  <span class="text-base">🏎️</span>
+                  <span>Siz (Oq Cobalt)</span>
+                </span>
+                <span id="full-race-p1-dist" class="text-emerald-400">80m / 100m</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-4 relative overflow-hidden border border-slate-700">
+                <div id="full-race-p1-bar" class="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full rounded-full transition-all duration-700" style="width: 80%;"></div>
+              </div>
+            </div>
+
+            <!-- Lane 2: Opponent (Sardor) -->
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1.5">
+                <span class="text-red-400 flex items-center space-x-1.5">
+                  <span class="text-base">🚖</span>
+                  <span>Sardor (Samarqand)</span>
+                </span>
+                <span id="full-race-p2-dist" class="text-red-400">40m / 100m</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-4 relative overflow-hidden border border-slate-700">
+                <div id="full-race-p2-bar" class="bg-gradient-to-r from-red-500 to-rose-400 h-full rounded-full transition-all duration-700" style="width: 40%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Race Status Card -->
+          <div class="bg-gradient-to-b from-slate-900 to-cardbg border border-amber-500/30 rounded-2xl p-4 my-3 text-center relative">
+            <div class="text-[10px] font-bold text-amber-400 tracking-wider uppercase">⚡ Poyga Xronikasi</div>
+            <div class="mt-1 text-sm font-black text-white">Siz 1-o'rinda ketyapsiz! 🏆</div>
+            <p class="text-xs text-slate-300 mt-1 italic">
+              "Sardor chorraha testida to'xtamasdan radarga tushdi (-1.125.000 so'm) va tezligi pasayib ketdi!"
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+          <div class="space-y-2">
+            <button onclick="startPoygaDuel()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 active:scale-95 text-slate-950 font-black py-3.5 rounded-2xl text-sm transition shadow-lg shadow-amber-500/30 flex items-center justify-center space-x-2">
+              <span>⚡</span>
+              <span>Gazni Bos! (Tasodifiy Raqib Bilan Poyga)</span>
+            </button>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="inviteFriendToDuel()" class="bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 text-white font-bold py-2.5 rounded-2xl text-xs transition border border-sky-500/30 flex items-center justify-center space-x-1.5 active:scale-95 shadow-md">
+                <span>⚔️</span>
+                <span>Do'st bilan Duel</span>
+              </button>
+              <button onclick="shareGroupChallenge()" class="bg-slate-800 hover:bg-slate-750 text-slate-200 font-bold py-2.5 rounded-2xl text-xs transition border border-slate-700 flex items-center justify-center space-x-1.5 active:scale-95">
+                <span>👥</span>
+                <span>Guruhga Viktorina</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: MENING GARAJIM (CAR PROGRESSION) -->
+      <div id="tab-garage" class="hidden p-4 min-h-full pb-24">
+        <div class="text-center my-3">
+          <span class="text-xs bg-amber-500/20 text-amber-400 font-bold px-3 py-1 rounded-full border border-amber-500/30">
+            🚗 AVTOPARK
+          </span>
+          <h2 class="text-xl font-black text-white mt-2">MENING GARAJIM</h2>
+          <p class="text-xs text-slate-400">
+            Testlardagi har bir xato mashinangizga shikast yetkazadi! Qoidalarni bilsangiz, yangi mashina olasiz.
+          </p>
+        </div>
+
+        <!-- Active Car Showcase Card -->
+        <div class="bg-gradient-to-b from-cardbg to-slate-900 border border-slate-800 rounded-3xl p-5 my-4 relative overflow-hidden text-center shadow-xl">
+          <div class="absolute top-3 right-3 text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full font-bold">
+            Mening Avtoparkim
+          </div>
+
+          <!-- Model Switcher Buttons -->
+          <div class="flex items-center justify-center space-x-1.5 mb-3 mt-1">
+            <button onclick="selectFullToyCar('matiz')" id="full-btn-matiz" class="px-3 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Matiz</button>
+            <button onclick="selectFullToyCar('damas')" id="full-btn-damas" class="px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white">Damas</button>
+            <button onclick="selectFullToyCar('cobalt')" id="full-btn-cobalt" class="px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white">Cobalt</button>
+            <button onclick="selectFullToyCar('gentra')" id="full-btn-gentra" class="px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white">Gentra</button>
+          </div>
+
+          <!-- 3D Toy Car Graphic -->
+          <div id="full-toy-display" class="h-32 flex items-center justify-center my-2 relative">
+            <img src="assets/cars/toy_matiz.jpg" alt="Daewoo Matiz II" class="h-28 w-auto object-contain rounded-2xl shadow-xl mx-auto border border-slate-750" />
+          </div>
+
+          <h3 id="full-toy-name" class="text-lg font-black text-white mt-1">Daewoo Matiz II</h3>
+          <p id="full-toy-desc" class="text-xs text-slate-400 italic">"Kichkina, chaqqon, lekin svetoforda gazni bossangiz ham o'ylanib turadi."</p>
+
+          <!-- Damage / Condition Meter -->
+          <div class="w-full bg-slate-800 rounded-full h-3 mt-4 overflow-hidden border border-slate-700">
+            <div id="car-health-bar" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 70%;"></div>
+          </div>
+          <div class="flex justify-between items-center text-[11px] mt-1.5 text-slate-400">
+            <span>Mashina holati: <strong id="car-health-txt" class="text-amber-400">70%</strong></span>
+            <span class="text-red-400 italic">2 ta urilgan joyi bor</span>
+          </div>
+
+          <!-- Repair Button -->
+          <button onclick="repairCar()" class="mt-4 w-full bg-slate-800 hover:bg-slate-700 active:scale-95 text-emerald-400 border border-emerald-500/30 font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center space-x-1.5">
+            <span>🔧</span>
+            <span>Usta Shokirda Ta'mirlash (50 XP)</span>
+          </button>
+        </div>
+
+        <!-- Tier Hierarchy List -->
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">Mashinalar Ierarxiyasi</h4>
+        <div class="space-y-2">
+          <!-- Tier 1 -->
+          <div class="bg-cardbg/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between opacity-70">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">🚲</span>
+              <div>
+                <div class="text-xs font-bold text-slate-300">1. Velosiped (Piyoda)</div>
+                <div class="text-[10px] text-slate-500">Bosqichdan o'tilgan</div>
+              </div>
+            </div>
+            <span class="text-emerald-400 text-xs font-bold">✓ Olingan</span>
+          </div>
+
+          <!-- Tier 2 (Current) -->
+          <div class="bg-emerald-950/20 border border-emerald-500/40 p-3 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">🚙</span>
+              <div>
+                <div class="text-xs font-bold text-white">2. Matiz (Oddiy)</div>
+                <div class="text-[10px] text-emerald-400 font-medium">Hozirgi mashinangiz</div>
+              </div>
+            </div>
+            <span class="text-emerald-400 text-xs font-bold">Rulda</span>
+          </div>
+
+          <!-- Tier 3: Locked -->
+          <div class="bg-cardbg/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between opacity-80">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">🚐</span>
+              <div>
+                <div class="text-xs font-bold text-slate-200">3. Damas (Agressiv shofyor)</div>
+                <div class="text-[10px] text-slate-500">Ochish uchun: 5-biletni 100% yeching</div>
+              </div>
+            </div>
+            <span class="text-slate-500 text-xs">🔒 Qulflangan</span>
+          </div>
+
+          <!-- Tier 4: Locked -->
+          <div class="bg-cardbg/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between opacity-60">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">🚗</span>
+              <div>
+                <div class="text-xs font-bold text-slate-200">4. Oq Cobalt (Haqiqiy shofyor)</div>
+                <div class="text-[10px] text-slate-500">Ochish uchun: 10-bilet</div>
+              </div>
+            </div>
+            <span class="text-slate-500 text-xs">🔒 Qulflangan</span>
+          </div>
+
+          <!-- Tier 5: Locked -->
+          <div class="bg-cardbg/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between opacity-40">
+            <div class="flex items-center space-x-3">
+              <span class="text-2xl">🏎️</span>
+              <div>
+                <div class="text-xs font-bold text-slate-200">5. Gentra (Lyuki bor)</div>
+                <div class="text-[10px] text-slate-500">Ochish uchun: 20-bilet</div>
+              </div>
+            </div>
+            <span class="text-slate-500 text-xs">🔒 Qulflangan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: STORE / MONETIZATION (PRAVA PASS & CLICK/PAYME) -->
+      <div id="tab-store" class="hidden p-4 min-h-full pb-24">
+        <div class="text-center my-3">
+          <span class="text-xs bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30">
+            💎 BOZORCHA
+          </span>
+          <h2 class="text-xl font-black text-white mt-2">PRAVA PASS & IMTIYOZLAR</h2>
+          <p class="text-xs text-slate-400">
+            Imtihondan 1-urinishdayoq yiqilmasdan o'tish uchun maxsus to'plamlar
+          </p>
+        </div>
+
+        <!-- PRAVA PASS VIP HERO CARD -->
+        <div class="bg-gradient-to-br from-amber-600/30 via-cardbg to-emerald-600/20 border-2 border-amber-500/60 rounded-3xl p-5 my-4 relative shadow-2xl">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-[10px] font-black uppercase px-3 py-0.5 rounded-full shadow">
+            Eng Ommabop • 95% O'tish Kafolati
+          </span>
+          <div class="flex justify-between items-start mt-2">
+            <div>
+              <h3 class="text-lg font-black text-white flex items-center space-x-1">
+                <span>PRAVA PASS VIP</span>
+                <span>⭐</span>
+              </h3>
+              <p class="text-xs text-slate-300 mt-0.5">30 kunlik to'liq kirish huquqi</p>
+            </div>
+            <div class="text-right">
+              <div class="text-xl font-black text-amber-400">39,000 so'm</div>
+              <div class="text-[10px] text-slate-400 line-through">65,000 so'm</div>
+            </div>
+          </div>
+
+          <!-- Feature Bullets -->
+          <div class="space-y-2 mt-4 text-xs text-slate-200">
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>1200+ ta barcha rasmiy YHQ biletlari ochiq</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Shokir akaning audio tushuntirishlari (barcha savollarga)</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Cheksiz "Real Davlat Imtihoni" simulyatori</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>Reklamasiz va cheksiz jonlar</span>
+            </div>
+          </div>
+
+          <!-- Buy Button -->
+          <button onclick="openPaymentModal('Shopir Pass VIP', '39 000 UZS')" class="mt-5 w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 active:scale-95 text-slate-950 font-black py-3 rounded-2xl text-sm transition shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2">
+            <span>⚡</span>
+            <span>Prava Passni Faollashtirish</span>
+          </button>
+        </div>
+
+        <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-2xl text-center mt-3">
+          <span class="text-xs text-slate-400">🔒 Barcha to'lovlar xavfsiz • Click, Payme va Telegram Stars orqali avtomatik faollashadi</span>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- BOTTOM TAB NAVIGATION (NATIVE TELEGRAM APP STYLE) -->
+    <nav class="bg-cardbg border-t border-slate-800 px-2 py-2 flex items-center justify-around shrink-0 z-30">
+      <button onclick="switchTab('map')" id="nav-map" class="flex flex-col items-center py-1 px-3 rounded-xl text-emerald-400 font-bold transition">
+        <span class="text-lg">🗺️</span>
+        <span class="text-[10px] mt-0.5">Xarita</span>
+      </button>
+
+      <button onclick="switchTab('race')" id="nav-race" class="flex flex-col items-center py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+        <span class="text-lg">🏁</span>
+        <span class="text-[10px] mt-0.5">Poyga</span>
+      </button>
+
+      <button onclick="switchTab('garage')" id="nav-garage" class="flex flex-col items-center py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+        <span class="text-lg">🚗</span>
+        <span class="text-[10px] mt-0.5">Garaj</span>
+      </button>
+
+      <button onclick="switchTab('store')" id="nav-store" class="flex flex-col items-center py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+        <span class="text-lg">💎</span>
+        <span class="text-[10px] mt-0.5">Do'kon</span>
+      </button>
+    </nav>
+
+    <!-- ================= MODALS & OVERLAYS ================= -->
+
+    <!-- 0. FIRST-OPEN WELCOME MOOD SELECTION MODAL -->
+    <div id="welcome-mood-modal" class="absolute inset-0 bg-[#080C14]/95 backdrop-blur-md z-50 flex flex-col justify-between p-4 sm:p-5 animate-fade-in overflow-y-auto" style="display: none;">
+      <div>
+        <!-- Mascot Greeting -->
+        <div class="flex items-center space-x-3.5 mb-3 pb-3 border-b border-slate-800">
+          <div class="w-16 h-16 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-xl shrink-0 bg-slate-900">
+            <img id="proto-onboard-avatar" src="assets/mascot/shokir_default.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
+          </div>
+          <div>
+            <div class="flex items-center justify-between"><div id="proto-onboard-sub" class="text-xs font-bold text-amber-400">Andijon • Asaka avtomaktabi</div><button onclick="closeWelcomeModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-2.5 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button></div>
+            <h3 id="proto-onboard-title" class="text-base font-black text-white">Shokir aka (55 yoshda • 32 yillik ustoz)</h3>
+            <p id="proto-onboard-prompt" class="text-xs text-slate-400 mt-0.5">Qaysi viloyat ustozi bilan o'rganamiz?</p>
+          </div>
+        </div>
+
+        <!-- Step 1: Regional Instructor Selector -->
+        <div class="mb-3">
+          <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">
+            1. Ustoz viloyatini tanlang:
+          </label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="selectInstructorRegion('andijon')" id="proto-reg-andijon" class="p-2 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition">
+              <div class="text-base">🏎️</div>
+              <div class="text-[11px] font-black text-amber-300">Andijon</div>
+              <div class="text-[8px] text-slate-300">Shokir aka</div>
+            </button>
+            <button onclick="selectInstructorRegion('toshkent')" id="proto-reg-toshkent" class="p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
+              <div class="text-base">🏙️</div>
+              <div class="text-[11px] font-bold text-slate-300">Toshkent</div>
+              <div class="text-[8px] text-slate-400">Rustam aka</div>
+            </button>
+            <button onclick="selectInstructorRegion('xorazm')" id="proto-reg-xorazm" class="p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
+              <div class="text-base">🏜️</div>
+              <div class="text-[11px] font-bold text-slate-300">Xorazm</div>
+              <div class="text-[8px] text-slate-400">Polvon aka</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Demographic Selector (Gender & Age) -->
+        <div class="mb-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+          <label class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-2 flex items-center justify-between">
+            <span>2. Shogird Profili (Shokir aka sizga qarab gapiradi):</span>
+            <span class="text-[9px] text-slate-400 lowercase font-normal">yosh & jins</span>
+          </label>
+          
+          <!-- Gender selection -->
+          <div class="grid grid-cols-2 gap-2 mb-2.5">
+            <button onclick="setDemographicGender('male')" id="demo-gender-male" class="py-2 px-3 rounded-xl text-xs font-bold border-2 border-emerald-500/80 bg-emerald-500/15 text-white transition flex items-center justify-center space-x-1.5">
+              <span>👨</span>
+              <span>Erkak (Yigit)</span>
+            </button>
+            <button onclick="setDemographicGender('female')" id="demo-gender-female" class="py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5">
+              <span>👩</span>
+              <span>Ayol (Qiz)</span>
+            </button>
+          </div>
+
+          <!-- Age group selection -->
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setDemographicAge('young')" id="demo-age-young" class="py-2 px-1 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition">
+              <div class="text-[11px] font-black text-amber-300">18–35 yosh</div>
+              <div class="text-[8px] text-slate-300" id="demo-tag-young">"Uka"</div>
+            </button>
+            <button onclick="setDemographicAge('mid')" id="demo-age-mid" class="py-2 px-1 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
+              <div class="text-[11px] font-bold text-slate-300">36–54 yosh</div>
+              <div class="text-[8px] text-slate-400" id="demo-tag-mid">"Uka"</div>
+            </button>
+            <button onclick="setDemographicAge('elder')" id="demo-age-elder" class="py-2 px-1 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition">
+              <div class="text-[11px] font-bold text-slate-300">55+ yosh</div>
+              <div class="text-[8px] text-slate-400" id="demo-tag-elder">"Aka"</div>
+            </button>
+          </div>
+
+          <!-- Dynamic Live Greeting Bubble from 55-year-old Shokir aka -->
+          <div class="mt-2.5 p-2 rounded-xl bg-black/40 border border-amber-500/30 flex items-start space-x-2">
+            <span class="text-base shrink-0 mt-0.5">💬</span>
+            <div>
+              <span class="text-[9px] text-amber-400 font-bold block" id="shokir-bubble-author">55 yoshli Shokir aka murojaati:</span>
+              <p class="text-[11px] text-slate-200 italic mt-0.5" id="shokir-live-greeting">"Uka, o'tir! Qani gazni bos, Asaka Cobaltini birgalikda sinab ko'ramiz!"</p>
+            </div>
+          </div>
+        </div>
+
+        <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">
+          3. Darslar kayfiyatini tanlang:
+        </label>
+
+        <!-- 3 Selectable Mood Cards -->
+        <div class="space-y-2.5 my-1">
+          <!-- Option 1: Muloyim -->
+          <div onclick="selectOnboardingMood('mild')" id="proto-onboard-mild" class="cursor-pointer p-3 rounded-2xl border border-slate-750 bg-slate-850/60 hover:bg-slate-800 transition flex items-start space-x-3">
+            <span class="text-2xl shrink-0 mt-0.5">🍵</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">Muloyim ustoz</span>
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-semibold whitespace-nowrap">Boshlovchilarga</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">Xato qilsangiz jerkimaydi, sekin-asta tushuntiradi.</p>
+              <p id="preview-quote-mild" class="text-[11px] text-slate-400 italic mt-0.5">"Shoshilmang uka, aylanay. Asakada moshinani bittadan terishadi, siz ham sekin-asta o'rganasiz-da."</p>
+            </div>
+          </div>
+
+          <!-- Option 2: Klassik (Default Recommended) -->
+          <div onclick="selectOnboardingMood('med')" id="proto-onboard-med" class="cursor-pointer p-3 rounded-2xl border-2 border-amber-500/80 bg-amber-500/15 transition flex items-start space-x-3 shadow-xl">
+            <span class="text-2xl shrink-0 mt-0.5">☕</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span id="preview-title-med" class="text-xs font-bold text-amber-300">Shokir aka (Andijoncha)</span>
+                <span class="text-[9px] bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded font-black whitespace-nowrap">Tavsiya etiladi</span>
+              </div>
+              <p id="preview-desc-med" class="text-xs text-slate-300 mt-0.5">Asaka avtomobil zavodi sinovchisi — vodiycha hazil, nozik kinoya va Asaka uslubi bilan.</p>
+              <p id="preview-quote-med" class="text-[11px] text-amber-200/90 italic mt-0.5">"Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku!"</p>
+            </div>
+          </div>
+
+          <!-- Option 3: Asabiy -->
+          <div onclick="selectOnboardingMood('spicy')" id="proto-onboard-spicy" class="cursor-pointer p-3.5 rounded-2xl border border-slate-750 bg-slate-850/60 hover:bg-slate-800 transition flex items-start space-x-3">
+            <span class="text-2xl shrink-0 mt-0.5">🔥</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">Asabiy rejim</span>
+                <span class="text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded font-semibold whitespace-nowrap">Yuragi baquvvatlarga</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">Tirbandlikdagi asabiy shafyordek qattiq urishadi!</p>
+              <p id="preview-quote-spicy" class="text-[11px] text-slate-400 italic mt-0.5">"Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Button -->
+      <button onclick="confirmOnboardingMood()" class="mt-4 w-full bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-slate-950 font-black py-3.5 rounded-2xl text-xs shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2 transition active:scale-95 shrink-0">
+        <span class="text-base">🚀</span>
+        <span class="text-sm">Tushunarli, Qani Rulga O'tir!</span>
+      </button>
+    </div>
+
+        <!-- 6. LEGAL & SOURCES MODAL -->
+    <div id="legal-sources-modal" class="hidden absolute inset-0 bg-[#080C14]/95 backdrop-blur-md z-50 flex flex-col justify-between p-4 sm:p-5 animate-fade-in overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">⚖️</span>
+            <div>
+              <h3 class="text-sm font-black text-white">Qonunchilik & Rasmiy Manbalar</h3>
+              <p class="text-[10px] text-slate-400">O'zbekiston Respublikasi rasmiy normativ-huquqiy hujjatlari</p>
+            </div>
+          </div>
+          <button onclick="closeLegalModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-3 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button>
+        </div>
+
+        <!-- Government Disclaimer Card -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 mb-3 text-xs text-amber-200 leading-relaxed">
+          <strong class="font-black block text-amber-300 mb-1">⚠️ Rasmiy Davlat Organlaridan Mustaqillik (Disclaimer):</strong>
+          Ushbu ilova mustaqil ta'limiy simulyator bo'lib, O‘zbekiston Respublikasi Ichki ishlar vazirligi (IIV), Yo‘l harakati xavfsizligi xizmati (YHXX) yoki boshqa davlat organlarining rasmiy ilovasi hisoblanmaydi. Barcha qoidalar ochiq qonunchilik manbalariga (Lex.uz) asoslangan bo'lib, mustaqil o'rganish va imtihonga tayyorlanishga xizmat qiladi.
+        </div>
+
+        <!-- Official Sources List -->
+        <div class="space-y-2 text-xs">
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>📜 Amaldagi Yo'l Harakati Qoidalari (YHQ)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">Lex.uz (172-son)</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">O'zbekiston Respublikasi Vazirlar Mahkamasining 2022-yil 12-apreldagi 172-son qarori bilan tasdiqlangan va 2022-yil 1-maydan kuchga kirgan.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>🏎️ 60 km/soat Shahar Tezligi Rejimi</span>
+              <span class="text-emerald-400 font-bold text-[10px]">140-son qaror</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2023-yil 3-apreldagi 140-son qarori bilan Toshkent shahri, Nukus va viloyatlar markazlarida tezlik 60 km/soat qilib belgilangan.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>🛴 Elektr Samakatlar & Skuterlar Qoidalari</span>
+              <span class="text-emerald-400 font-bold text-[10px]">2024 tahrir</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2024-yil 19-yanvardagi qarori: individual harakatlanish vositalari uchun piyodalar yo'lkasida max 20 km/soat.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>⚖️ Ma'muriy Javobgarlik Kodeksi (MJtK)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">MJtK moddalari</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">MJtK 128-1 (qo'lda telefon: 3 BHM), 128-4 (stop-liniya: 0.5 BHM, qizil chiroq: 2 BHM), 128-3 (tezlikni oshirish), 128 (A-polosa: 1.5 BHM).</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>📸 Fotoradarlar Texnik Xatoligi (+5 km/soat)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">377-son qaror</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2018-yil 19-maydagi 377-son qarori: avtomatlashtirilgan fotoradarlar tezligidan 5 km/soat xatolik chegiriladi.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+        <span class="text-slate-400">© 2026 ShopirGo • Mustaqil Ta'limiy Simulyator</span>
+        <button onclick="closeLegalModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-4 py-2 rounded-xl shadow">
+          Tushunarli, Rahmat ✓
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. INTERACTIVE QUIZ MODAL -->
+        <!-- 6. LEGAL & SOURCES MODAL -->
+    <div id="legal-sources-modal" class="hidden absolute inset-0 bg-[#080C14]/95 backdrop-blur-md z-50 flex flex-col justify-between p-4 sm:p-5 animate-fade-in overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">⚖️</span>
+            <div>
+              <h3 class="text-sm font-black text-white">Qonunchilik & Rasmiy Manbalar</h3>
+              <p class="text-[10px] text-slate-400">O'zbekiston Respublikasi rasmiy normativ-huquqiy hujjatlari</p>
+            </div>
+          </div>
+          <button onclick="closeLegalModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-3 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button>
+        </div>
+
+        <!-- Government Disclaimer Card -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 mb-3 text-xs text-amber-200 leading-relaxed">
+          <strong class="font-black block text-amber-300 mb-1">⚠️ Rasmiy Davlat Organlaridan Mustaqillik (Disclaimer):</strong>
+          Ushbu ilova mustaqil ta'limiy simulyator bo'lib, O‘zbekiston Respublikasi Ichki ishlar vazirligi (IIV), Yo‘l harakati xavfsizligi xizmati (YHXX) yoki boshqa davlat organlarining rasmiy ilovasi hisoblanmaydi. Barcha qoidalar ochiq qonunchilik manbalariga (Lex.uz) asoslangan bo'lib, mustaqil o'rganish va imtihonga tayyorlanishga xizmat qiladi.
+        </div>
+
+        <!-- Official Sources List -->
+        <div class="space-y-2 text-xs">
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>📜 Amaldagi Yo'l Harakati Qoidalari (YHQ)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">Lex.uz (172-son)</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">O'zbekiston Respublikasi Vazirlar Mahkamasining 2022-yil 12-apreldagi 172-son qarori bilan tasdiqlangan va 2022-yil 1-maydan kuchga kirgan.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>🏎️ 60 km/soat Shahar Tezligi Rejimi</span>
+              <span class="text-emerald-400 font-bold text-[10px]">140-son qaror</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2023-yil 3-apreldagi 140-son qarori bilan Toshkent shahri, Nukus va viloyatlar markazlarida tezlik 60 km/soat qilib belgilangan.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>🛴 Elektr Samakatlar & Skuterlar Qoidalari</span>
+              <span class="text-emerald-400 font-bold text-[10px]">2024 tahrir</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2024-yil 19-yanvardagi qarori: individual harakatlanish vositalari uchun piyodalar yo'lkasida max 20 km/soat.</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>⚖️ Ma'muriy Javobgarlik Kodeksi (MJtK)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">MJtK moddalari</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">MJtK 128-1 (qo'lda telefon: 3 BHM), 128-4 (stop-liniya: 0.5 BHM, qizil chiroq: 2 BHM), 128-3 (tezlikni oshirish), 128 (A-polosa: 1.5 BHM).</p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+            <div class="font-bold text-white flex items-center justify-between">
+              <span>📸 Fotoradarlar Texnik Xatoligi (+5 km/soat)</span>
+              <span class="text-emerald-400 font-bold text-[10px]">377-son qaror</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2018-yil 19-maydagi 377-son qarori: avtomatlashtirilgan fotoradarlar tezligidan 5 km/soat xatolik chegiriladi.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+        <span class="text-slate-400">© 2026 ShopirGo • Mustaqil Ta'limiy Simulyator</span>
+        <button onclick="closeLegalModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-4 py-2 rounded-xl shadow">
+          Tushunarli, Rahmat ✓
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. INTERACTIVE QUIZ MODAL -->
+    <div id="quiz-modal" class="hidden absolute inset-0 bg-darkbg z-50 flex flex-col animate-fade-in">
+      <!-- Quiz Header -->
+      <div class="bg-cardbg px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between shrink-0">
+        <button onclick="closeQuiz()" class="text-slate-400 hover:text-white text-xs font-bold flex items-center space-x-1">
+          <span>✕</span>
+          <span>Chiqish</span>
+        </button>
+        <div class="flex items-center space-x-2">
+          <span class="text-xs font-bold text-slate-300">
+            <span id="quiz-mode-tag" class="text-amber-400 font-black mr-1">Bilet 1</span>
+            <span id="q-current">1</span>/<span id="q-total">20</span>
+          </span>
+          <!-- Timer Bar & Text -->
+          <div class="flex items-center space-x-1.5 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-750">
+            <span class="text-[10px]">⏱️</span>
+            <span id="quiz-timer-txt" class="text-[11px] font-mono font-bold text-amber-300">20:00</span>
+          </div>
+        </div>
+        <div class="text-xs font-bold flex items-center space-x-1">
+          <span id="quiz-mistakes-badge" class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full border border-red-500/30 text-[10px]">0 / 2 xato</span>
+        </div>
+      </div>
+
+      <!-- Quiz Body -->
+      <div class="flex-1 overflow-y-auto p-3.5 flex flex-col justify-between" id="quiz-container">
+        <div>
+          <!-- Question Situation Diagram (Dynamic Vector SVG) -->
+          <div class="w-full h-48 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden relative flex items-center justify-center shadow-inner p-1" id="svg-diagram-wrapper">
+            <!-- Dynamic SVG is injected here -->
+          </div>
+
+          <!-- Question Text & Category Tags -->
+          <div class="mt-3">
+            <div class="flex items-center space-x-2 mb-1.5 flex-wrap gap-y-1">
+              <span id="q-category-pill" class="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
+                2024–2026 Yangi Qoidalar
+              </span>
+              <span id="q-new-tag" class="hidden text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md font-black border border-emerald-500/30">
+                ⚡ 2024-2026 Yangi Qoida
+              </span>
+            </div>
+            <h3 id="q-text" class="text-xs sm:text-sm font-bold text-white leading-snug">
+              Yuklanmoqda...
+            </h3>
+          </div>
+
+          <!-- 4 Answer Options -->
+          <div class="space-y-2 mt-3" id="options-container">
+            <!-- Dynamic option buttons -->
+          </div>
+
+          <!-- REACTION FEEDBACK DRAWER (APPEARS ON ANSWER) -->
+          <div id="feedback-box" class="hidden mt-3.5 p-3.5 rounded-2xl border transition-all duration-300">
+            <div class="flex items-start space-x-3">
+              <div id="fb-avatar-wrap" class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-red-500/50 shrink-0 shadow-lg bg-slate-900">
+                <img id="fb-avatar-img" src="assets/mascot/shokir_facepalm.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span id="fb-title" class="font-bold text-xs">Noto'g'ri, uka!</span>
+                  <span id="fb-fine" class="text-[11px] font-bold text-red-400 whitespace-nowrap">-150,000 UZS</span>
+                </div>
+                <p id="fb-roast" class="text-xs text-slate-200 mt-1 italic leading-relaxed">
+                  "..."
+                </p>
+                <div class="mt-2 text-[11px] text-slate-300 bg-slate-900/80 p-2.5 rounded-xl border border-slate-750">
+                  <div class="font-bold text-amber-300 text-[10px] uppercase tracking-wider mb-0.5">Rasmiy Qoida:</div>
+                  <div id="fb-rule" class="leading-relaxed">...</div>
+                  <div id="fb-fine-article" class="text-red-400 font-semibold mt-1">...</div>
+                </div>
+              </div>
+            </div>
+            <button onclick="nextQuestion()" class="mt-3 w-full bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center space-x-1 shadow-lg">
+              <span>Keyingi Savolga O'tish</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.1 EXAM RESULT / TICKET SUMMARY MODAL WITH VIRAL PROTOKOL -->
+    <div id="exam-result-modal" class="hidden absolute inset-0 bg-[#080C14]/95 backdrop-blur-md z-50 flex flex-col justify-between p-4 sm:p-6 animate-fade-in overflow-y-auto">
+      <div>
+        <div id="exam-status-card" class="p-3.5 rounded-3xl border text-center shadow-2xl bg-cardbg">
+          <!-- Icon / Badge -->
+          <div id="exam-res-icon" class="text-4xl mb-1">🏆</div>
+          <h2 id="exam-res-title" class="text-lg font-black text-white">IMTIHONDAN O'TDINGIZ!</h2>
+          <p id="exam-res-sub" class="text-xs text-slate-300 mt-0.5">Siz DYP rasmiy imtihon talabini bajardingiz.</p>
+          
+          <!-- Score Stats Grid -->
+          <div class="grid grid-cols-3 gap-2 mt-2.5 text-center">
+            <div class="bg-slate-900/90 p-2 rounded-2xl border border-slate-800">
+              <div class="text-[9px] text-slate-400">To'g'ri javob</div>
+              <div id="exam-res-score" class="text-sm font-black text-emerald-400">19/20</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-2xl border border-slate-800">
+              <div class="text-[9px] text-slate-400">Xatolar</div>
+              <div id="exam-res-mistakes" class="text-sm font-black text-red-400">1 ta (max 2)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-2xl border border-slate-800">
+              <div class="text-[9px] text-slate-400">Vaqt</div>
+              <div id="exam-res-time" class="text-sm font-black text-amber-300">07:25</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIRAL CARD 1: FAILED PROTOKOL (SHOKIR AKA QOIDABUZARLIK BAYONNOMASI) -->
+        <div id="viral-protocol-card" class="hidden relative bg-gradient-to-b from-amber-950/40 via-red-950/50 to-slate-900 border-2 border-red-500/70 rounded-3xl p-4 text-left shadow-2xl overflow-hidden my-3">
+          <!-- Big Tilted Red Stamp -->
+          <div class="absolute -right-2 top-5 rotate-[-14deg] border-4 border-red-500 text-red-500 font-black px-3 py-1 rounded-xl text-xs sm:text-sm tracking-widest uppercase bg-red-950/90 shadow-2xl pointer-events-none">
+            MOSHIN BERILMASIN! 🛑
+          </div>
+          
+          <div class="flex items-center space-x-2 text-red-400 font-black text-[11px] uppercase tracking-wider">
+            <span>⚡ SHOKIR AKA AKADEMIYASI</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-[9px] text-slate-400 font-mono">№ 2026-YHQ</span>
+          </div>
+          <h3 class="text-sm font-black text-white mt-1">RASMIY QOIDABUZARLIK BAYONNOMASI</h3>
+
+          <div class="mt-2.5 space-y-1.5 text-xs">
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Haydovchi nomzodi:</span>
+              <span class="font-bold text-white" id="proto-driver-name">Ibrohim</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Avtomobil modeli:</span>
+              <span class="font-bold text-amber-300" id="proto-car-name">Chevrolet Cobalt</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Xatolar soni:</span>
+              <span class="font-bold text-red-400" id="proto-mistakes-count">3 ta (Imtihondan yiqildi)</span>
+            </div>
+          </div>
+
+          <!-- Instructor sarcastic verdict -->
+          <div class="mt-3 p-2.5 rounded-2xl bg-black/50 border border-red-500/30 flex items-start space-x-2.5">
+            <div class="w-9 h-9 rounded-xl overflow-hidden border border-amber-500/50 shrink-0 bg-slate-950">
+              <img id="proto-inst-img" src="assets/mascot/shokir_angry.jpg" class="w-full h-full object-cover object-top" />
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-amber-400" id="proto-inst-name">Shokir aka (Andijon / Asaka):</div>
+              <p class="text-[11px] text-slate-200 mt-0.5 italic leading-relaxed" id="proto-verdict-quote">
+                "Hov uka, svetoforni ko'rmasangiz Asaka zavodining yangi Cobaltini ezib tashlaysiz-ku! 6 oy piyoda yurish tayinlandi!"
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIRAL CARD 2: PASSED GOLD CERTIFICATE (OLTIN SERTIFIKAT) -->
+        <div id="viral-certificate-card" class="relative bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-950 border-2 border-emerald-500/60 rounded-3xl p-4 text-left shadow-2xl overflow-hidden my-3">
+          <!-- Big Tilted Gold/Green Stamp -->
+          <div class="absolute -right-2 top-5 rotate-[-12deg] border-4 border-emerald-400 text-emerald-400 font-black px-3 py-1 rounded-xl text-xs sm:text-sm tracking-wider uppercase bg-emerald-950/90 shadow-2xl pointer-events-none">
+            PRAVAGA TAXT! 🏆
+          </div>
+          
+          <div class="flex items-center space-x-2 text-emerald-400 font-black text-[11px] uppercase tracking-wider">
+            <span>🚗 SHOPIRGO RESPUBLIKA</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-[9px] text-emerald-300 font-mono">№ GOLD-2026</span>
+          </div>
+          <h3 class="text-sm font-black text-white mt-1">OLTIN HAYDOVCHILIK SERTIFIKATI</h3>
+
+          <div class="mt-2.5 space-y-1.5 text-xs">
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Haydovchi:</span>
+              <span class="font-bold text-white">Ibrohim</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Natija:</span>
+              <span class="font-bold text-emerald-400" id="cert-score-display">19 / 20 to'g'ri (A'lo)</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Status:</span>
+              <span class="font-bold text-emerald-300">2026 Yangi YHQ Talabiga Mos</span>
+            </div>
+          </div>
+
+          <div class="mt-3 p-2.5 rounded-2xl bg-black/50 border border-emerald-500/30 flex items-start space-x-2.5">
+            <div class="w-9 h-9 rounded-xl overflow-hidden border border-amber-500/50 shrink-0 bg-slate-950">
+              <img id="cert-inst-img" src="assets/mascot/shokir_default.jpg" class="w-full h-full object-cover object-top" />
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-amber-400" id="cert-inst-name">Shokir aka (Andijon):</div>
+              <p class="text-[11px] text-slate-200 mt-0.5 italic leading-relaxed" id="cert-verdict-quote">
+                "Otangga rahmat! Yangi Cobaltga bemalol o'tiravering, haqiqiy vodiycha shafyor bo'libsiz!"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIRAL SHARING BUTTONS -->
+      <div class="mt-3 space-y-2">
+        <button onclick="shareExamResultTelegram()" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black py-3 rounded-2xl text-xs shadow-lg shadow-sky-500/25 flex items-center justify-center space-x-2 transition active:scale-95">
+          <span class="text-sm">✈️</span>
+          <span id="btn-share-tg-text">Do'stga Yuborish & Challenj Qilish</span>
+        </button>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="shareToTelegramStory()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-2.5 rounded-2xl text-[11px] shadow-md transition flex items-center justify-center space-x-1.5 active:scale-95">
+            <span>📸</span>
+            <span>Story'ga Joylash</span>
+          </button>
+          <button onclick="downloadCertificateImage()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2.5 rounded-2xl text-[11px] transition flex items-center justify-center space-x-1.5 active:scale-95">
+            <span>📥</span>
+            <span>Rasm (PNG) Saqlash</span>
+          </button>
+        </div>
+
+        <button onclick="closeExamResultModal()" class="w-full bg-slate-850 hover:bg-slate-800 text-slate-400 font-semibold py-2 rounded-2xl text-[11px] transition">
+          ✕ Yopish va Asosiy Menyu
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. PAYMENT / MONETIZATION CHECKOUT MODAL -->
+    <div id="payment-modal" class="hidden absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
+      <div class="bg-cardbg w-full max-w-sm rounded-t-3xl sm:rounded-3xl border border-slate-700 p-5 shadow-2xl">
+        <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="font-black text-sm text-white" id="pay-product-title">Shopir Pass VIP</h3>
+            <p class="text-xs text-slate-400" id="pay-product-price">39 000 UZS</p>
+          </div>
+          <button onclick="closePaymentModal()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+        </div>
+
+        <p class="text-xs text-slate-300 my-3">
+          To'lov turini tanlang (O'zbekiston bank kartalari va Telegram Stars):
+        </p>
+
+        <!-- Payment Options -->
+        <div class="space-y-2.5">
+          <!-- Click -->
+          <button onclick="executePayment('Click')" class="w-full bg-slate-800 hover:bg-slate-750 border border-slate-700 p-3 rounded-2xl flex items-center justify-between transition">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white text-xs">CLICK</span>
+              <span class="text-xs font-bold text-white">Click Up / Click Evolution</span>
+            </div>
+            <span class="text-slate-400 text-xs">→</span>
+          </button>
+
+          <!-- Payme -->
+          <button onclick="executePayment('Payme')" class="w-full bg-slate-800 hover:bg-slate-750 border border-slate-700 p-3 rounded-2xl flex items-center justify-between transition">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-cyan-500 flex items-center justify-center font-bold text-slate-950 text-xs">payme</span>
+              <span class="text-xs font-bold text-white">Payme O'zbekiston</span>
+            </div>
+            <span class="text-slate-400 text-xs">→</span>
+          </button>
+
+          <!-- Telegram Stars -->
+          <button onclick="executePayment('Telegram Stars')" class="w-full bg-slate-800 hover:bg-slate-750 border border-slate-700 p-3 rounded-2xl flex items-center justify-between transition">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center font-bold text-slate-950 text-sm">⭐</span>
+              <span class="text-xs font-bold text-white">Telegram Stars (⭐️ 250)</span>
+            </div>
+            <span class="text-slate-400 text-xs">→</span>
+          </button>
+        </div>
+
+        <div class="mt-4 text-[10px] text-center text-slate-500">
+          🔒 Xavfsiz to'lov • To'lov amalga oshirilishi bilan akkountingizda barcha biletlar ochiladi
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. OKTAGON VICTORY / ROAST CERTIFICATE MODAL -->
+    <div id="duel-modal" class="hidden absolute inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-gradient-to-b from-cardbg to-slate-950 border-2 border-red-500/80 rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl relative">
+        <div class="text-4xl animate-bounce">📢</div>
+        <h3 class="text-base font-black text-red-400 mt-2">DUEL YAKUNLANDI!</h3>
+        
+        <!-- Result Box -->
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl my-3 text-left">
+          <div class="flex justify-between items-center text-xs font-bold pb-2 border-b border-slate-800">
+            <span class="text-emerald-400">Siz: 3/3 to'g'ri 🏆</span>
+            <span class="text-red-400">Sardor: 1/3 (Yiqildi) 💀</span>
+          </div>
+          <div class="mt-2 text-[11px] text-slate-300 italic">
+            "Sardor Chilonzor aylanasi testida Damasni turtib ketdi va 1-savoldayoq jarimaga uchradi!"
+          </div>
+        </div>
+
+        <!-- Generated Certificate Card -->
+        <div class="bg-gradient-to-tr from-red-950/40 via-slate-900 to-red-900/30 border border-red-500/40 p-3 rounded-xl text-center">
+          <div class="text-[9px] uppercase tracking-wider text-red-400 font-bold">Rasmiy Telegram Sertifikati</div>
+          <div class="text-xs font-black text-white mt-0.5">"O'ZBEKISTONNING ENG XAVFLI SHAFYORI"</div>
+          <div class="text-[10px] text-slate-400 mt-1">Sardorga topshirildi • 2026-yil</div>
+        </div>
+
+        <!-- Share Actions -->
+        <div class="space-y-2 mt-4">
+          <button onclick="alert('Telegram Hikoyalariga (Stories) yuklandi! 🚀')" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/30">
+            📲 Telegram Hikoyaga Qo'yish (Do'stlarni kuldirish)
+          </button>
+          <button onclick="closeDuelModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2 rounded-xl text-xs">
+            Yopish
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT APP LOGIC & PROCEDURAL SOUND SYNTHESIZER -->
+  <script>
+    
+    // --- DEMOGRAPHIC HONORIFIC SYSTEM (UKA / SINGLIM / AKA / OPA) ---
+    function getHonorificTitle() {
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
+      if (isElder) {
+        return isFemale ? "opa" : "aka";
+      } else {
+        return isFemale ? "singlim" : "uka";
+      }
+    }
+
+    function getDynamicGreeting() {
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+
+      if (!isElder) {
+        if (isFemale) {
+          return "Singlim, o'tiring! Xavfsizlik kamarini taqib, ko'zgularni to'g'rilab oling, sekin-asta o'rganamiz!";
+        } else {
+          return "Uka, o'tir! Qani gazni bos, Asaka Cobaltini birgalikda sinab ko'ramiz!";
+        }
+      } else {
+        if (isFemale) {
+          return "Hormang opa! O'tiring, bemalol shoshilmasdan yangi 2026 qoidalarini ko'rib chiqamiz!";
+        } else {
+          return "Hormang aka! O'tiring, siz bilan birga yangi 2026 YHQ qoidalarini yangilab olamiz!";
+        }
+      }
+    }
+
+    function formatInstructorSpeech(rawText) {
+      if (!rawText) return "";
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
+      
+      let hon = "uka";
+      let honCap = "Uka";
+
+      if (isElder) {
+        hon = isFemale ? "opa" : "aka";
+        honCap = isFemale ? "Opa" : "Aka";
+      } else {
+        hon = isFemale ? "singlim" : "uka";
+        honCap = isFemale ? "Singlim" : "Uka";
+      }
+
+      let res = rawText;
+      res = res.replace(/\buka\b/g, hon);
+      res = res.replace(/\bUka\b/g, honCap);
+
+      if (isFemale) {
+        res = res.replace(/\bshafyor bo'libsiz\b/g, "haydovchi bo'libsiz");
+        res = res.replace(/\bbratiwka\b/g, "singlim");
+        res = res.replace(/\bjo'ra\b/g, "singlim");
+      } else if (isElder) {
+        res = res.replace(/\bbratiwka\b/g, "aka");
+        res = res.replace(/\bjo'ra\b/g, "aka");
+      }
+
+      return res;
+    }
+
+    function setDemographicGender(gender) {
+      state.userGender = gender;
+      const maleBtn = document.getElementById('demo-gender-male');
+      const femaleBtn = document.getElementById('demo-gender-female');
+
+      if (gender === 'male') {
+        maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-emerald-500/80 bg-emerald-500/15 text-white transition flex items-center justify-center space-x-1.5";
+        femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        document.getElementById('demo-tag-young').innerText = '"Uka"';
+        document.getElementById('demo-tag-mid').innerText = '"Uka"';
+        document.getElementById('demo-tag-elder').innerText = '"Aka"';
+      } else {
+        femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-pink-500/80 bg-pink-500/15 text-white transition flex items-center justify-center space-x-1.5";
+        maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        document.getElementById('demo-tag-young').innerText = '"Singlim"';
+        document.getElementById('demo-tag-mid').innerText = '"Singlim"';
+        document.getElementById('demo-tag-elder').innerText = '"Opa"';
+      }
+      updateDemographicPreview();
+      AudioEngine.playCoin();
+    }
+
+    function setDemographicAge(ageGroup) {
+      state.userAgeGroup = ageGroup;
+      ['young', 'mid', 'elder'].forEach(a => {
+        const btn = document.getElementById(`demo-age-${a}`);
+        if (btn) btn.className = "py-2 px-1 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition";
+      });
+      const activeBtn = document.getElementById(`demo-age-${ageGroup}`);
+      if (activeBtn) activeBtn.className = "py-2 px-1 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition";
+      updateDemographicPreview();
+      AudioEngine.playCoin();
+    }
+
+    function updateDemographicPreview() {
+      const greeting = getDynamicGreeting();
+      const el = document.getElementById('shokir-live-greeting');
+      if (el) el.innerText = `"${greeting}"`;
+
+      // Update Header Demographic Badge
+      const badge = document.getElementById('user-demographic-badge');
+      if (badge) {
+        const title = getHonorificTitle();
+        const ageLabel = state.userAgeGroup === 'elder' ? "55+ yosh" : (state.userAgeGroup === 'mid' ? "40 yosh" : "22 yosh");
+        badge.innerText = `${ageLabel} • ${title.charAt(0).toUpperCase() + title.slice(1)}`;
+      }
+
+      // Update previews in mood selector
+      const mildQ = document.getElementById('preview-quote-mild');
+      if (mildQ) mildQ.innerText = formatInstructorSpeech(`"Shoshilmang uka, aylanay. Asakada moshinani bittadan terishadi, siz ham sekin-asta o'rganasiz-da."`);
+
+      const medQ = document.getElementById('preview-quote-med');
+      if (medQ) medQ.innerText = formatInstructorSpeech(`"Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku!"`);
+
+      const spicyQ = document.getElementById('preview-quote-spicy');
+      if (spicyQ) spicyQ.innerText = formatInstructorSpeech(`"Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?!"`);
+    }
+
+    // --- STATE MANAGEMENT ---
+    const state = {
+      userGender: 'male',      // 'male' | 'female'
+      userAgeGroup: 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
+      userAge: 22,
+      streak: 3,
+      wallet: 850000,
+      carHealth: 70,
+      carTier: 2,
+      sarcasm: 'medium', // mild, medium, spicy
+      region: 'andijon',  // andijon, toshkent, xorazm
+      activeTab: 'map',
+      quizIndex: 0,
+      mistakesCount: 0
+    };
+
+        // --- PROCEDURAL WEB AUDIO API SYNTHESIZERS (SAFE, ERROR-PROTECTED) ---
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        try {
+          if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume().catch(() => {});
+          }
+        } catch(e) {}
+      },
+      playHonk() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const now = this.ctx.currentTime;
+          [420, 340].forEach(f => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(f, now);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.35);
+          });
+        } catch(e) {}
+      },
+      playSiren() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(650, now);
+          osc.frequency.linearRampToValueAtTime(900, now + 0.25);
+          osc.frequency.linearRampToValueAtTime(650, now + 0.5);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        } catch(e) {}
+      },
+      playSuccess() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const now = this.ctx.currentTime + idx * 0.08;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.3);
+          });
+        } catch(e) {}
+      },
+      playCoin() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(987.77, now);
+          osc.frequency.setValueAtTime(1318.51, now + 0.08);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } catch(e) {}
+      }
+    };
+
+    // --- REGIONAL INSTRUCTORS DATABASE (ANDIJON, TOSHKENT, XORAZM) ---
+        const InstructorsDB = {
+      "andijon": {
+            "id": "andijon",
+            "name": "Shokir aka (55 yoshda)",
+            "regionName": "Andijon",
+            "sub": "Andijon • Asaka avtomaktabi (32 yillik staj)",
+            "badge": "55 yoshli Asaka afsonasi",
+            "tagline": "55 yoshli Asaka avtomobil zavodi faxriysi — 32 yillik tajriba bilan yoshga va jinsga qarab hurmat bilan o'rgatadi.",
+            "quotes": {
+                  "mild": "Shoshilmang uka, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, siz ham sekin-asta o'rganasiz-da.",
+                  "med": "Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku! Tormozni bosing-da!",
+                  "medium": "Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku! Tormozni bosing-da!",
+                  "spicy": "Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?! O'zingizni Asaka bozorida yuribman deb o'ylavosizmi?!"
+            },
+            "praises": [
+                  "Iye, otangizga rahmat uka! Haqiqiy Andijoncha chaqqon shafyor bo'bsiz!",
+                  "Balli! Mana buni haydash desa bo'ladi! Ertaga Asaka zavodiga sinovchi qilib ishga olamiz sizni!",
+                  "Yashang jo'ra! Bitta qaynoq Andijon somsasi mendan bugun!",
+                  "Ana bo'larkan-ku! Chiroyli, tartibli o'tdingiz!",
+                  "Bitta qarab to'g'ri topdingiz-a, otangizga balli!"
+            ],
+            "roasts": {
+                  "mild": [
+                        "Shoshilmasdan qoidani bittalab o'rganing, aylanay.",
+                        "Svetofor qizil yondimi, tormozni bosib to'xtash shart-da, uka.",
+                        "Krugda aylanadagi moshina birinchi o'tadi, shoshilmang jo'ra."
+                  ],
+                  "med": [
+                        "Svetoforning qizili senga tavsiya emas, qonun-ku uka! Tormozni bosmaysizmi?!",
+                        "Stop-liniyani bosib o'tvotti bu! YPX kamerasiga 187 ming ehson muborak bo'lsin!",
+                        "Aylanada kim birinchi o'tadi? Damas emas, aylana ichidagi moshina-da, aylanay!",
+                        "Pavarotni yoqish vodiyda pullik bo'p qoldimi? Rulni burishdan oldin chiroqni yoqing-da!",
+                        "Radar 60 dan oshma deyapti, siz bo'lsa to'yga shoshgandek uchasiz! Jarima yo'lda ana!",
+                        "Oylik qayoqqa ketdi deb yurmang tag'in, jarimalarni to'lashga zo'rg'a yetadi bu ketishda!"
+                  ],
+                  "medium": [
+                        "Svetoforning qizili senga tavsiya emas, qonun-ku uka! Tormozni bosmaysizmi?!",
+                        "Stop-liniyani bosib o'tvotti bu! YPX kamerasiga 187 ming ehson muborak bo'lsin!",
+                        "Aylanada kim birinchi o'tadi? Damas emas, aylana ichidagi moshina-da, aylanay!",
+                        "Pavarotni yoqish vodiyda pullik bo'p qoldimi? Rulni burishdan oldin chiroqni yoqing-da!",
+                        "Radar 60 dan oshma deyapti, siz bo'lsa to'yga shoshgandek uchasiz! Jarima yo'lda ana!",
+                        "Oylik qayoqqa ketdi deb yurmang tag'in, jarimalarni to'lashga zo'rg'a yetadi bu ketishda!"
+                  ],
+                  "spicy": [
+                        "Iya uka, ko'zingiz qattedi?! Svetofor qizarib bo'ldi, siz gazni bosvurasizmi?!",
+                        "Sizga moshina tugul samakat ham berib bo'lmaydi bu yurishda! Piyodalarga rahmingiz kelsin!",
+                        "Moshinaning burni chorrahaga kirib ketdi-ku! Piyodalar tomidan sakrab o'tsinmi endi?!",
+                        "Tovba qildim, Asakada ming mashaqqat bilan terilgan Cobaltni bir kunda uvol qilasiz-a!",
+                        "Kallani ishlatmaysizmi, birodar?! Avariya qilib qo'yishingizga bir qarich qoldi-ku!"
+                  ]
+            }
+      },
+      "toshkent": {
+            "id": "toshkent",
+            "name": "Rustam aka",
+            "regionName": "Toshkent",
+            "sub": "Toshkent • Chilonzor avtomaktabi",
+            "badge": "Chilonzor probkalari ustasi",
+            "tagline": "Poytaxt probkalari ustasi — Chilonzor ko'chalari kinoyasi va haqiqiy shahar shafyori tili bilan.",
+            "quotes": {
+                  "mild": "Sekinroq uka. Toshkent ko'chalari keng bo'lgani bilan, kameralar har burchakda turibdi, qoidani buzma.",
+                  "med": "Eee bratiwka, nima qvos?! Chilonzor probkasida qolib ketmagan bo'sen hali haydovchiman dema! Stop-liniyani ezvordiz-ku!",
+                  "medium": "Eee bratiwka, nima qvos?! Chilonzor probkasida qolib ketmagan bo'sen hali haydovchiman dema! Stop-liniyani ezvordiz-ku!",
+                  "spicy": "Eee uka, Yunusobodga yetmasdan moshinani jarima maydonchasiga tiqasan shekilli bu yurishda?!"
+            },
+            "praises": [
+                  "Chotki! Gap yo'q uka, Toshkenni ko'chasini biladigan bola ekansan!",
+                  "Molodets! Chilonzorda birinchi marta krugdan to'g'ri o'tgan shafyorni ko'rdim!",
+                  "Kallenga balli brat! Amir Temurdagi hamma kameralar senga qarsak chalvotti!",
+                  "O'rto, bitta chipta bersak Toshkent Cityda poygaga chiqsang ham bo'larkan!",
+                  "Mala-des! Hamma qoidani suv qilib ichvorgan ekansan-ku!"
+            ],
+            "roasts": {
+                  "mild": [
+                        "Shoshilmasdan qaren, poytaxtda hamma narsa hisob-kitobli.",
+                        "Svetofor qizilida to'xtash shart bratiwka, kameralar 24 soat ishlayapti.",
+                        "Krugda qoidaga qaren, probka qilib qo'ymela."
+                  ],
+                  "med": [
+                        "Amir Temurdagi yengi radar seni shartta rasmga oldi! Jarima SMS-i keladi hozir, tabriklaymiz!",
+                        "Avtobus yo'lagiga (A-polosa) tiqvoldiz-ku moshinani, bratiwka! 562 ming so'm jarima muborak!",
+                        "Chilonzor metrosining yonida bunaqa burilsang, orqandagi Malibu signal chalib qulog'ingni teshadi!",
+                        "Stop-liniyani ezvordiz-ku, o'rto! Chiziqni ustiga chiqib to'xtash shartmidi?!",
+                        "Pavarotnikni yoqing brat, poytaxtda akkumulyatoringizdan pul yechib olmaydi!",
+                        "Krugda krugdagi moshin ustun-da o'rto, 'man shoshvomman' deb kirvurasanmi?!"
+                  ],
+                  "medium": [
+                        "Amir Temurdagi yengi radar seni shartta rasmga oldi! Jarima SMS-i keladi hozir, tabriklaymiz!",
+                        "Avtobus yo'lagiga (A-polosa) tiqvoldiz-ku moshinani, bratiwka! 562 ming so'm jarima muborak!",
+                        "Chilonzor metrosining yonida bunaqa burilsang, orqandagi Malibu signal chalib qulog'ingni teshadi!",
+                        "Stop-liniyani ezvordiz-ku, o'rto! Chiziqni ustiga chiqib to'xtash shartmidi?!",
+                        "Pavarotnikni yoqing brat, poytaxtda akkumulyatoringizdan pul yechib olmaydi!",
+                        "Krugda krugdagi moshin ustun-da o'rto, 'man shoshvomman' deb kirvurasanmi?!"
+                  ],
+                  "spicy": [
+                        "Kallani ishlat, o'rto! Toshkentda emas, dalada traktor haydagandek yuryapsan!",
+                        "Svetofor qizarib bo'ldi-ku, nimaga qarab turibsan?! Butun Chilonzor signallab yubordi orqangda!",
+                        "Bunaqa yurishda senga poytaxtda pravani faqat tushingda ko'rish qoladi, uka!",
+                        "Chorrahani o'rtasiga tiqilib qolding-ku! Endi orqadagi 50 ta mashina seni 'duo' qilyapti!",
+                        "Tezlik 100 ga chiqdi, lekin kallada aql 20 da qotib qoldi-ku bratiwka!"
+                  ]
+            }
+      },
+      "xorazm": {
+            "id": "xorazm",
+            "name": "Polvon aka",
+            "regionName": "Xorazm",
+            "sub": "Xorazm • Urganch avtomaktabi",
+            "badge": "Urganch va Xiva pahlavoni",
+            "tagline": "Urganch va Xiva yo'llari pahlavoni — jarangdor O'g'uz lahjasi, samimiy qalb va toza Xorazmcha tanbehlar bilan.",
+            "quotes": {
+                  "mild": "Biyoqa qara og'am, shoshilma. Qoidani sekin-sekin o'rgansang, yo'ling ravon bo'ladi, inim.",
+                  "med": "Ie og'am, nima etyansan?! Urganch kruginda bunaqa qilsang moshinni urib olasan-ku! Stop-chiziqni bosma!",
+                  "medium": "Ie og'am, nima etyansan?! Urganch kruginda bunaqa qilsang moshinni urib olasan-ku! Stop-chiziqni bosma!",
+                  "spicy": "Voy dodingni beray og'asi, ko'zing qayoqda yotibdi?! Svetofor qizil yonib duribdi-ku, ne gozni bosyansan?!"
+            },
+            "praises": [
+                  "Bora-kalla og'am! Xosh haydading! Xorazmning eng zo'r shafyori bo'lding-ku!",
+                  "Yashasin inim! Biyoqa qara, to'ppa-to'g'ri! Bitta shirin Xorazm qovuni mendan!",
+                  "Otangga ming balli og'am! Endi Xivagacha go'ngling to'q getaverasan!",
+                  "Qoyil og'asi! Urganch ko'chalarinda senga teng galadigani yo'q!",
+                  "Balli! Mana shunday haydasang, hech qaysi YPX to'xtatmaydi seni!"
+            ],
+            "roasts": {
+                  "mild": [
+                        "Biyoqa qara og'am, qoidani sekin-sekin o'rganish garak.",
+                        "Svetofor qizil yonganda durish garak, inim, shoshilma.",
+                        "Krugdagi moshin birinchi o'tadi, bilyangmi og'asi?"
+                  ],
+                  "med": [
+                        "Ie og'asi, stop-chiziqni bosib getding-ku! YPX noziri biyoqqa galyotir ana!",
+                        "Aylanada kim birinchi o'tadi? Krugga girgan odam-da og'am, bilyangmi?!",
+                        "Pavarotnik yoqish esingdan chiqdimi? Moshinning chirog'i bekorga qo'yilmagan-ku!",
+                        "Yana bitta jarima galyotir, og'am! Pulingni tejab hayda-da!",
+                        "Qizil chiroqqa goz bosma og'asi, moshinda tormoz ham bor-ku!",
+                        "Radar 60 deb duribdi, nega 90 bilan getyansan, to'yga shoshyangmi?!"
+                  ],
+                  "medium": [
+                        "Ie og'asi, stop-chiziqni bosib getding-ku! YPX noziri biyoqqa galyotir ana!",
+                        "Aylanada kim birinchi o'tadi? Krugga girgan odam-da og'am, bilyangmi?!",
+                        "Pavarotnik yoqish esingdan chiqdimi? Moshinning chirog'i bekorga qo'yilmagan-ku!",
+                        "Yana bitta jarima galyotir, og'am! Pulingni tejab hayda-da!",
+                        "Qizil chiroqqa goz bosma og'asi, moshinda tormoz ham bor-ku!",
+                        "Radar 60 deb duribdi, nega 90 bilan getyansan, to'yga shoshyangmi?!"
+                  ],
+                  "spicy": [
+                        "Voy dodingni beray og'asi, senga rulni kim berdi o'zi?! Butun Urganchni oyog'ini osmonga qilasan-ku!",
+                        "Ko'zingni ochsang bo'lmaydimi, inim?! Svetofor qizil yondi, gozni emas tormozni bosish garak edi!",
+                        "Bunday haydasang Xiva darvozasina yetmasdan jarima maydonchasina getasan-ku!",
+                        "Ie og'am, krugda shunday burilsang moshin ag'darilib getadi-ku!",
+                        "Miyang qayoqda qoldi og'asi?! Piyodani bosib getay deding-ku!"
+                  ]
+            }
+      }
+};
+
+    // --- QUESTIONS BANK ---
+    // --- YHQ QUESTION BANK ENGINE (VERIFIED 2024-2026) ---
+    // Fallback if yhq_questions_db.js is not loaded over file protocol
+    const LocalYHQQuestions = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : [
+      {
+        id: 1,
+        ticket: 1,
+        category: "new_2026",
+        categoryName: "2024–2026 Yangi Qoidalar",
+        isNew2026: true,
+        q: "Toshkent shahri, Nukus va viloyatlar markazlaridagi aholi punktlarida transport vositalarining ruxsat etilgan eng yuqori tezligi necha km/soat qilib belgilangan?",
+        options: [
+          "A) 70 km/soat (harakat intensiv bo'lmaganda)",
+          "B) 60 km/soat (Vazirlar Mahkamasi qarori bilan tasdiqlangan)",
+          "C) 65 km/soat (kameralar hisobga olingan holda)",
+          "D) Faqat tirbandlik soatlarida 50 km/soat"
+        ],
+        correct: 1,
+        rule: "YHQ 78-band (yangi tahrir): Toshkent shahri, Nukus shahri va viloyatlar markazlarida tezlik soatiga 60 kilometrdan oshmasligi kerak.",
+        fine: "MJtK 128-3-modda: 1 BHM (375.000 so'm).",
+        explanation: "2023–2024 yildan boshlab poytaxt va viloyat markazlarida tezlik 70 dan 60 km/soatga tushirildi.",
+        svgType: "speed_sign_60"
+      }
+    ];
+
+    let currentQuizList = LocalYHQQuestions;
+    let quizMode = 'ticket'; // 'ticket', 'category', 'exam'
+    let examTimerInterval = null;
+    let examTimeSeconds = 20 * 60; // 20 minutes
+
+    // --- SVG TRAFFIC SITUATION DIAGRAM RENDERER ---
+    function renderQuestionSVG(svgType) {
+      switch(svgType) {
+        case 'speed_sign_60':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <path d="M0,110 L25,110 L25,80 L50,80 L50,110 L80,110 L80,60 L100,60 L100,110 L140,110 L140,75 L170,75 L170,110 L220,110 L220,65 L240,65 L240,110 L300,110 L300,90 L330,90 L330,110 L400,110 L400,180 L0,180 Z" fill="#1E293B"/>
+            <rect y="120" width="400" height="60" fill="#1E293B"/>
+            <line x1="0" y1="150" x2="400" y2="150" stroke="#F8FAFC" stroke-width="2.5" stroke-dasharray="14,12"/>
+            <g transform="translate(180, 130)">
+              <rect x="0" y="4" width="70" height="22" rx="5" fill="#F8FAFC"/>
+              <rect x="15" y="0" width="38" height="12" rx="3" fill="#38BDF8"/>
+              <circle cx="14" cy="24" r="5" fill="#020617"/>
+              <circle cx="56" cy="24" r="5" fill="#020617"/>
+              <text x="35" y="18" fill="#0F172A" font-size="8" font-weight="900" text-anchor="middle">COBALT</text>
+            </g>
+            <g transform="translate(45, 25)">
+              <rect x="33" y="60" width="6" height="55" fill="#64748B"/>
+              <circle cx="36" cy="35" r="34" fill="#DC2626"/>
+              <circle cx="36" cy="35" r="27" fill="#FFFFFF"/>
+              <text x="36" y="46" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle" font-family="sans-serif">60</text>
+            </g>
+            <rect x="175" y="18" width="210" height="32" rx="8" fill="#020617" stroke="#38BDF8" stroke-width="1"/>
+            <text x="280" y="33" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">Toshkent & Viloyatlar markazi</text>
+            <text x="280" y="44" fill="#E2E8F0" font-size="8.5" text-anchor="middle">Aholi punktida max 60 km/soat</text>
+          </svg>`;
+
+        case 'school_zone_30':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="230" y="25" width="140" height="80" rx="4" fill="#1E293B" stroke="#334155"/>
+            <text x="300" y="55" fill="#F59E0B" font-size="11" font-weight="bold" text-anchor="middle">MAKTAB • 300m</text>
+            <rect y="110" width="400" height="70" fill="#1E293B"/>
+            <g transform="translate(170, 110)">
+              <rect x="0" y="0" width="12" height="70" fill="#F8FAFC"/>
+              <rect x="20" y="0" width="12" height="70" fill="#F8FAFC"/>
+              <rect x="40" y="0" width="12" height="70" fill="#F8FAFC"/>
+            </g>
+            <g transform="translate(35, 25)">
+              <rect x="33" y="60" width="6" height="55" fill="#64748B"/>
+              <circle cx="36" cy="35" r="34" fill="#DC2626"/>
+              <circle cx="36" cy="35" r="27" fill="#FFFFFF"/>
+              <text x="36" y="46" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">30</text>
+            </g>
+            <g transform="translate(105, 25)">
+              <polygon points="30,5 60,60 0,60" fill="#DC2626"/>
+              <polygon points="30,16 52,56 8,56" fill="#FFFFFF"/>
+              <text x="30" y="49" font-size="18" text-anchor="middle">🚸</text>
+            </g>
+            <text x="200" y="18" fill="#F59E0B" font-size="10" font-weight="bold" text-anchor="middle">Maktab & Bog'cha: Max 30 km/soat</text>
+          </svg>`;
+
+        case 'bus_lane_A':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="30" width="400" height="140" fill="#1E293B"/>
+            <line x1="0" y1="80" x2="400" y2="80" stroke="#64748B" stroke-dasharray="8,8" stroke-width="2"/>
+            <line x1="0" y1="125" x2="400" y2="125" stroke="#F59E0B" stroke-dasharray="10,6" stroke-width="2.5"/>
+            <text x="60" y="160" fill="#F59E0B" font-size="30" font-weight="900">A</text>
+            <text x="250" y="160" fill="#F59E0B" font-size="30" font-weight="900">A</text>
+            <g transform="translate(130, 130)">
+              <rect width="80" height="30" rx="5" fill="#10B981"/>
+              <rect x="8" y="4" width="64" height="12" rx="2" fill="#E2E8F0"/>
+              <circle cx="18" cy="30" r="5" fill="#020617"/>
+              <circle cx="68" cy="30" r="5" fill="#020617"/>
+              <text x="40" y="24" fill="#064E3B" font-size="8" font-weight="black" text-anchor="middle">AVTOBUS</text>
+            </g>
+            <rect x="80" y="6" width="240" height="20" rx="5" fill="#020617" stroke="#F59E0B" stroke-width="1"/>
+            <text x="200" y="19" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">A-polosa: Jamoat transporti yo'lagi</text>
+          </svg>`;
+
+        case 'scooter_crossing':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="30" width="400" height="55" fill="#334155"/>
+            <rect y="85" width="400" height="45" fill="#065F46"/>
+            <rect y="130" width="400" height="50" fill="#1E293B"/>
+            <g transform="translate(160, 90)">
+              <text x="15" y="28" font-size="24">🛴</text>
+              <rect x="55" y="3" width="90" height="26" rx="6" fill="#020617" stroke="#10B981" stroke-width="1.5"/>
+              <text x="100" y="19" fill="#10B981" font-size="10" font-weight="900" text-anchor="middle">MAX 20 km/s</text>
+            </g>
+            <text x="60" y="68" font-size="24">🚶‍♂️</text>
+            <rect x="70" y="6" width="260" height="20" rx="5" fill="#020617" stroke="#10B981" stroke-width="1"/>
+            <text x="200" y="19" fill="#10B981" font-size="9.5" font-weight="bold" text-anchor="middle">Elektr samakat: Yo'lkada max 20 km/soat</text>
+          </svg>`;
+
+        case 'residential_zone_20':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="40" y="40" width="70" height="60" rx="4" fill="#334155"/>
+            <polygon points="35,40 75,15 115,40" fill="#475569"/>
+            <rect x="280" y="40" width="80" height="60" rx="4" fill="#334155"/>
+            <polygon points="275,40 320,15 365,40" fill="#475569"/>
+            <rect y="110" width="400" height="70" fill="#1E293B"/>
+            <text x="140" y="150" font-size="22">⚽</text>
+            <text x="165" y="145" font-size="20">🏃</text>
+            <g transform="translate(195, 30)">
+              <rect width="36" height="48" rx="4" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="18" y="25" font-size="16" text-anchor="middle">🏡</text>
+              <rect x="6" y="30" width="24" height="14" rx="2" fill="#FFFFFF"/>
+              <text x="18" y="41" fill="#DC2626" font-size="10" font-weight="900" text-anchor="middle">20</text>
+            </g>
+            <rect x="80" y="6" width="240" height="20" rx="5" fill="#020617" stroke="#38BDF8" stroke-width="1"/>
+            <text x="200" y="19" fill="#38BDF8" font-size="9.5" font-weight="bold" text-anchor="middle">Turar joy zonasi (5.38): Max 20 km/soat</text>
+          </svg>`;
+
+        case 'roundabout_priority':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <circle cx="200" cy="95" r="75" fill="#1E293B"/>
+            <circle cx="200" cy="95" r="40" fill="#065F46" stroke="#10B981" stroke-width="2"/>
+            <text x="200" y="99" fill="#A7F3D0" font-size="9" font-weight="black" text-anchor="middle">KRUG</text>
+            <rect x="182" y="0" width="36" height="30" fill="#1E293B"/>
+            <rect x="182" y="150" width="36" height="30" fill="#1E293B"/>
+            <rect x="0" y="77" width="100" height="36" fill="#1E293B"/>
+            <rect x="300" y="77" width="100" height="36" fill="#1E293B"/>
+            <g transform="translate(190, 42)">
+              <rect width="24" height="16" rx="3" fill="#38BDF8"/>
+              <text x="12" y="12" fill="#020617" font-size="8" font-weight="black" text-anchor="middle">A</text>
+            </g>
+            <g transform="translate(188, 155)">
+              <rect width="24" height="16" rx="3" fill="#DC2626"/>
+              <text x="12" y="12" fill="#FFFFFF" font-size="8" font-weight="black" text-anchor="middle">B</text>
+            </g>
+            <rect x="75" y="4" width="250" height="20" rx="5" fill="#020617" stroke="#10B981" stroke-width="1"/>
+            <text x="200" y="17" fill="#10B981" font-size="9.5" font-weight="bold" text-anchor="middle">Krug ichidagi 'A' avtomobil USTUN!</text>
+          </svg>`;
+
+        case 'equal_priority_crossroad':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="50" width="400" height="80" fill="#1E293B"/>
+            <line x1="200" y1="0" x2="200" y2="50" stroke="#64748B" stroke-dasharray="4,4" stroke-width="1.5"/>
+            <line x1="200" y1="130" x2="200" y2="180" stroke="#64748B" stroke-dasharray="4,4" stroke-width="1.5"/>
+            <line x1="0" y1="90" x2="160" y2="90" stroke="#64748B" stroke-dasharray="4,4" stroke-width="1.5"/>
+            <line x1="240" y1="90" x2="400" y2="90" stroke="#64748B" stroke-dasharray="4,4" stroke-width="1.5"/>
+            <g transform="translate(170, 140)">
+              <rect width="22" height="32" rx="4" fill="#EF4444"/>
+              <text x="11" y="20" fill="#FFF" font-size="9" font-weight="900" text-anchor="middle">A</text>
+            </g>
+            <g transform="translate(260, 65)">
+              <rect width="32" height="22" rx="4" fill="#38BDF8"/>
+              <text x="16" y="14" fill="#020617" font-size="9" font-weight="900" text-anchor="middle">B</text>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#38BDF8" stroke-width="1"/>
+            <text x="200" y="19" fill="#38BDF8" font-size="9.5" font-weight="bold" text-anchor="middle">Teng chorraha: O'ng qo'l qoidasi ('B' o'tadi)</text>
+          </svg>`;
+
+        case 'crossroad_left_turn':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="50" width="400" height="80" fill="#1E293B"/>
+            <g transform="translate(170, 135)">
+              <rect width="22" height="32" rx="4" fill="#F8FAFC"/>
+              <text x="11" y="20" fill="#0F172A" font-size="9" font-weight="900" text-anchor="middle">A</text>
+            </g>
+            <path d="M180,130 Q180,90 120,90" stroke="#F59E0B" stroke-width="3" stroke-dasharray="4,4" fill="none"/>
+            <g transform="translate(205, 15)">
+              <rect width="22" height="32" rx="4" fill="#EF4444"/>
+              <text x="11" y="20" fill="#FFF" font-size="9" font-weight="900" text-anchor="middle">B</text>
+            </g>
+            <line x1="216" y1="50" x2="216" y2="150" stroke="#10B981" stroke-width="3" stroke-dasharray="6,4"/>
+            <rect x="65" y="6" width="270" height="20" rx="5" fill="#020617" stroke="#F59E0B" stroke-width="1"/>
+            <text x="200" y="19" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">Chapga burilayotgan 'A' to'g'ridagi 'B'ga yo'l beradi</text>
+          </svg>`;
+
+        case 'traffic_light_red_yellow':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <g transform="translate(60, 20)">
+              <rect width="36" height="96" rx="8" fill="#020617" stroke="#475569" stroke-width="2"/>
+              <circle cx="18" cy="20" r="12" fill="#EF4444"/>
+              <circle cx="18" cy="48" r="12" fill="#F59E0B"/>
+              <circle cx="18" cy="76" r="12" fill="#1E293B"/>
+              <circle cx="18" cy="20" r="16" stroke="#EF4444" stroke-width="2" opacity="0.6"/>
+              <circle cx="18" cy="48" r="16" stroke="#F59E0B" stroke-width="2" opacity="0.6"/>
+            </g>
+            <rect y="125" width="400" height="55" fill="#1E293B"/>
+            <line x1="160" y1="125" x2="160" y2="180" stroke="#FFFFFF" stroke-width="5"/>
+            <text x="155" y="120" fill="#FFFFFF" font-size="8" font-weight="bold" text-anchor="end">STOP-LINIYA</text>
+            <g transform="translate(190, 135)">
+              <rect width="60" height="24" rx="4" fill="#38BDF8"/>
+              <text x="30" y="16" fill="#020617" font-size="8" font-weight="bold" text-anchor="middle">KUTMOQDA</text>
+            </g>
+            <rect x="120" y="25" width="260" height="50" rx="8" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="250" y="45" fill="#EF4444" font-size="11" font-weight="black" text-anchor="middle">QIZIL + SARIQ = TAQIQLANADI!</text>
+            <text x="250" y="62" fill="#E2E8F0" font-size="9" text-anchor="middle">Hali harakat boshlanmaydi, kutiladi</text>
+          </svg>`;
+
+        case 'police_regulator_chest':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="50" width="400" height="80" fill="#1E293B"/>
+            <g transform="translate(185, 75)">
+              <circle cx="15" cy="8" r="7" fill="#FBBF24"/>
+              <rect x="7" y="15" width="16" height="22" rx="3" fill="#1E3A8A"/>
+              <line x1="-15" y1="20" x2="45" y2="20" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round"/>
+              <line x1="45" y1="20" x2="60" y2="10" stroke="#EF4444" stroke-width="3"/>
+            </g>
+            <g transform="translate(170, 140)">
+              <rect width="22" height="32" rx="4" fill="#F8FAFC"/>
+              <text x="11" y="20" fill="#0F172A" font-size="8" font-weight="900" text-anchor="middle">STOP</text>
+            </g>
+            <line x1="140" y1="110" x2="260" y2="110" stroke="#EF4444" stroke-width="3" stroke-dasharray="4,4"/>
+            <rect x="50" y="6" width="300" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="200" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Tartibga soluvchining ko'kragi va orqasi — DEVOR (STOP)</text>
+          </svg>`;
+
+        case 'sign_yield_2_4':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="70" fill="#1E293B"/>
+            <line x1="0" y1="75" x2="400" y2="75" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="8,8"/>
+            <rect x="160" y="110" width="70" height="70" fill="#1E293B"/>
+            <g transform="translate(90, 80)">
+              <rect x="22" y="35" width="6" height="40" fill="#64748B"/>
+              <polygon points="25,50 0,5 50,5" fill="#DC2626"/>
+              <polygon points="25,42 7,12 43,12" fill="#FFFFFF"/>
+            </g>
+            <g transform="translate(175, 135)">
+              <rect width="22" height="32" rx="4" fill="#38BDF8"/>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#F59E0B" stroke-width="1"/>
+            <text x="200" y="19" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">2.4 'Yo'l bering' — bo'sh bo'lsa to'xtamasdan o'tish mumkin</text>
+          </svg>`;
+
+        case 'stop_line_crossing':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="140" fill="#1E293B"/>
+            <line x1="180" y1="40" x2="180" y2="180" stroke="#FFFFFF" stroke-width="8"/>
+            <text x="170" y="30" fill="#FFFFFF" font-size="9" font-weight="bold" text-anchor="end">1.12 STOP-LINIYA</text>
+            <g transform="translate(160, 85)">
+              <rect width="70" height="28" rx="5" fill="#EF4444"/>
+              <circle cx="15" cy="28" r="6" fill="#020617"/>
+              <circle cx="55" cy="28" r="6" fill="#020617"/>
+              <text x="35" y="18" fill="#FFF" font-size="8" font-weight="bold" text-anchor="middle">BOSIB O'TDI</text>
+            </g>
+            <g transform="translate(260, 50)">
+              <text x="0" y="25" font-size="24">📸</text>
+              <rect x="35" y="5" width="95" height="26" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+              <text x="82" y="21" fill="#EF4444" font-size="8.5" font-weight="bold" text-anchor="middle">JARIMA: 0.5 BHM</text>
+            </g>
+            <rect x="70" y="6" width="260" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="200" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Stop-liniyani bosish qizil chiroqda jarimaga sabab bo'ladi</text>
+          </svg>`;
+
+        case 'turn_signal_maneuver':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="130" fill="#1E293B"/>
+            <line x1="0" y1="105" x2="400" y2="105" stroke="#64748B" stroke-dasharray="10,10" stroke-width="2"/>
+            <g transform="translate(140, 115)">
+              <rect width="65" height="26" rx="5" fill="#F8FAFC"/>
+              <polygon points="55,0 70,-10 65,5" fill="#F59E0B"/>
+              <circle cx="60" cy="2" r="5" fill="#F59E0B"/>
+              <text x="30" y="17" fill="#020617" font-size="8" font-weight="bold" text-anchor="middle">PAVAROTNIK</text>
+            </g>
+            <path d="M210,128 Q260,110 300,75" stroke="#F59E0B" stroke-width="3" stroke-dasharray="4,4" fill="none"/>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#F59E0B" stroke-width="1"/>
+            <text x="200" y="19" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">Burilish signali manevr boshlanishidan OLDIN yoqiladi</text>
+          </svg>`;
+
+        case 'no_overtaking_zone':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="130" fill="#1E293B"/>
+            <line x1="0" y1="102" x2="400" y2="102" stroke="#FFFFFF" stroke-width="2"/>
+            <line x1="0" y1="107" x2="400" y2="107" stroke="#FFFFFF" stroke-width="2"/>
+            <g transform="translate(45, 10)">
+              <circle cx="25" cy="25" r="22" fill="#DC2626"/>
+              <circle cx="25" cy="25" r="17" fill="#FFFFFF"/>
+              <rect x="13" y="20" width="10" height="6" rx="1" fill="#DC2626"/>
+              <rect x="27" y="20" width="10" height="6" rx="1" fill="#020617"/>
+            </g>
+            <g transform="translate(180, 55)">
+              <rect width="55" height="22" rx="4" fill="#EF4444"/>
+              <text x="27" y="14" fill="#FFF" font-size="7.5" font-weight="bold" text-anchor="middle">QUVMOQDA ✖</text>
+            </g>
+            <rect x="110" y="6" width="260" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="240" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Piyodalar o'tish joyida quvib o'tish TAQIQLANADI</text>
+          </svg>`;
+
+        case 'parking_intersection_5m':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="160" y="0" width="80" height="180" fill="#1E293B"/>
+            <rect x="0" y="60" width="160" height="70" fill="#1E293B"/>
+            <line x1="160" y1="130" x2="160" y2="175" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,4"/>
+            <text x="145" y="155" fill="#EF4444" font-size="10" font-weight="bold" text-anchor="end">5 METR</text>
+            <g transform="translate(170, 140)">
+              <rect width="20" height="30" rx="4" fill="#EF4444"/>
+              <text x="10" y="18" fill="#FFF" font-size="8" font-weight="bold" text-anchor="middle">✖</text>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="200" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Chorrahaga 5 metrdan yaqin to'xtash TAQIQLANADI</text>
+          </svg>`;
+
+        case 'bus_stop_parking_15m':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect y="40" width="400" height="130" fill="#1E293B"/>
+            <g transform="translate(185, 20)">
+              <rect width="30" height="40" rx="3" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+              <rect x="5" y="10" width="20" height="16" rx="2" fill="#FFFFFF"/>
+              <text x="15" y="23" font-size="12" text-anchor="middle">🚌</text>
+            </g>
+            <line x1="60" y1="90" x2="180" y2="90" stroke="#F59E0B" stroke-width="2"/>
+            <line x1="220" y1="90" x2="340" y2="90" stroke="#F59E0B" stroke-width="2"/>
+            <text x="120" y="85" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">15 METR</text>
+            <text x="280" y="85" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">15 METR</text>
+            <rect x="60" y="125" width="280" height="15" fill="#F59E0B" opacity="0.3"/>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#F59E0B" stroke-width="1"/>
+            <text x="200" y="19" fill="#F59E0B" font-size="9" font-weight="bold" text-anchor="middle">Bekatdan har ikki tomonga kamida 15 metr masofa shart</text>
+          </svg>`;
+
+        case 'phone_driving_fine':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <circle cx="120" cy="110" r="60" stroke="#475569" stroke-width="12" fill="none"/>
+            <g transform="translate(100, 75)">
+              <rect width="26" height="46" rx="5" fill="#020617" stroke="#38BDF8" stroke-width="2"/>
+              <rect x="4" y="6" width="18" height="30" fill="#38BDF8" opacity="0.4"/>
+              <text x="13" y="24" font-size="14" text-anchor="middle">📱</text>
+            </g>
+            <circle cx="113" cy="98" r="35" stroke="#DC2626" stroke-width="5" fill="none"/>
+            <line x1="88" y1="73" x2="138" y2="123" stroke="#DC2626" stroke-width="5"/>
+            <g transform="translate(200, 50)">
+              <rect width="180" height="65" rx="8" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+              <text x="90" y="25" fill="#EF4444" font-size="11" font-weight="black" text-anchor="middle">MJtK 128-1-MODDA</text>
+              <text x="90" y="44" fill="#FFFFFF" font-size="13" font-weight="black" text-anchor="middle">3 BHM (1.125.000 so'm)</text>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="200" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Rulda qo'lda telefon ishlatish — 3 BHM jarima</text>
+          </svg>`;
+
+        case 'radar_tolerance_5km':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <g transform="translate(50, 40)">
+              <rect x="18" y="40" width="8" height="70" fill="#64748B"/>
+              <rect width="44" height="40" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+              <circle cx="22" cy="20" r="10" fill="#020617" stroke="#EF4444" stroke-width="2"/>
+              <text x="22" y="24" font-size="12" text-anchor="middle">📸</text>
+            </g>
+            <g transform="translate(130, 40)">
+              <rect width="240" height="75" rx="8" fill="#020617" stroke="#38BDF8" stroke-width="1.5"/>
+              <text x="120" y="24" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">Radar Texnik Xatoligi Chegirmasi</text>
+              <text x="120" y="46" fill="#F8FAFC" font-size="13" font-weight="black" text-anchor="middle">66 km/soat - 5 km/soat = 61 km/soat</text>
+              <text x="120" y="64" fill="#EF4444" font-size="9.5" font-weight="bold" text-anchor="middle">Limit: 60 ➔ 1 km/soat oshgani uchun 1 BHM</text>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#38BDF8" stroke-width="1"/>
+            <text x="200" y="19" fill="#38BDF8" font-size="9" font-weight="bold" text-anchor="middle">Fotoradar tezlikdan 5 km/soat xatolikni chegirib tashlaydi</text>
+          </svg>`;
+
+        case 'child_seat_safety':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="40" y="30" width="120" height="130" rx="12" fill="#1E293B" stroke="#475569" stroke-width="2"/>
+            <g transform="translate(60, 45)">
+              <rect width="80" height="95" rx="10" fill="#2563EB"/>
+              <text x="40" y="45" font-size="28" text-anchor="middle">👶</text>
+              <path d="M25,20 L40,65 L55,20" stroke="#F59E0B" stroke-width="3" fill="none"/>
+              <line x1="20" y1="65" x2="60" y2="65" stroke="#F59E0B" stroke-width="3"/>
+              <rect x="35" y="60" width="10" height="10" rx="2" fill="#DC2626"/>
+            </g>
+            <g transform="translate(190, 45)">
+              <rect width="180" height="75" rx="8" fill="#020617" stroke="#10B981" stroke-width="1.5"/>
+              <text x="90" y="25" fill="#10B981" font-size="11" font-weight="black" text-anchor="middle">YHQ 159-BAND TALABI</text>
+              <text x="90" y="45" fill="#FFFFFF" font-size="10" font-weight="bold" text-anchor="middle">12 yoshgacha bolalar</text>
+              <text x="90" y="62" fill="#F59E0B" font-size="9" text-anchor="middle">Old o'rindiqda FAQAT avtokresloda</text>
+            </g>
+            <rect x="60" y="6" width="280" height="20" rx="5" fill="#020617" stroke="#10B981" stroke-width="1"/>
+            <text x="200" y="19" fill="#10B981" font-size="9" font-weight="bold" text-anchor="middle">Bolalar xavfsizlik o'rindig'i (avtokreslo) shart</text>
+          </svg>`;
+
+        case 'medical_firstaid_tourniquet':
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <g transform="translate(50, 40)">
+              <circle cx="35" cy="35" r="32" fill="#DC2626"/>
+              <rect x="28" y="15" width="14" height="40" rx="2" fill="#FFFFFF"/>
+              <rect x="15" y="28" width="40" height="14" rx="2" fill="#FFFFFF"/>
+            </g>
+            <g transform="translate(150, 40)">
+              <rect width="210" height="85" rx="8" fill="#020617" stroke="#EF4444" stroke-width="1.5"/>
+              <text x="105" y="24" fill="#EF4444" font-size="11" font-weight="black" text-anchor="middle">JGUT (REZINA TASMA) MUDDATI</text>
+              <text x="105" y="48" fill="#10B981" font-size="13" font-weight="black" text-anchor="middle">☀️ Yozda: MAX 1 SOAT</text>
+              <text x="105" y="68" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">❄️ Qishda: MAX 30 DAQIQA</text>
+            </g>
+            <rect x="50" y="6" width="300" height="20" rx="5" fill="#020617" stroke="#EF4444" stroke-width="1"/>
+            <text x="200" y="19" fill="#EF4444" font-size="9" font-weight="bold" text-anchor="middle">Jgut ostiga qo'yilgan aniq vaqt yozilgan qog'oz qistiriladi</text>
+          </svg>`;
+
+        default:
+          return `<svg class="w-full h-full" viewBox="0 0 400 180" fill="none">
+            <rect width="400" height="180" fill="#0F172A"/>
+            <rect x="150" y="0" width="100" height="180" fill="#1E293B"/>
+            <rect x="0" y="50" width="400" height="80" fill="#1E293B"/>
+            <line x1="200" y1="0" x2="200" y2="50" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="6,6"/>
+            <line x1="200" y1="130" x2="200" y2="180" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="6,6"/>
+            <line x1="0" y1="90" x2="150" y2="90" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="6,6"/>
+            <line x1="250" y1="90" x2="400" y2="90" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="6,6"/>
+            <g transform="translate(165, 135)">
+              <rect width="26" height="36" rx="5" fill="#F8FAFC"/>
+              <text x="13" y="22" fill="#0F172A" font-size="10" font-weight="900" text-anchor="middle">A</text>
+            </g>
+            <g transform="translate(280, 65)">
+              <rect width="36" height="26" rx="5" fill="#DC2626"/>
+              <text x="18" y="17" fill="#FFFFFF" font-size="10" font-weight="900" text-anchor="middle">B</text>
+            </g>
+            <rect x="100" y="8" width="200" height="22" rx="5" fill="#020617" stroke="#38BDF8" stroke-width="1"/>
+            <text x="200" y="23" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">YHQ Vaziyati</text>
+          </svg>`;
+      }
+    }
+// --- TAB SWITCHING ---
+    function switchTab(tabId) {
+      state.activeTab = tabId;
+      ['map', 'race', 'garage', 'store'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const navBtn = document.getElementById(`nav-${t}`);
+        navBtn.className = "flex flex-col items-center py-1 px-3 rounded-xl text-slate-400 hover:text-white transition";
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      activeNav.className = "flex flex-col items-center py-1 px-3 rounded-xl text-emerald-400 font-bold transition";
+    }
+
+    // --- SARCASM / MOOD SWITCHER ---
+    function setSarcasm(level) {
+      state.sarcasm = level;
+      ['mild', 'med', 'spicy'].forEach(l => {
+        const btn = document.getElementById(`sarcasm-${l}`);
+        if (btn) btn.className = "px-2 py-1 rounded-lg text-[10px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap";
+      });
+      if (level === 'mild') {
+        const btn = document.getElementById('sarcasm-mild');
+        if (btn) btn.className = "px-2 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition whitespace-nowrap shadow-sm";
+      } else if (level === 'medium' || level === 'med') {
+        const btn = document.getElementById('sarcasm-med');
+        if (btn) btn.className = "px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition whitespace-nowrap shadow-sm";
+      } else if (level === 'spicy') {
+        const btn = document.getElementById('sarcasm-spicy');
+        if (btn) btn.className = "px-2 py-1 rounded-lg text-[10px] font-bold bg-red-500/20 text-red-300 border border-red-500/40 transition whitespace-nowrap shadow-sm";
+      }
+
+      // Update mascot mood icon badge
+      const moodBadge = document.getElementById('mascot-mood-badge');
+      if (moodBadge) {
+        if (level === 'mild') moodBadge.innerText = '🍵';
+        else if (level === 'spicy') moodBadge.innerText = '🔥';
+        else moodBadge.innerText = '☕';
+      }
+
+      // Dynamic quote based on current regional instructor
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const key = (level === 'med') ? 'medium' : level;
+      document.getElementById('shokir-quote').innerText = inst.quotes[key] || inst.quotes.medium;
+
+      const mascotImg = document.getElementById('mascot-img');
+      if (mascotImg) {
+        if (level === 'spicy') {
+          mascotImg.src = 'assets/mascot/shokir_angry.jpg';
+        } else {
+          mascotImg.src = 'assets/mascot/shokir_default.jpg';
+        }
+      }
+    }
+
+    // --- REGIONAL INSTRUCTOR SELECTION ---
+    function selectInstructorRegion(reg) {
+      state.region = reg;
+      const inst = InstructorsDB[reg] || InstructorsDB.andijon;
+
+      // Update region button styles in onboarding modal
+      ['andijon', 'toshkent', 'xorazm'].forEach(r => {
+        const b = document.getElementById(`proto-reg-${r}`);
+        if (b) {
+          if (r === reg) {
+            b.className = "p-2 rounded-xl text-center border-2 border-amber-500/80 bg-amber-500/15 text-white transition shadow-md";
+            const nameSpan = b.querySelector('.text-\\[11px\\]');
+            if (nameSpan) nameSpan.className = "text-[11px] font-black text-amber-300";
+          } else {
+            b.className = "p-2 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition";
+            const nameSpan = b.querySelector('.text-\\[11px\\]');
+            if (nameSpan) nameSpan.className = "text-[11px] font-bold text-slate-300";
+          }
+        }
+      });
+
+      // Update modal header info
+      const subEl = document.getElementById('proto-onboard-sub');
+      if (subEl) subEl.innerText = inst.sub;
+      const titleEl = document.getElementById('proto-onboard-title');
+      if (titleEl) {
+        if (reg === 'andijon') titleEl.innerText = "Shokir aka (30 yillik ustoz)";
+        else if (reg === 'toshkent') titleEl.innerText = "Rustam aka (Poytaxt ustozi)";
+        else titleEl.innerText = "Polvon aka (Urganch ustozi)";
+      }
+
+      // Update modal preview cards with authentic dialect quotes
+      const prevTitleMed = document.getElementById('preview-title-med');
+      if (prevTitleMed) prevTitleMed.innerText = `${inst.name} (${inst.regionName}cha)`;
+      const prevDescMed = document.getElementById('preview-desc-med');
+      if (prevDescMed) prevDescMed.innerText = inst.tagline;
+
+      const quoteMild = document.getElementById('preview-quote-mild');
+      if (quoteMild) quoteMild.innerText = inst.quotes.mild;
+      const quoteMed = document.getElementById('preview-quote-med');
+      if (quoteMed) quoteMed.innerText = inst.quotes.medium;
+      const quoteSpicy = document.getElementById('preview-quote-spicy');
+      if (quoteSpicy) quoteSpicy.innerText = inst.quotes.spicy;
+
+      // Update main screen instructor card
+      updateInstructorUI();
+      AudioEngine.playHonk();
+    }
+
+    function updateInstructorUI() {
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const nameEl = document.getElementById('instructor-name');
+      if (nameEl) nameEl.innerText = inst.name;
+      const regPill = document.getElementById('instructor-region-pill');
+      if (regPill) regPill.innerText = inst.regionName;
+      const badgeEl = document.getElementById('instructor-badge');
+      if (badgeEl) {
+        const subPart = inst.sub.split('•')[1]?.trim() || inst.badge;
+        badgeEl.innerHTML = `<span>${subPart}</span> <span class="text-amber-400 text-[8px] font-semibold underline">✎ almashtirish</span>`;
+      }
+
+      const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
+      const quote = inst.quotes[moodKey] || inst.quotes.medium;
+      const quoteEl = document.getElementById('shokir-quote');
+      if (quoteEl) quoteEl.innerText = quote;
+    }
+
+    function openWelcomeModal() {
+      const modal = document.getElementById('welcome-mood-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function playRandomRoast() {
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
+      const roasts = inst.roasts[moodKey] || inst.roasts.medium;
+      const r = roasts[Math.floor(Math.random() * roasts.length)];
+      document.getElementById('shokir-quote').innerText = `"${formatInstructorSpeech(r)}"`;
+      AudioEngine.playHonk();
+    }
+
+    // --- ONBOARDING MOOD SELECTION (FIRST OPEN) ---
+    let selectedProtoMood = 'medium';
+
+    function selectOnboardingMood(mood) {
+      selectedProtoMood = mood;
+      ['mild', 'med', 'spicy'].forEach(m => {
+        const card = document.getElementById(`proto-onboard-${m}`);
+        if (card) card.className = "cursor-pointer p-3.5 rounded-2xl border border-slate-750 bg-slate-850/60 hover:bg-slate-800 transition flex items-start space-x-3";
+      });
+      const activeCard = document.getElementById(`proto-onboard-${mood === 'medium' ? 'med' : mood}`);
+      if (mood === 'mild') {
+        AudioEngine.playCoin();
+        if (activeCard) activeCard.className = "cursor-pointer p-3.5 rounded-2xl border-2 border-emerald-500/80 bg-emerald-500/15 transition flex items-start space-x-3 shadow-xl";
+      } else if (mood === 'medium' || mood === 'med') {
+        AudioEngine.playHonk();
+        if (activeCard) activeCard.className = "cursor-pointer p-3.5 rounded-2xl border-2 border-amber-500/80 bg-amber-500/15 transition flex items-start space-x-3 shadow-xl";
+      } else if (mood === 'spicy') {
+        AudioEngine.playSiren();
+        if (activeCard) activeCard.className = "cursor-pointer p-3.5 rounded-2xl border-2 border-red-500/80 bg-red-500/15 transition flex items-start space-x-3 shadow-xl";
+      }
+    }
+
+    function confirmOnboardingMood() {
+      try { setSarcasm(selectedProtoMood); } catch(e) {}
+      try { updateInstructorUI(); } catch(e) {}
+      try { AudioEngine.playHonk(); } catch(e) {}
+      const modal = document.getElementById('welcome-mood-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+    }
+
+    function openLegalModal() {
+      const modal = document.getElementById('legal-sources-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function closeLegalModal() {
+      const modal = document.getElementById('legal-sources-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+    }
+
+    function closeWelcomeModal() {
+      const modal = document.getElementById('welcome-mood-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+    }
+
+    // --- STUDY MODES & QUIZ CONTROLLER ---
+    function switchStudyMode(mode) {
+      ['highway', 'topics', 'exam'].forEach(m => {
+        const btn = document.getElementById(`mode-btn-${m}`);
+        const view = document.getElementById(`study-view-${m}`);
+        if (btn) btn.className = "py-2 px-1 text-center rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center space-x-1";
+        if (view) view.classList.add('hidden');
+      });
+      const activeBtn = document.getElementById(`mode-btn-${mode}`);
+      const activeView = document.getElementById(`study-view-${mode}`);
+      if (activeBtn) activeBtn.className = "py-2 px-1 text-center rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition flex items-center justify-center space-x-1";
+      if (activeView) activeView.classList.remove('hidden');
+      AudioEngine.playCoin();
+    }
+
+    function startLevel(lvlId) {
+      quizMode = 'ticket';
+      currentQuizList = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
+      state.quizIndex = 0;
+      state.mistakesCount = 0;
+      document.getElementById('quiz-mode-tag').innerText = `Bosqich ${lvlId} • Bilet`;
+      document.getElementById('quiz-modal').classList.remove('hidden');
+      startExamTimer(15 * 60);
+      loadQuestion();
+    }
+
+    function startCategoryQuiz(catId) {
+      quizMode = 'category';
+      const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
+      currentQuizList = allQ.filter(q => q.category === catId);
+      if (currentQuizList.length === 0) currentQuizList = allQ;
+      state.quizIndex = 0;
+      state.mistakesCount = 0;
+      document.getElementById('quiz-mode-tag').innerText = "Mavzu Mashg'uloti";
+      document.getElementById('quiz-modal').classList.remove('hidden');
+      startExamTimer(10 * 60);
+      loadQuestion();
+    }
+
+    function startExamMode() {
+      quizMode = 'exam';
+      const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
+      // Shuffle questions
+      currentQuizList = [...allQ].sort(() => Math.random() - 0.5);
+      state.quizIndex = 0;
+      state.mistakesCount = 0;
+      document.getElementById('quiz-mode-tag').innerText = "DYP Rasmiy Imtihon";
+      document.getElementById('quiz-modal').classList.remove('hidden');
+      startExamTimer(20 * 60);
+      loadQuestion();
+    }
+
+    function startExamTimer(seconds) {
+      clearInterval(examTimerInterval);
+      examTimeSeconds = seconds;
+      updateTimerDisplay();
+      examTimerInterval = setInterval(() => {
+        examTimeSeconds--;
+        updateTimerDisplay();
+        if (examTimeSeconds <= 0) {
+          clearInterval(examTimerInterval);
+          alert("Vaqt tugadi! Imtihon yakunlandi.");
+          closeQuiz();
+          showExamResult(false);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(examTimeSeconds / 60);
+      const s = examTimeSeconds % 60;
+      const str = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      const el = document.getElementById('quiz-timer-txt');
+      if (el) el.innerText = str;
+    }
+
+    function loadQuestion() {
+      const q = currentQuizList[state.quizIndex];
+      document.getElementById('q-current').innerText = state.quizIndex + 1;
+      document.getElementById('q-total').innerText = currentQuizList.length;
+      document.getElementById('q-text').innerText = q.q;
+      document.getElementById('q-category-pill').innerText = q.categoryName || "YHQ Qoidalari";
+      
+      const newTag = document.getElementById('q-new-tag');
+      if (newTag) {
+        if (q.isNew2026) newTag.classList.remove('hidden');
+        else newTag.classList.add('hidden');
+      }
+
+      document.getElementById('feedback-box').classList.add('hidden');
+      document.getElementById('quiz-mistakes-badge').innerText = `${state.mistakesCount} / 2 xato`;
+
+      // Render Dynamic Traffic SVG
+      const svgWrapper = document.getElementById('svg-diagram-wrapper');
+      if (svgWrapper) {
+        svgWrapper.innerHTML = renderQuestionSVG(q.svgType || 'default');
+      }
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "option-btn w-full text-left bg-cardbg hover:bg-slate-800 border border-slate-800 p-3 rounded-xl text-xs text-slate-200 transition flex items-center justify-between";
+        btn.innerHTML = `<span>${opt}</span><span class="text-slate-500 text-xs">0${idx+1}</span>`;
+        btn.onclick = () => handleAnswer(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(choiceIdx) {
+      const q = currentQuizList[state.quizIndex];
+      const fbBox = document.getElementById('feedback-box');
+      const isCorrect = choiceIdx === q.correct;
+      fbBox.classList.remove('hidden');
+
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+
+      if (isCorrect) {
+        AudioEngine.playSuccess();
+        fbBox.className = "mt-4 p-3.5 rounded-2xl border border-emerald-500/40 bg-emerald-950/20";
+        document.getElementById('fb-avatar-wrap').className = "w-14 h-14 rounded-2xl overflow-hidden border-2 border-emerald-500/50 shrink-0 shadow-lg bg-slate-900";
+        document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_default.jpg";
+        document.getElementById('fb-title').innerText = `To'g'ri javob! (${inst.name})`;
+        document.getElementById('fb-title').className = "font-bold text-xs text-emerald-400";
+        document.getElementById('fb-fine').innerText = "+100 XP";
+        document.getElementById('fb-fine').className = "text-[11px] font-bold text-emerald-400";
+        
+        const praise = inst.praises[Math.floor(Math.random() * inst.praises.length)];
+        document.getElementById('fb-roast').innerText = `"${praise}"`;
+        document.getElementById('shokir-quote').innerText = `"${praise}"`;
+      } else {
+        // WRONG ANSWER
+        AudioEngine.playHonk();
+        setTimeout(() => AudioEngine.playSiren(), 300);
+
+        state.mistakesCount++;
+        state.wallet = Math.max(0, state.wallet - 150000);
+        state.carHealth = Math.max(10, state.carHealth - 15);
+        updateHeaderStats();
+
+        fbBox.className = "mt-4 p-3.5 rounded-2xl border border-red-500/40 bg-red-950/30 shake-anim";
+        document.getElementById('fb-avatar-wrap').className = "w-14 h-14 rounded-2xl overflow-hidden border-2 border-red-500/50 shrink-0 shadow-lg bg-slate-900";
+        if (state.sarcasm === 'spicy') {
+          document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_angry.jpg";
+        } else {
+          document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_facepalm.jpg";
+        }
+        document.getElementById('fb-title').innerText = `Noto'g'ri, uka! (${inst.name})`;
+        document.getElementById('fb-title').className = "font-bold text-xs text-red-400";
+        document.getElementById('fb-fine').innerText = "-150,000 UZS JARIMA";
+        document.getElementById('fb-fine').className = "text-[11px] font-bold text-red-400";
+
+        const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
+        const roasts = inst.roasts[moodKey] || inst.roasts.medium;
+        const roast = roasts[Math.floor(Math.random() * roasts.length)];
+        document.getElementById('fb-roast').innerText = `"${roast}"`;
+        document.getElementById('shokir-quote').innerText = `"${roast}"`;
+      }
+
+      document.getElementById('fb-rule').innerText = q.rule;
+      const fineEl = document.getElementById('fb-fine-article');
+      if (fineEl) fineEl.innerText = q.fine || "";
+
+      // Disable all option buttons
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        if (i === q.correct) b.classList.add('border-emerald-500', 'bg-emerald-950/40');
+        else if (i === choiceIdx && !isCorrect) b.classList.add('border-red-500', 'bg-red-950/40');
+      });
+
+      // Strict Exam Mode Rule: 3 mistakes = Immediate Fail
+      if (quizMode === 'exam' && state.mistakesCount > 2) {
+        setTimeout(() => {
+          closeQuiz();
+          showExamResult(false);
+        }, 1300);
+      }
+    }
+
+    function nextQuestion() {
+      if (state.quizIndex < currentQuizList.length - 1) {
+        state.quizIndex++;
+        loadQuestion();
+      } else {
+        closeQuiz();
+        const passed = state.mistakesCount <= 2;
+        showExamResult(passed);
+      }
+    }
+
+    function closeQuiz() {
+      clearInterval(examTimerInterval);
+      document.getElementById('quiz-modal').classList.add('hidden');
+    }
+
+    function showExamResult(isPass) {
+      const modal = document.getElementById('exam-result-modal');
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+
+      const scoreStr = `${currentQuizList.length - state.mistakesCount}/${currentQuizList.length}`;
+      document.getElementById('exam-res-score').innerText = scoreStr;
+      document.getElementById('exam-res-mistakes').innerText = `${state.mistakesCount} ta (max 2)`;
+      
+      const totalSec = (20 * 60) - examTimeSeconds;
+      const m = Math.floor(Math.max(0, totalSec) / 60);
+      const s = Math.max(0, totalSec) % 60;
+      document.getElementById('exam-res-time').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+      const carName = (typeof FullToyCars !== "undefined" && FullToyCars[state.selectedCar]) ? FullToyCars[state.selectedCar].name : "Chevrolet Cobalt";
+      const protoCard = document.getElementById('viral-protocol-card');
+      const certCard = document.getElementById('viral-certificate-card');
+      const shareBtnText = document.getElementById('btn-share-tg-text');
+
+      if (isPass) {
+        AudioEngine.playSuccess();
+        document.getElementById('exam-res-icon').innerText = "🏆";
+        document.getElementById('exam-res-title').innerText = "IMTIHONDAN O'TDINGIZ!";
+        document.getElementById('exam-res-title').className = "text-lg font-black text-emerald-400";
+        document.getElementById('exam-res-sub').innerText = "Tabriklaymiz! Siz DYP rasmiy imtihon talabini a'lo bajardingiz.";
+
+        certCard.classList.remove('hidden');
+        protoCard.classList.add('hidden');
+
+        document.getElementById('cert-score-display').innerText = `${scoreStr} to'g'ri (A'lo)`;
+        document.getElementById('cert-inst-name').innerText = `${inst.name} (${inst.regionName}):`;
+        document.getElementById('cert-verdict-quote').innerText = (inst.praises && inst.praises[0]) ? inst.praises[0] : `"Otangga rahmat! Yangi ${carName}ga bemalol o'tiravering!"`;
+        shareBtnText.innerText = "Do'stlarni Challenj Qilish (Oltin Sertifikat)";
+      } else {
+        AudioEngine.playHonk();
+        setTimeout(() => AudioEngine.playSiren(), 300);
+        document.getElementById('exam-res-icon').innerText = "🤦‍♂️";
+        document.getElementById('exam-res-title').innerText = "IMTIHONDAN YIQILDINGIZ!";
+        document.getElementById('exam-res-title').className = "text-lg font-black text-red-400";
+        document.getElementById('exam-res-sub').innerText = "3 ta xato tufayli imtihon to'xtatildi. Qoidalarni takrorlash kerak.";
+
+        protoCard.classList.remove('hidden');
+        certCard.classList.add('hidden');
+
+        document.getElementById('proto-car-name').innerText = carName;
+        document.getElementById('proto-mistakes-count').innerText = `${state.mistakesCount} ta xato (Imtihon bekor qilindi)`;
+        document.getElementById('proto-inst-name').innerText = `${inst.name} (${inst.regionName}):`;
+        document.getElementById('proto-verdict-quote').innerText = (inst.quotes && (inst.quotes.spicy || inst.quotes.med)) ? (inst.quotes.spicy || inst.quotes.med) : `"Hov uka, svetoforni ko'rmasangiz ${carName}ni ezib tashlaysiz-ku! 6 oy piyoda yurasiz!"`;
+        shareBtnText.innerText = "Do'stimga Yuborib Ustidan Kulish 😂";
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeExamResultModal() {
+      document.getElementById('exam-result-modal').classList.add('hidden');
+    }
+
+    // --- VIRAL SHARING: TELEGRAM CHAT / STORY / CANVAS ---
+    function shareExamResultTelegram() {
+      const isPass = state.mistakesCount <= 2;
+      const score = `${currentQuizList.length - state.mistakesCount}/${currentQuizList.length}`;
+      let text = "";
+      if (isPass) {
+        text = `🏆 Shokir aka menga prava berdi! ShopirGo imtihonida ${score} to'pladim! Sening biliming yetarmikan? Kirib sinab ko'r: `;
+      } else {
+        text = `🤦‍♂️ Shokir aka meni imtihonda yiqitib, 'MOSHIN BERILMASIN' deb qizil shtamp bosdi! 😂 Qani, sen o'ta olarmikan san? Kirib ko'r: `;
+      }
+      const appUrl = `https://t.me/ShopirGoBot?start=ref_${state.region || 'uz'}`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(appUrl)}&text=${encodeURIComponent(text)}`;
+      
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, '_blank');
+      }
+    }
+
+    function shareToTelegramStory() {
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.shareToStory) {
+        window.Telegram.WebApp.shareToStory("https://shopirgo.uz/assets/story_banner.jpg", {
+          text: "Shokir aka menga prava bermadi 😂 Sen o'ta olasanmi?",
+          widget_link: {
+            url: "https://t.me/ShopirGoBot",
+            name: "ShopirGo YHQ"
+          }
+        });
+      } else {
+        downloadCertificateImage();
+        alert("📸 Protokol rasmi yuklab olindi! Endi uni Telegram yoki Instagram Story'ingizga joylab, do'stlaringizni challenj qilishingiz mumkin! 🚀");
+      }
+    }
+
+    function generateCertificateCanvas(isPass) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 760;
+      const ctx = canvas.getContext('2d');
+      
+      // Gradient Background
+      const bg = ctx.createLinearGradient(0, 0, 0, 760);
+      if (isPass) {
+        bg.addColorStop(0, '#064e3b');
+        bg.addColorStop(1, '#022c22');
+      } else {
+        bg.addColorStop(0, '#450a0a');
+        bg.addColorStop(1, '#1c1917');
+      }
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, 600, 760);
+      
+      // Outer border
+      ctx.strokeStyle = isPass ? '#10b981' : '#ef4444';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(20, 20, 560, 720);
+      
+      // Header
+      ctx.fillStyle = isPass ? '#34d399' : '#fca5a5';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('SHOPIRGO — YHQ 2026 O‘ZBEKISTON', 300, 65);
+
+      // Title
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 24px sans-serif';
+      ctx.fillText(isPass ? 'OLTIN HAYDOVCHILIK SERTIFIKATI' : 'RASMIY QOIDABUZARLIK BAYONNOMASI', 300, 105);
+
+      // Line
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(50, 125);
+      ctx.lineTo(550, 125);
+      ctx.stroke();
+
+      // Details
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 15px sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('Haydovchi nomzodi:', 60, 170);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('Ibrohim (Toshkent)', 240, 170);
+
+      const carName = (typeof FullToyCars !== "undefined" && FullToyCars[state.selectedCar]) ? FullToyCars[state.selectedCar].name : "Chevrolet Cobalt";
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('Avtomobil modeli:', 60, 210);
+      ctx.fillStyle = '#fde047';
+      ctx.fillText(carName, 240, 210);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('Sinov natijasi:', 60, 250);
+      ctx.fillStyle = isPass ? '#34d399' : '#f87171';
+      ctx.fillText(`${currentQuizList.length - state.mistakesCount} / ${currentQuizList.length} to‘g‘ri`, 240, 250);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('Sarflangan vaqt:', 60, 290);
+      ctx.fillStyle = '#ffffff';
+      const totalSec = (20 * 60) - examTimeSeconds;
+      const m = Math.floor(Math.max(0, totalSec) / 60);
+      const s = Math.max(0, totalSec) % 60;
+      ctx.fillText(`${m} daqiqa ${s} soniya`, 240, 290);
+
+      // Large Rotated Stamp
+      ctx.save();
+      ctx.translate(300, 400);
+      ctx.rotate(-0.20);
+      ctx.strokeStyle = isPass ? '#10b981' : '#dc2626';
+      ctx.lineWidth = 5;
+      ctx.fillStyle = isPass ? 'rgba(16, 185, 129, 0.18)' : 'rgba(220, 38, 38, 0.18)';
+      ctx.fillRect(-210, -45, 420, 90);
+      ctx.strokeRect(-210, -45, 420, 90);
+      ctx.fillStyle = isPass ? '#10b981' : '#ef4444';
+      ctx.font = '900 26px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(isPass ? 'HAYDASHGA RUXSAT!' : 'MOSHIN BERILMASIN!', 0, 10);
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText(isPass ? '2026 YHQ BO‘YICHA TASDIQLANGAN' : '6 OY PIYODA YURISH TAYINLANDI', 0, 32);
+      ctx.restore();
+
+      // Instructor Quote
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(50, 485, 500, 130);
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.strokeRect(50, 485, 500, 130);
+
+      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText(`Ustoz xulosasi: ${inst.name} (${inst.regionName})`, 70, 515);
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'italic 13px sans-serif';
+      const quote = isPass 
+        ? (inst.praises && inst.praises[0]) ? inst.praises[0] : `"Otangga rahmat! Yangi ${carName}ga bemalol o'tiravering!"`
+        : (inst.quotes && (inst.quotes.spicy || inst.quotes.med)) ? (inst.quotes.spicy || inst.quotes.med) : `"Hov uka, svetoforni ko'rmasangiz ${carName}ni ezib tashlaysiz-ku! Qayta o'qing!"`;
+      
+      // Word wrap
+      const words = quote.split(' ');
+      let line = '';
+      let y = 545;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > 450 && n > 0) {
+          ctx.fillText(line, 70, y);
+          line = words[n] + ' ';
+          y += 22;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 70, y);
+
+      // Footer
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('Sen ham bilimingni sinab ko‘r: https://t.me/ShopirGoBot', 300, 685);
+      ctx.fillStyle = '#64748b';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Mustaqil ta‘limiy simulyator | ShopirGo 2026', 300, 710);
+
+      return canvas;
+    }
+
+    function downloadCertificateImage() {
+      const isPass = state.mistakesCount <= 2;
+      const canvas = generateCertificateCanvas(isPass);
+      const link = document.createElement('a');
+      link.download = isPass ? 'ShopirGo_Oltin_Sertifikat.png' : 'ShopirGo_Qoidabuzarlik_Protokoli.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // --- DUEL & GROUP CHALLENGES ---
+    function inviteFriendToDuel() {
+      AudioEngine.playHonk();
+      const duelId = `duel_${Math.floor(1000 + Math.random() * 9000)}`;
+      const text = `🏎️ Seni ShopirGo'da 1v1 YHQ POYGASIGA chaqiraman! 5 ta vaziyatli savol. Kim yutsa, ikkinchisining mashinasi ustidan kuladi 😂 Qani, gazni bos: `;
+      const duelUrl = `https://t.me/ShopirGoBot?start=${duelId}`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(duelUrl)}&text=${encodeURIComponent(text)}`;
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, '_blank');
+      }
+    }
+
+    function shareGroupChallenge() {
+      AudioEngine.playCoin();
+      const text = `🚦 GURUH UCHUN CHALLENJ: Guruhimizda eng zo'r shafyor kim? Shokir aka krugdagi vaziyat bo'yicha imtihon qilyapti. Kim 20/20 qilar ekan? O'z o'rningni ko'r: `;
+      const appUrl = `https://t.me/ShopirGoBot?start=group_challenge`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(appUrl)}&text=${encodeURIComponent(text)}`;
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, '_blank');
+      }
+    }
+
+    function updateHeaderStats() {
+      document.getElementById('wallet-val').innerText = `${Math.round(state.wallet / 1000)}k`;
+      document.getElementById('streak-val').innerText = state.streak;
+      document.getElementById('car-health-bar').style.width = `${state.carHealth}%`;
+      document.getElementById('car-health-txt').innerText = `${state.carHealth}%`;
+    }
+
+    // --- CAR REPAIR ---
+    function repairCar() {
+      AudioEngine.playSuccess();
+      state.carHealth = 100;
+      updateHeaderStats();
+      alert("Mashina Usta Shokir ustaxonasida moylandi va qirilgan joylari bo'yab berildi! ✨");
+    }
+
+    // --- TRASSADA POYGA DRAG DUEL ---
+    function startPoygaDuel() {
+      AudioEngine.playHonk();
+      const p1 = document.getElementById('full-race-p1-bar');
+      const p2 = document.getElementById('full-race-p2-bar');
+      const d1 = document.getElementById('full-race-p1-dist');
+      const d2 = document.getElementById('full-race-p2-dist');
+      
+      p1.style.width = '25%';
+      p2.style.width = '20%';
+      d1.innerText = '25m / 100m';
+      d2.innerText = '20m / 100m';
+
+      setTimeout(() => {
+        p1.style.width = '65%';
+        p2.style.width = '45%';
+        d1.innerText = '65m / 100m';
+        d2.innerText = '45m / 100m';
+        AudioEngine.playCoin();
+      }, 500);
+
+      setTimeout(() => {
+        p1.style.width = '100%';
+        p2.style.width = '55%';
+        d1.innerText = '100m (MARRA!) 🏁';
+        d2.innerText = "55m (Radarda to'xtadi) 📸";
+        AudioEngine.playSuccess();
+        setTimeout(() => {
+          document.getElementById('duel-modal').classList.remove('hidden');
+        }, 400);
+      }, 1200);
+    }
+
+    function closeDuelModal() {
+      document.getElementById('duel-modal').classList.add('hidden');
+    }
+
+    function shareDuelLink() {
+      inviteFriendToDuel();
+    }
+
+    // --- PAYMENT MODAL ---
+    function openPaymentModal(title, price) {
+      AudioEngine.playCoin();
+      document.getElementById('pay-product-title').innerText = title;
+      document.getElementById('pay-product-price').innerText = price;
+      document.getElementById('payment-modal').classList.remove('hidden');
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    function executePayment(gateway) {
+      AudioEngine.playSuccess();
+      alert(`${gateway} orqali to'lov muvaffaqiyatli qabul qilindi! 🎉 Prava Pass faollashtirildi.`);
+      closePaymentModal();
+      state.wallet = 1000000;
+      updateHeaderStats();
+    }
+
+    // --- FULL PROTOTYPE CARS ---
+    const FullToyModels = {
+      matiz: {
+        name: "Daewoo Matiz II",
+        desc: "Kichkina, chaqqon, dumaloq farali shahar afsonasi.",
+        img: `<img src="assets/cars/toy_matiz.jpg" alt="Daewoo Matiz II" class="h-28 w-auto object-contain rounded-2xl shadow-xl mx-auto border border-slate-750" />`
+      },
+      damas: {
+        name: "Daewoo Damas",
+        desc: '"Klassik ko\'k chiziqli, kapotsiz to\'rtburchak afsona."',
+        img: `<img src="assets/cars/toy_damas.jpg" alt="Daewoo Damas" class="h-28 w-auto object-contain rounded-2xl shadow-xl mx-auto border border-slate-750" />`
+      },
+      cobalt: {
+        name: "Chevrolet Cobalt",
+        desc: '"Oq rang, cho\'zilgan katta ko\'zli faralar, xalq sedani."',
+        img: `<img src="assets/cars/toy_cobalt.jpg" alt="Chevrolet Cobalt" class="h-28 w-auto object-contain rounded-2xl shadow-xl mx-auto border border-slate-750" />`
+      },
+      gentra: {
+        name: "Chevrolet Gentra (Lyukli)",
+        desc: '"Mo\'kriy asfalt, bodomqovoq faralar va tomida ochiq lyuk."',
+        img: `<img src="assets/cars/toy_gentra.jpg" alt="Chevrolet Gentra" class="h-28 w-auto object-contain rounded-2xl shadow-xl mx-auto border border-slate-750" />`
+      }
+    };
+
+    function selectFullToyCar(carKey) {
+      AudioEngine.playHonk();
+      ['matiz', 'damas', 'cobalt', 'gentra'].forEach(c => {
+        const btn = document.getElementById(`full-btn-${c}`);
+        btn.className = "px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
+      });
+      document.getElementById(`full-btn-${carKey}`).className = "px-3 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+      
+      const car = FullToyModels[carKey];
+      document.getElementById('full-toy-display').innerHTML = car.img;
+      document.getElementById('full-toy-name').innerText = car.name;
+      document.getElementById('full-toy-desc').innerText = car.desc;
+    }
+  </script>
+</body>
+</html>
