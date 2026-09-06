@@ -189,7 +189,7 @@
       <div class="bg-slate-850/90 border border-slate-750/70 rounded-xl p-2.5 text-xs text-slate-200 flex items-start space-x-2">
         <span class="text-amber-400 text-xs shrink-0 mt-0.5">💬</span>
         <p id="shokir-quote" class="italic text-slate-300 text-[11px] leading-relaxed flex-1">
-          "Qani uka, rulga o'tiring! Bugun sizni Sergeli va Asaka chorrahasida sinab ko'ramiz-da."
+          "Qani uka, rulga o'tir! Bugun seni Sergeli va Asaka chorrahasida sinab ko'raman-da!"
         </p>
       </div>
     </div>
@@ -1426,7 +1426,7 @@
   <!-- JAVASCRIPT APP LOGIC & PROCEDURAL SOUND SYNTHESIZER -->
   <script>
     
-    // --- DEMOGRAPHIC HONORIFIC SYSTEM (UKA / SINGLIM / AKA / OPA) ---
+    // --- DEMOGRAPHIC HONORIFIC SYSTEM (SEN FOR YOUNG MEN, SIZ FOR WOMEN & ELDERS) ---
     function getHonorificTitle() {
       const isFemale = (state.userGender === 'female');
       const isElder = (state.userAgeGroup === 'elder');
@@ -1440,7 +1440,6 @@
     function getDynamicGreeting() {
       const isFemale = (state.userGender === 'female');
       const isElder = (state.userAgeGroup === 'elder');
-      const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
 
       if (!isElder) {
         if (isFemale) {
@@ -1461,29 +1460,205 @@
       if (!rawText) return "";
       const isFemale = (state.userGender === 'female');
       const isElder = (state.userAgeGroup === 'elder');
-      
+      const isYoungMale = (!isFemale && !isElder);
+
       let hon = "uka";
       let honCap = "Uka";
-
-      if (isElder) {
-        hon = isFemale ? "opa" : "aka";
-        honCap = isFemale ? "Opa" : "Aka";
-      } else {
-        hon = isFemale ? "singlim" : "uka";
-        honCap = isFemale ? "Singlim" : "Uka";
+      if (isFemale) {
+        hon = isElder ? "opa" : "singlim";
+        honCap = isElder ? "Opa" : "Singlim";
+      } else if (isElder) {
+        hon = "aka";
+        honCap = "Aka";
       }
 
       let res = rawText;
+
+      // 1. Basic address substitutions
       res = res.replace(/\buka\b/g, hon);
       res = res.replace(/\bUka\b/g, honCap);
+      res = res.replace(/\bbratiwka\b/g, hon);
+      res = res.replace(/\bBratiwka\b/g, honCap);
+      res = res.replace(/\bjo'ra\b/g, hon);
+      res = res.replace(/\bJo'ra\b/g, honCap);
+      res = res.replace(/\binim\b/g, hon);
+      res = res.replace(/\bInim\b/g, honCap);
+      if (isFemale || isElder) {
+        res = res.replace(/\bog'am\b/g, hon);
+        res = res.replace(/\bOg'am\b/g, honCap);
+        res = res.replace(/\bog'asi\b/g, hon);
+        res = res.replace(/\bOg'asi\b/g, honCap);
+        res = res.replace(/\bbrat\b/g, hon);
+        res = res.replace(/\bBrat\b/g, honCap);
+        res = res.replace(/\bo'rto\b/g, hon);
+        res = res.replace(/\bO'rto\b/g, honCap);
+      }
 
-      if (isFemale) {
-        res = res.replace(/\bshafyor bo'libsiz\b/g, "haydovchi bo'libsiz");
-        res = res.replace(/\bbratiwka\b/g, "singlim");
-        res = res.replace(/\bjo'ra\b/g, "singlim");
-      } else if (isElder) {
-        res = res.replace(/\bbratiwka\b/g, "aka");
-        res = res.replace(/\bjo'ra\b/g, "aka");
+      // 2. RULE 1: YOUNGER MAN / GUY -> MUST SAY SEN (NOT SIZ)
+      if (isYoungMale) {
+        // Pronouns
+        res = res.replace(/\bsizni\b/g, "seni");
+        res = res.replace(/\bSizni\b/g, "Seni");
+        res = res.replace(/\bsizga\b/g, "senga");
+        res = res.replace(/\bSizga\b/g, "Senga");
+        res = res.replace(/\bsizning\b/g, "sening");
+        res = res.replace(/\bSizning\b/g, "Sening");
+        res = res.replace(/\bsizda\b/g, "senda");
+        res = res.replace(/\bsizdan\b/g, "sendan");
+        res = res.replace(/\bsiz\b/g, "sen");
+        res = res.replace(/\bSiz\b/g, "Sen");
+        res = res.replace(/\bo'zingizni\b/g, "o'zingni");
+        res = res.replace(/\bO'zingizni\b/g, "O'zingni");
+        res = res.replace(/\bo'zingizga\b/g, "o'zingga");
+        res = res.replace(/\bo'zingiz\b/g, "o'zing");
+        res = res.replace(/\bO'zingiz\b/g, "O'zing");
+        res = res.replace(/\bko'zingizni\b/g, "ko'zingni");
+        res = res.replace(/\bko'zingiz\b/g, "ko'zing");
+        res = res.replace(/\bKo'zingiz\b/g, "Ko'zing");
+        res = res.replace(/\botangizga\b/g, "otangga");
+        res = res.replace(/\bOtangizga\b/g, "Otangga");
+        res = res.replace(/\bmashinangiz\b/g, "mashinang");
+        res = res.replace(/\bmoshinangiz\b/g, "moshinang");
+
+        // Imperatives
+        res = res.replace(/\bo'tiring\b/g, "o'tir");
+        res = res.replace(/\bO'tiring\b/g, "O'tir");
+        res = res.replace(/\bbosing\b/g, "bos");
+        res = res.replace(/\bBosing\b/g, "Bos");
+        res = res.replace(/\bshoshilmang\b/g, "shoshilma");
+        res = res.replace(/\bShoshilmang\b/g, "Shoshilma");
+        res = res.replace(/\bto'xtang\b/g, "to'xta");
+        res = res.replace(/\bqaren\b/g, "qara");
+        res = res.replace(/\bqarang\b/g, "qara");
+        res = res.replace(/\boling\b/g, "ol");
+        res = res.replace(/\byoqing\b/g, "yoq");
+        res = res.replace(/\bko'ring\b/g, "ko'r");
+        res = res.replace(/\bturing\b/g, "tur");
+        res = res.replace(/\byurmang\b/g, "yurma");
+
+        // Verb Conjugations
+        res = res.replace(/\bo'rganasiz-da\b/g, "o'rganasan-da");
+        res = res.replace(/\bo'rganasiz\b/g, "o'rganasan");
+        res = res.replace(/\btashlaysiz-ku\b/g, "tashlaysan-ku");
+        res = res.replace(/\btashlaysiz\b/g, "tashlaysan");
+        res = res.replace(/\bketasiz-ku\b/g, "ketasan-ku");
+        res = res.replace(/\bketasiz\b/g, "ketasan");
+        res = res.replace(/\byurasiz-a\b/g, "yurasan-a");
+        res = res.replace(/\byurasiz\b/g, "yurasan");
+        res = res.replace(/\bqilasiz-a\b/g, "qilasan-a");
+        res = res.replace(/\bqilasiz\b/g, "qilasan");
+        res = res.replace(/\bbosvurasiz\b/g, "bosaverasan");
+        res = res.replace(/\bbosaverasiz\b/g, "bosaverasan");
+        res = res.replace(/\bne qivosiz\b/g, "ne qilyapsan");
+        res = res.replace(/\bnima qivos\b/g, "nima qilyapsan");
+        res = res.replace(/\bnima qilyapsiz\b/g, "nima qilyapsan");
+        res = res.replace(/\bo'ylavosizmi\b/g, "o'ylayapsanmi");
+        res = res.replace(/\bo'ylayapsizmi\b/g, "o'ylayapsanmi");
+        res = res.replace(/\bbosmaysizmi\b/g, "bosmaysanmi");
+        res = res.replace(/\bto'xtatmaysizmi\b/g, "to'xtatmaysanmi");
+        res = res.replace(/\bqilmaysizmi\b/g, "qilmaysanmi");
+        res = res.replace(/\bishlatmaysizmi\b/g, "ishlatmaysanmi");
+        res = res.replace(/\bko'rmasangiz\b/g, "ko'rmasang");
+        res = res.replace(/\bbo'lsangiz\b/g, "bo'lsang");
+        res = res.replace(/\bqilsangiz\b/g, "qilsang");
+        res = res.replace(/\bo'rgansangiz\b/g, "o'rgansang");
+        res = res.replace(/\btopdingiz\b/g, "topding");
+        res = res.replace(/\bo'tdingiz\b/g, "o'tding");
+        res = res.replace(/\bhaydadingiz\b/g, "haydading");
+        res = res.replace(/\bbo'bsiz\b/g, "bo'libsan");
+        res = res.replace(/\bbo'libsiz\b/g, "bo'libsan");
+        res = res.replace(/\bqoldingiz\b/g, "qolding");
+        res = res.replace(/\bketdingiz\b/g, "ketding");
+        res = res.replace(/\bbilasizmi\b/g, "bilasanmi");
+        res = res.replace(/\bbilyapsizmi\b/g, "bilyapsanmi");
+        res = res.replace(/\bbilyangmi\b/g, "bilasanmi");
+      }
+
+      // 3. RULE 2: WOMEN (YOUNG OR ELDER) & ELDER MEN -> ALWAYS SIZ (HURMAT BILAN)
+      if (isFemale || isElder) {
+        // Pronouns
+        res = res.replace(/\bseni\b/g, "sizni");
+        res = res.replace(/\bSeni\b/g, "Sizni");
+        res = res.replace(/\bsenga\b/g, "sizga");
+        res = res.replace(/\bSenga\b/g, "Sizga");
+        res = res.replace(/\bsening\b/g, "sizning");
+        res = res.replace(/\bSening\b/g, "Sizning");
+        res = res.replace(/\bsenda\b/g, "sizda");
+        res = res.replace(/\bsendan\b/g, "sizdan");
+        res = res.replace(/\bsen\b/g, "siz");
+        res = res.replace(/\bSen\b/g, "Siz");
+        res = res.replace(/\bo'zingni\b/g, "o'zingizni");
+        res = res.replace(/\bO'zingni\b/g, "O'zingizni");
+        res = res.replace(/\bo'zingga\b/g, "o'zingizga");
+        res = res.replace(/\bo'zing\b/g, "o'zingiz");
+        res = res.replace(/\bO'zing\b/g, "O'zingiz");
+        res = res.replace(/\bko'zingni\b/g, "ko'zingizni");
+        res = res.replace(/\bko'zing\b/g, "ko'zingiz");
+        res = res.replace(/\bKo'zing\b/g, "Ko'zingiz");
+        res = res.replace(/\botangga\b/g, "otangizga");
+        res = res.replace(/\bOtangga\b/g, "Otangizga");
+        res = res.replace(/\bmashinang\b/g, "mashinangiz");
+        res = res.replace(/\bmoshinang\b/g, "moshinangiz");
+
+        // Imperatives
+        res = res.replace(/\bo'tir\b/g, "o'tiring");
+        res = res.replace(/\bO'tir\b/g, "O'tiring");
+        res = res.replace(/\bbos\b/g, "bosing");
+        res = res.replace(/\bBos\b/g, "Bosing");
+        res = res.replace(/\bshoshilma\b/g, "shoshilmang");
+        res = res.replace(/\bShoshilma\b/g, "Shoshilmang");
+        res = res.replace(/\bto'xta\b/g, "to'xtang");
+        res = res.replace(/\bqara\b/g, "qarang");
+        res = res.replace(/\bol\b/g, "oling");
+        res = res.replace(/\byoq\b/g, "yoqing");
+        res = res.replace(/\bko'r\b/g, "ko'ring");
+        res = res.replace(/\btur\b/g, "turing");
+        res = res.replace(/\byurma\b/g, "yurmang");
+
+        // Verb Conjugations
+        res = res.replace(/\bo'rganasan-da\b/g, "o'rganasiz-da");
+        res = res.replace(/\bo'rganasan\b/g, "o'rganasiz");
+        res = res.replace(/\btashlaysan-ku\b/g, "tashlaysiz-ku");
+        res = res.replace(/\btashlaysan\b/g, "tashlaysiz");
+        res = res.replace(/\bketasan-ku\b/g, "ketasiz-ku");
+        res = res.replace(/\bketasan\b/g, "ketasiz");
+        res = res.replace(/\byurasan-a\b/g, "yurasiz-a");
+        res = res.replace(/\byurasan\b/g, "yurasiz");
+        res = res.replace(/\bqilasan-a\b/g, "qilasiz-a");
+        res = res.replace(/\bqilasan\b/g, "qilasiz");
+        res = res.replace(/\bbosaverasan\b/g, "bosaverasiz");
+        res = res.replace(/\bbosvurasan\b/g, "bosaverasiz");
+        res = res.replace(/\bnima qilyapsan\b/g, "nima qilyapsiz");
+        res = res.replace(/\bqilyapsan\b/g, "qilyapsiz");
+        res = res.replace(/\bqivossan\b/g, "qilyapsiz");
+        res = res.replace(/\bo'ylayapsanmi\b/g, "o'ylayapsizmi");
+        res = res.replace(/\bbosmaysanmi\b/g, "bosmaysizmi");
+        res = res.replace(/\bto'xtatmaysanmi\b/g, "to'xtatmaysizmi");
+        res = res.replace(/\bqilmaysanmi\b/g, "qilmaysizmi");
+        res = res.replace(/\bishlatmaysanmi\b/g, "ishlatmaysizmi");
+        res = res.replace(/\bko'rmasang\b/g, "ko'rmasangiz");
+        res = res.replace(/\bbo'lsang\b/g, "bo'lsangiz");
+        res = res.replace(/\bqilsang\b/g, "qilsangiz");
+        res = res.replace(/\bo'rgansang\b/g, "o'rgansangiz");
+        res = res.replace(/\btopding\b/g, "topdingiz");
+        res = res.replace(/\bo'tding\b/g, "o'tdingiz");
+        res = res.replace(/\bhaydading\b/g, "haydadingiz");
+        res = res.replace(/\bbo'libsan\b/g, "bo'libsiz");
+        res = res.replace(/\bbo'bsan\b/g, "bo'libsiz");
+        res = res.replace(/\bqolding\b/g, "qoldingiz");
+        res = res.replace(/\bketding\b/g, "ketdingiz");
+        res = res.replace(/\bbilasanmi\b/g, "bilasizmi");
+        res = res.replace(/\bbilyapsanmi\b/g, "bilyapsizmi");
+
+        if (isFemale) {
+          res = res.replace(/\bshafyor\b/g, "haydovchi");
+          res = res.replace(/\bkallangni ishlat\b/g, "diqqat qiling");
+          res = res.replace(/\bkallani ishlat\b/g, "e'tiborli bo'ling");
+          res = res.replace(/\bne qivosiz\b/g, "nima qilyapsiz");
+          res = res.replace(/\bko'zingiz qattedi\b/g, "ko'zingiz qayerda edi");
+          res = res.replace(/\bbosvurasiz\b/g, "bosaverasiz");
+          res = res.replace(/\bo'ylavosizmi\b/g, "o'ylayapsizmi");
+        }
       }
 
       return res;
@@ -1491,21 +1666,22 @@
 
     function setDemographicGender(gender) {
       state.userGender = gender;
+      localStorage.setItem('shopirgo_gender', gender);
       const maleBtn = document.getElementById('demo-gender-male');
       const femaleBtn = document.getElementById('demo-gender-female');
 
       if (gender === 'male') {
-        maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-emerald-500/80 bg-emerald-500/15 text-white transition flex items-center justify-center space-x-1.5";
-        femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
-        document.getElementById('demo-tag-young').innerText = '"Uka"';
-        document.getElementById('demo-tag-mid').innerText = '"Uka"';
-        document.getElementById('demo-tag-elder').innerText = '"Aka"';
+        if (maleBtn) maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-emerald-500/80 bg-emerald-500/15 text-white transition flex items-center justify-center space-x-1.5";
+        if (femaleBtn) femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        const yTag = document.getElementById('demo-tag-young'); if (yTag) yTag.innerText = '"Uka" (Sen)';
+        const mTag = document.getElementById('demo-tag-mid'); if (mTag) mTag.innerText = '"Uka" (Sen)';
+        const eTag = document.getElementById('demo-tag-elder'); if (eTag) eTag.innerText = '"Aka" (Siz)';
       } else {
-        femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-pink-500/80 bg-pink-500/15 text-white transition flex items-center justify-center space-x-1.5";
-        maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
-        document.getElementById('demo-tag-young').innerText = '"Singlim"';
-        document.getElementById('demo-tag-mid').innerText = '"Singlim"';
-        document.getElementById('demo-tag-elder').innerText = '"Opa"';
+        if (femaleBtn) femaleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border-2 border-pink-500/80 bg-pink-500/15 text-white transition flex items-center justify-center space-x-1.5";
+        if (maleBtn) maleBtn.className = "py-2 px-3 rounded-xl text-xs font-bold border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition flex items-center justify-center space-x-1.5";
+        const yTag = document.getElementById('demo-tag-young'); if (yTag) yTag.innerText = '"Singlim" (Siz)';
+        const mTag = document.getElementById('demo-tag-mid'); if (mTag) mTag.innerText = '"Singlim" (Siz)';
+        const eTag = document.getElementById('demo-tag-elder'); if (eTag) eTag.innerText = '"Opa" (Siz)';
       }
       updateDemographicPreview();
       AudioEngine.playCoin();
@@ -1513,6 +1689,7 @@
 
     function setDemographicAge(ageGroup) {
       state.userAgeGroup = ageGroup;
+      localStorage.setItem('shopirgo_age_group', ageGroup);
       ['young', 'mid', 'elder'].forEach(a => {
         const btn = document.getElementById(`demo-age-${a}`);
         if (btn) btn.className = "py-2 px-1 rounded-xl text-center border border-slate-750 bg-slate-850/60 hover:bg-slate-800 text-slate-400 transition";
@@ -1524,6 +1701,8 @@
     }
 
     function updateDemographicPreview() {
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
       const greeting = getDynamicGreeting();
       const el = document.getElementById('shokir-live-greeting');
       if (el) el.innerText = `"${greeting}"`;
@@ -1532,11 +1711,32 @@
       const badge = document.getElementById('user-demographic-badge');
       if (badge) {
         const title = getHonorificTitle();
-        const ageLabel = state.userAgeGroup === 'elder' ? "55+ yosh" : (state.userAgeGroup === 'mid' ? "40 yosh" : "22 yosh");
-        badge.innerText = `${ageLabel} • ${title.charAt(0).toUpperCase() + title.slice(1)}`;
+        const pronoun = (state.userGender === 'male' && !isElder) ? "Sen" : "Siz";
+        const ageLabel = isElder ? "55+ yosh" : (state.userAgeGroup === 'mid' ? "40 yosh" : "22 yosh");
+        badge.innerText = `${ageLabel} • ${title.charAt(0).toUpperCase() + title.slice(1)} (${pronoun})`;
       }
 
-      // Update previews in mood selector
+      // Update Home Screen Speech Bubble
+      const homeQuoteEl = document.getElementById('shokir-quote');
+      if (homeQuoteEl) {
+        let baseQuote = "";
+        if (!isElder) {
+          if (isFemale) {
+            baseQuote = "Singlim, rulga o'tiring! Kamarni taqib oling, bugun Sergeli va Asaka chorrahasini birga ko'rib chiqamiz.";
+          } else {
+            baseQuote = "Qani uka, rulga o'tir! Bugun seni Sergeli va Asaka chorrahasida sinab ko'raman-da!";
+          }
+        } else {
+          if (isFemale) {
+            baseQuote = "Hormang opa! Rulga o'tiring, bemalol shoshilmasdan yangi 2026 qoidalarini birga yangilab olamiz.";
+          } else {
+            baseQuote = "Hormang aka! Rulga o'tiring, siz bilan birga yangi 2026 YHQ qoidalarini yangilab olamiz!";
+          }
+        }
+        homeQuoteEl.innerText = `"${baseQuote}"`;
+      }
+
+      // Update modal previews
       const mildQ = document.getElementById('preview-quote-mild');
       if (mildQ) mildQ.innerText = formatInstructorSpeech(`"Shoshilmang uka, aylanay. Asakada moshinani bittadan terishadi, siz ham sekin-asta o'rganasiz-da."`);
 
@@ -1549,8 +1749,8 @@
 
     // --- STATE MANAGEMENT ---
     const state = {
-      userGender: 'male',      // 'male' | 'female'
-      userAgeGroup: 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
+      userGender: localStorage.getItem('shopirgo_gender') || 'male',      // 'male' | 'female'
+      userAgeGroup: localStorage.getItem('shopirgo_age_group') || 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
       userAge: 22,
       streak: 3,
       wallet: 850000,
@@ -2583,18 +2783,24 @@
       fbBox.classList.remove('hidden');
 
       const inst = InstructorsDB[state.region] || InstructorsDB.andijon;
+      const isFemale = (state.userGender === 'female');
+      const isElder = (state.userAgeGroup === 'elder');
+      const hon = getHonorificTitle();
 
       if (isCorrect) {
         AudioEngine.playSuccess();
         fbBox.className = "mt-4 p-3.5 rounded-2xl border border-emerald-500/40 bg-emerald-950/20";
         document.getElementById('fb-avatar-wrap').className = "w-14 h-14 rounded-2xl overflow-hidden border-2 border-emerald-500/50 shrink-0 shadow-lg bg-slate-900";
         document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_default.jpg";
-        document.getElementById('fb-title').innerText = `To'g'ri javob! (${inst.name})`;
+        
+        const titlePraise = isFemale ? (isElder ? "To'g'ri, opa!" : "To'g'ri, singlim!") : (isElder ? "To'g'ri topdingiz, aka!" : "To'g'ri, uka!");
+        document.getElementById('fb-title').innerText = `${titlePraise} (${inst.name})`;
         document.getElementById('fb-title').className = "font-bold text-xs text-emerald-400";
         document.getElementById('fb-fine').innerText = "+100 XP";
         document.getElementById('fb-fine').className = "text-[11px] font-bold text-emerald-400";
         
-        const praise = inst.praises[Math.floor(Math.random() * inst.praises.length)];
+        const rawPraise = inst.praises[Math.floor(Math.random() * inst.praises.length)];
+        const praise = formatInstructorSpeech(rawPraise);
         document.getElementById('fb-roast').innerText = `"${praise}"`;
         document.getElementById('shokir-quote').innerText = `"${praise}"`;
       } else {
@@ -2614,14 +2820,17 @@
         } else {
           document.getElementById('fb-avatar-img').src = "assets/mascot/shokir_facepalm.jpg";
         }
-        document.getElementById('fb-title').innerText = `Noto'g'ri, uka! (${inst.name})`;
+
+        const titleRoast = isFemale ? (isElder ? "Noto'g'ri bo'ldi, opa!" : "Noto'g'ri, singlim!") : (isElder ? "Noto'g'ri bo'ldi, aka!" : "Noto'g'ri, uka!");
+        document.getElementById('fb-title').innerText = `${titleRoast} (${inst.name})`;
         document.getElementById('fb-title').className = "font-bold text-xs text-red-400";
         document.getElementById('fb-fine').innerText = "-150,000 UZS JARIMA";
         document.getElementById('fb-fine').className = "text-[11px] font-bold text-red-400";
 
         const moodKey = state.sarcasm === 'med' ? 'medium' : state.sarcasm;
         const roasts = inst.roasts[moodKey] || inst.roasts.medium;
-        const roast = roasts[Math.floor(Math.random() * roasts.length)];
+        const rawRoast = roasts[Math.floor(Math.random() * roasts.length)];
+        const roast = formatInstructorSpeech(rawRoast);
         document.getElementById('fb-roast').innerText = `"${roast}"`;
         document.getElementById('shokir-quote').innerText = `"${roast}"`;
       }
