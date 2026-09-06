@@ -95,7 +95,7 @@
   </div>
 
   <!-- Main Mobile Device Bezel (Flagship Phone Frame) -->
-  <div class="relative w-full max-w-[410px] h-[860px] sm:h-[880px] bg-[#0B0F17] sm:rounded-[44px] shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden sm:border-[8px] sm:border-slate-800 ring-1 ring-slate-700/60" style="background-color: #0B0F17;">
+  <div class="relative w-full max-w-[440px] h-[100dvh] sm:h-[880px] bg-[#0B0F17] sm:rounded-[44px] shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden sm:border-[8px] sm:border-slate-800 ring-1 ring-slate-700/60" style="background-color: #0B0F17;">
 
     <!-- Dynamic Island / Speaker Notch (Desktop View) -->
     <div class="hidden sm:flex w-full items-center justify-between px-6 pt-2 pb-1 bg-cardbg shrink-0 z-40 border-b border-slate-800/40">
@@ -110,72 +110,76 @@
       </div>
     </div>
 
-    <!-- TOP TELEGRAM NATIVE BAR -->
-    <header class="bg-cardbg/80 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between shrink-0 z-30">
-      <div class="flex items-center space-x-2.5">
-        <div class="relative">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-emerald-500 flex items-center justify-center text-lg font-bold border-2 border-slate-700">
+    <!-- TOP TELEGRAM NATIVE BAR (COMPACT & NON-CLIPPING) -->
+    <header class="bg-cardbg/95 backdrop-blur-md px-3 py-2 border-b border-slate-800 flex items-center justify-between shrink-0 z-30">
+      <div class="flex items-center space-x-2 min-w-0">
+        <div class="relative shrink-0">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-emerald-500 flex items-center justify-center text-sm font-bold border border-slate-700">
             🏎️
           </div>
-          <span class="absolute -bottom-1 -right-1 bg-emerald-500 w-3.5 h-3.5 rounded-full border-2 border-darkbg"></span>
+          <span class="absolute -bottom-0.5 -right-0.5 bg-emerald-500 w-2.5 h-2.5 rounded-full border-2 border-darkbg"></span>
         </div>
-        <div>
-          <div class="flex items-center space-x-1.5">
-            <h1 class="font-bold text-sm text-white">Ibrohim</h1>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-medium px-1.5 py-0.5 rounded border border-emerald-500/30">Shogird</span>
+        <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Profilni sozlash">
+          <div class="flex items-center space-x-1">
+            <h1 class="font-bold text-xs text-white truncate max-w-[90px] sm:max-w-[130px]">Ibrohim</h1>
+            <span class="text-[8px] bg-emerald-500/20 text-emerald-400 font-medium px-1 rounded border border-emerald-500/30 shrink-0">Shogird</span>
           </div>
-          <p class="text-[11px] text-slate-400">Cobalt olishga 42 kun qoldi</p>
+          <p class="text-[9px] text-slate-400 truncate" id="user-demographic-badge">22 yosh • Uka</p>
         </div>
       </div>
 
-      <!-- Live Stats (Streak & Fine Wallet) -->
-      <div class="flex items-center space-x-2">
+      <!-- Live Stats: Streak, Wallet & Manba (Compact & Fully Visible on 360px) -->
+      <div class="flex items-center space-x-1 shrink-0">
         <!-- Streak -->
-        <div class="flex items-center space-x-1 bg-slate-800/80 px-2.5 py-1 rounded-full border border-amber-500/30 text-amber-400 text-xs font-semibold">
+        <div class="flex items-center space-x-0.5 bg-slate-800/90 px-1.5 py-0.5 rounded-full border border-amber-500/30 text-amber-400 text-[10px] font-semibold" title="Kundalik seriya">
           <span>🔥</span>
           <span id="streak-val">3</span>
         </div>
         <!-- Fine Wallet -->
-        <div onclick="openStore('wallet')" class="cursor-pointer flex items-center space-x-1 bg-slate-800/80 hover:bg-slate-700/80 transition px-2.5 py-1 rounded-full border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+        <div onclick="switchTab('store')" class="cursor-pointer flex items-center space-x-0.5 bg-slate-800/90 hover:bg-slate-700 transition px-1.5 py-0.5 rounded-full border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold" title="Jarima hamyoni">
           <span>💰</span>
           <span id="wallet-val">850k</span>
         </div>
-        <button onclick="openLegalModal()" class="cursor-pointer flex items-center space-x-1 bg-slate-800/80 hover:bg-slate-700/80 transition px-2 py-1 rounded-full border border-slate-750 text-slate-300 text-xs font-semibold" title="Qonunchilik manbalari va rasmiy ogohlantirish"><span>⚖️</span><span>Manba</span></button>
+        <!-- Manba Button -->
+        <button onclick="openLegalModal()" class="cursor-pointer flex items-center space-x-0.5 bg-slate-800/90 hover:bg-slate-700 transition px-2 py-0.5 rounded-full border border-slate-750 text-slate-300 text-[10px] font-semibold shrink-0" title="Qonunchilik manbalari">
+          <span>⚖️</span>
+          <span>Manba</span>
+        </button>
       </div>
     </header>
 
-    <!-- INSTRUCTOR SHOKIR AKA INTERACTIVE BAR -->
+    <!-- INSTRUCTOR SHOKIR AKA INTERACTIVE BAR (SLIDING MENU READY) -->
     <div class="bg-slate-900/90 px-3.5 py-3 border-b border-slate-800 shrink-0 z-20 flex flex-col space-y-2.5">
-      <!-- Row 1: Mascot Profile + Prominent Segmented Mood Switcher -->
+      <!-- Row 1: Mascot Profile + Smooth Sliding Mood Switcher -->
       <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center space-x-2.5 min-w-0">
-          <div class="relative cursor-pointer shrink-0" onclick="playRandomRoast()" title="Ustoz gapiradi (ovoz bilan)">
-            <div id="mascot-face" class="w-11 h-11 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-md hover:scale-105 transition bg-slate-900">
+        <div class="flex items-center space-x-2 min-w-0 shrink-0">
+          <div class="relative cursor-pointer shrink-0" onclick="playRandomRoast()" title="Ustoz gapiradi">
+            <div id="mascot-face" class="w-9 h-9 rounded-xl overflow-hidden border border-amber-500/50 shadow-md hover:scale-105 transition bg-slate-900">
               <img id="mascot-img" src="assets/mascot/shokir_default.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
             </div>
-            <span id="mascot-mood-badge" class="absolute -bottom-1 -right-1 text-[10px] bg-slate-850 rounded-full px-1 border border-slate-700">☕</span>
+            <span id="mascot-mood-badge" class="absolute -bottom-1 -right-1 text-[9px] bg-slate-850 rounded-full px-1 border border-slate-700">☕</span>
           </div>
           <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Ustoz viloyatini almashtirish">
-            <div class="flex items-center space-x-1.5">
-              <span id="instructor-name" class="font-black text-xs text-amber-400 leading-tight truncate">Shokir aka</span>
-              <span id="instructor-region-pill" class="text-[8px] bg-amber-500/25 text-amber-300 font-bold px-1.5 py-0.5 rounded-full border border-amber-500/30">Andijon</span>
+            <div class="flex items-center space-x-1">
+              <span id="instructor-name" class="font-black text-xs text-amber-400 leading-tight">Shokir aka</span>
+              <span id="instructor-region-pill" class="text-[7.5px] bg-amber-500/25 text-amber-300 font-bold px-1 py-0.2 rounded-full border border-amber-500/30">Andijon</span>
             </div>
-            <div id="instructor-badge" class="text-[9px] text-slate-400 leading-tight flex items-center space-x-1 mt-0.5">
-              <span>Asaka avtomaktabi</span>
+            <div id="instructor-badge" class="text-[8.5px] text-slate-400 leading-tight flex items-center space-x-1 mt-0.5">
+              <span>55 yosh</span>
               <span class="text-amber-400 text-[8px] font-semibold underline">✎ almashtirish</span>
             </div>
           </div>
         </div>
 
-        <!-- Prominent Segmented Mood Controller -->
-        <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center space-x-1 shrink-0">
-          <button onclick="setSarcasm('mild')" id="sarcasm-mild" class="px-2 py-1 rounded-lg text-[10px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+        <!-- Horizontal Smooth Sliding Mood Selector -->
+        <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar scroll-smooth shrink-0 py-0.5 max-w-[190px]">
+          <button onclick="setSarcasm('mild')" id="sarcasm-mild" class="px-2 py-1 rounded-lg text-[9.5px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap shrink-0">
             🍵 Muloyim
           </button>
-          <button onclick="setSarcasm('medium')" id="sarcasm-med" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition whitespace-nowrap shadow-sm">
+          <button onclick="setSarcasm('medium')" id="sarcasm-med" class="px-2 py-1 rounded-lg text-[9.5px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition whitespace-nowrap shrink-0 shadow-sm">
             ☕ Klassik
           </button>
-          <button onclick="setSarcasm('spicy')" id="sarcasm-spicy" class="px-2 py-1 rounded-lg text-[10px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap">
+          <button onclick="setSarcasm('spicy')" id="sarcasm-spicy" class="px-2 py-1 rounded-lg text-[9.5px] font-bold text-slate-400 hover:text-white transition whitespace-nowrap shrink-0">
             🔥 Asabiy
           </button>
         </div>
@@ -211,21 +215,57 @@
           <span class="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1.5 rounded-xl border border-emerald-500/20 whitespace-nowrap shrink-0">Garaj ➔</span>
         </div>
 
-        <!-- Study Mode Segmented Switcher -->
-        <div class="w-full bg-slate-900/90 p-1 rounded-2xl border border-slate-800 mb-3 grid grid-cols-3 gap-1 shadow-md">
-          <button onclick="switchStudyMode('highway')" id="mode-btn-highway" class="py-2 px-1 text-center rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition flex items-center justify-center space-x-1">
-            <span>🗺️</span>
-            <span>Katta Yo'l</span>
-          </button>
-          <button onclick="switchStudyMode('topics')" id="mode-btn-topics" class="py-2 px-1 text-center rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center space-x-1">
-            <span>📚</span>
-            <span>Mavzular</span>
-            <span class="text-[8px] bg-amber-500/30 text-amber-300 px-1 py-0.2 rounded font-black">2026</span>
-          </button>
-          <button onclick="switchStudyMode('exam')" id="mode-btn-exam" class="py-2 px-1 text-center rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center space-x-1">
-            <span>⏱️</span>
-            <span>Imtihon</span>
-          </button>
+        <!-- UPPER SLIDING MENU (SWIPEABLE / SCROLLABLE TO RIGHT ACROSS MODES & TOPICS) -->
+        <div class="w-full mb-3 shrink-0">
+          <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1 -mx-1" id="upper-sliding-menu" style="-webkit-overflow-scrolling: touch;">
+            <!-- Highway Mode -->
+            <button onclick="switchStudyMode('highway')" id="mode-btn-highway" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center space-x-1.5 shrink-0 shadow-sm transition active:scale-95">
+              <span>🗺️</span>
+              <span>Katta Yo'l</span>
+            </button>
+            <!-- All Topics -->
+            <button onclick="switchStudyMode('topics')" id="mode-btn-topics" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>📚</span>
+              <span>Mavzular</span>
+              <span class="text-[8px] bg-amber-500/30 text-amber-300 px-1 py-0.2 rounded-full font-black">8</span>
+            </button>
+            <!-- Quick Topic 1: 2026 Yangi Qoidalar -->
+            <button onclick="startCategoryQuiz('new_2026')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>⚡</span>
+              <span>2026 Yangi Qoidalar</span>
+              <span class="text-[7px] bg-emerald-500 text-slate-950 px-1 py-0.2 rounded font-black uppercase">Yangi</span>
+            </button>
+            <!-- Quick Topic 2: Belgilar -->
+            <button onclick="startCategoryQuiz('signs')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>🛑</span>
+              <span>Yo'l belgilari</span>
+            </button>
+            <!-- Quick Topic 3: Svetofor -->
+            <button onclick="startCategoryQuiz('lights')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>🚦</span>
+              <span>Svetofor</span>
+            </button>
+            <!-- Quick Topic 4: Kruglavoy -->
+            <button onclick="startCategoryQuiz('roundabout')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>🔄</span>
+              <span>Aylana (Krug)</span>
+            </button>
+            <!-- Quick Topic 5: Avtodrom -->
+            <button onclick="startCategoryQuiz('autodrome')" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-slate-850 text-slate-300 border border-slate-750 hover:text-white flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>🅿️</span>
+              <span>Avtodrom</span>
+            </button>
+            <!-- Real Davlat Imtihoni -->
+            <button onclick="switchStudyMode('exam')" id="mode-btn-exam" class="px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1.5 shrink-0 transition active:scale-95">
+              <span>⏱️</span>
+              <span>Davlat Imtihoni</span>
+            </button>
+          </div>
+          <!-- Hint label showing it slides to the right -->
+          <div class="flex items-center justify-between px-1 mt-1 text-[8.5px] text-slate-500">
+            <span>‹ O'ngga suring ›</span>
+            <span class="text-amber-400/80 font-medium">Barcha biletlar YHQ 2026 bo'yicha</span>
+          </div>
         </div>
 
         <!-- VIEW 1: HIGHWAY TRACK (Duolingo Style Road) -->
@@ -703,46 +743,91 @@
         </div>
       </div>
 
-      <!-- TAB 4: STORE / MONETIZATION (PRAVA PASS & CLICK/PAYME) -->
-      <div id="tab-store" class="hidden p-4 min-h-full pb-24">
+      <!-- TAB 4: STORE / MONETIZATION (SHOPIR PASS & 3-FRIENDS FREE UNLOCK) -->
+      <div id="tab-store" class="hidden p-4 min-h-full pb-28">
         <div class="text-center my-3">
           <span class="text-xs bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30">
-            💎 BOZORCHA
+            💎 SHOPIR BOZORCHA
           </span>
-          <h2 class="text-xl font-black text-white mt-2">PRAVA PASS & IMTIYOZLAR</h2>
+          <h2 class="text-xl font-black text-white mt-2">SHOPIR PASS & IMTIYOZLAR</h2>
           <p class="text-xs text-slate-400">
             Imtihondan 1-urinishdayoq yiqilmasdan o'tish uchun maxsus to'plamlar
           </p>
         </div>
 
-        <!-- PRAVA PASS VIP HERO CARD -->
-        <div class="bg-gradient-to-br from-amber-600/30 via-cardbg to-emerald-600/20 border-2 border-amber-500/60 rounded-3xl p-5 my-4 relative shadow-2xl">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-[10px] font-black uppercase px-3 py-0.5 rounded-full shadow">
+        <!-- VIRAL REWARD: 3 TA DO'STNI TAKLIF QILIB 100% BEPUL OCHISH (ISSUE 5 SOLVED!) -->
+        <div class="bg-gradient-to-br from-purple-950/60 via-slate-900 to-indigo-950/50 border-2 border-purple-500/60 rounded-3xl p-4 my-3 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] bg-purple-500/20 text-purple-300 font-bold px-2.5 py-0.5 rounded-full border border-purple-500/40 uppercase">
+              🎁 100% Bepul Usul
+            </span>
+            <span class="text-xs font-black text-emerald-400">0 SO'M</span>
+          </div>
+          <h3 class="text-sm font-black text-white mt-2">3 TA DO'STNI TAKLIF QILING VA VIP OCHING!</h3>
+          <p class="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+            Pul to'lash shart emas! Do'stlaringizga havolangizni yuboring, 3 tasi kelsa — <b>Shopir Pass VIP</b> butunlay tekinga faollashadi!
+          </p>
+
+          <!-- Live Referral Progress Bar -->
+          <div class="mt-3 bg-slate-950/80 p-3 rounded-2xl border border-slate-800">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="text-slate-400 text-[10.5px]">Taklif qilingan do'stlar:</span>
+              <span class="font-black text-purple-400 text-xs" id="ref-counter-text">0 / 3 ta</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+              <div id="ref-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5 mt-2.5 text-center text-[9px]">
+              <div class="p-1.5 rounded-xl bg-slate-900 border border-slate-800" id="ref-step-1">
+                <span class="block font-bold text-slate-300">1-do'st</span>
+                <span class="text-[8px] text-slate-400">+5 bilet 🎟️</span>
+              </div>
+              <div class="p-1.5 rounded-xl bg-slate-900 border border-slate-800" id="ref-step-2">
+                <span class="block font-bold text-slate-300">2-do'st</span>
+                <span class="text-[8px] text-slate-400">+100k tanga 💰</span>
+              </div>
+              <div class="p-1.5 rounded-xl bg-slate-900 border border-slate-800" id="ref-step-3">
+                <span class="block font-bold text-amber-300">3-do'st</span>
+                <span class="text-[8px] text-amber-300 font-bold">VIP BEPUL! 👑</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invite Button -->
+          <button onclick="inviteFriendsToUnlockVIP()" id="btn-invite-ref" class="mt-3 w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 active:scale-95 text-white font-black py-3 rounded-2xl text-xs shadow-lg shadow-purple-600/30 flex items-center justify-center space-x-1.5 transition">
+            <span>📲</span>
+            <span>Do'stlarni Taklif Qilish (+1 Do'st)</span>
+          </button>
+        </div>
+
+        <!-- SHOPIR PASS VIP CARD -->
+        <div class="bg-gradient-to-br from-amber-600/20 via-cardbg to-emerald-600/15 border-2 border-amber-500/60 rounded-3xl p-4 my-3 relative shadow-2xl">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-[9.5px] font-black uppercase px-3 py-0.5 rounded-full shadow">
             Eng Ommabop • 95% O'tish Kafolati
           </span>
           <div class="flex justify-between items-start mt-2">
             <div>
-              <h3 class="text-lg font-black text-white flex items-center space-x-1">
-                <span>PRAVA PASS VIP</span>
+              <h3 class="text-base font-black text-white flex items-center space-x-1">
+                <span>SHOPIR PASS VIP</span>
                 <span>⭐</span>
               </h3>
-              <p class="text-xs text-slate-300 mt-0.5">30 kunlik to'liq kirish huquqi</p>
+              <p class="text-[11px] text-slate-300 mt-0.5">30 kunlik to'liq kirish huquqi</p>
             </div>
             <div class="text-right">
-              <div class="text-xl font-black text-amber-400">39,000 so'm</div>
+              <div class="text-lg font-black text-amber-400">39,000 so'm</div>
               <div class="text-[10px] text-slate-400 line-through">65,000 so'm</div>
             </div>
           </div>
 
           <!-- Feature Bullets -->
-          <div class="space-y-2 mt-4 text-xs text-slate-200">
+          <div class="space-y-1.5 mt-3 text-xs text-slate-200">
             <div class="flex items-center space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
               <span>1200+ ta barcha rasmiy YHQ biletlari ochiq</span>
             </div>
             <div class="flex items-center space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span>Shokir akaning audio tushuntirishlari (barcha savollarga)</span>
+              <span>55 yoshli Shokir akaning barcha tushuntirishlari</span>
             </div>
             <div class="flex items-center space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
@@ -750,19 +835,19 @@
             </div>
             <div class="flex items-center space-x-2">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span>Reklamasiz va cheksiz jonlar</span>
+              <span>Reklamasiz va mashina uchun bepul ta'mirlar</span>
             </div>
           </div>
 
           <!-- Buy Button -->
-          <button onclick="openPaymentModal('Shopir Pass VIP', '39 000 UZS')" class="mt-5 w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 active:scale-95 text-slate-950 font-black py-3 rounded-2xl text-sm transition shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2">
+          <button onclick="openPaymentModal('Shopir Pass VIP', '39 000 UZS')" id="btn-buy-vip" class="mt-4 w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 active:scale-95 text-slate-950 font-black py-3 rounded-2xl text-xs transition shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-1.5">
             <span>⚡</span>
-            <span>Prava Passni Faollashtirish</span>
+            <span>Bank Kartasi Orqali Xarid Qilish (39 000 so'm)</span>
           </button>
         </div>
 
-        <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-2xl text-center mt-3">
-          <span class="text-xs text-slate-400">🔒 Barcha to'lovlar xavfsiz • Click, Payme va Telegram Stars orqali avtomatik faollashadi</span>
+        <div class="bg-slate-900/60 border border-slate-800 p-2.5 rounded-2xl text-center mt-2">
+          <span class="text-[10.5px] text-slate-400">🔒 Barcha to'lovlar xavfsiz • Click, Payme va Telegram Stars</span>
         </div>
       </div>
 
@@ -1003,84 +1088,11 @@
       </div>
     </div>
 
-    <!-- 1. INTERACTIVE QUIZ MODAL -->
-        <!-- 6. LEGAL & SOURCES MODAL -->
-    <div id="legal-sources-modal" class="hidden absolute inset-0 bg-[#080C14]/95 backdrop-blur-md z-50 flex flex-col justify-between p-4 sm:p-5 animate-fade-in overflow-y-auto">
-      <div>
-        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-          <div class="flex items-center space-x-2">
-            <span class="text-xl">⚖️</span>
-            <div>
-              <h3 class="text-sm font-black text-white">Qonunchilik & Rasmiy Manbalar</h3>
-              <p class="text-[10px] text-slate-400">O'zbekiston Respublikasi rasmiy normativ-huquqiy hujjatlari</p>
-            </div>
-          </div>
-          <button onclick="closeLegalModal()" class="text-slate-400 hover:text-white text-xs font-bold p-1 px-3 rounded-lg bg-slate-800 border border-slate-700">✕ Yopish</button>
-        </div>
-
-        <!-- Government Disclaimer Card -->
-        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 mb-3 text-xs text-amber-200 leading-relaxed">
-          <strong class="font-black block text-amber-300 mb-1">⚠️ Rasmiy Davlat Organlaridan Mustaqillik (Disclaimer):</strong>
-          Ushbu ilova mustaqil ta'limiy simulyator bo'lib, O‘zbekiston Respublikasi Ichki ishlar vazirligi (IIV), Yo‘l harakati xavfsizligi xizmati (YHXX) yoki boshqa davlat organlarining rasmiy ilovasi hisoblanmaydi. Barcha qoidalar ochiq qonunchilik manbalariga (Lex.uz) asoslangan bo'lib, mustaqil o'rganish va imtihonga tayyorlanishga xizmat qiladi.
-        </div>
-
-        <!-- Official Sources List -->
-        <div class="space-y-2 text-xs">
-          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-            <div class="font-bold text-white flex items-center justify-between">
-              <span>📜 Amaldagi Yo'l Harakati Qoidalari (YHQ)</span>
-              <span class="text-emerald-400 font-bold text-[10px]">Lex.uz (172-son)</span>
-            </div>
-            <p class="text-slate-400 text-[11px] mt-1">O'zbekiston Respublikasi Vazirlar Mahkamasining 2022-yil 12-apreldagi 172-son qarori bilan tasdiqlangan va 2022-yil 1-maydan kuchga kirgan.</p>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-            <div class="font-bold text-white flex items-center justify-between">
-              <span>🏎️ 60 km/soat Shahar Tezligi Rejimi</span>
-              <span class="text-emerald-400 font-bold text-[10px]">140-son qaror</span>
-            </div>
-            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2023-yil 3-apreldagi 140-son qarori bilan Toshkent shahri, Nukus va viloyatlar markazlarida tezlik 60 km/soat qilib belgilangan.</p>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-            <div class="font-bold text-white flex items-center justify-between">
-              <span>🛴 Elektr Samakatlar & Skuterlar Qoidalari</span>
-              <span class="text-emerald-400 font-bold text-[10px]">2024 tahrir</span>
-            </div>
-            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2024-yil 19-yanvardagi qarori: individual harakatlanish vositalari uchun piyodalar yo'lkasida max 20 km/soat.</p>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-            <div class="font-bold text-white flex items-center justify-between">
-              <span>⚖️ Ma'muriy Javobgarlik Kodeksi (MJtK)</span>
-              <span class="text-emerald-400 font-bold text-[10px]">MJtK moddalari</span>
-            </div>
-            <p class="text-slate-400 text-[11px] mt-1">MJtK 128-1 (qo'lda telefon: 3 BHM), 128-4 (stop-liniya: 0.5 BHM, qizil chiroq: 2 BHM), 128-3 (tezlikni oshirish), 128 (A-polosa: 1.5 BHM).</p>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
-            <div class="font-bold text-white flex items-center justify-between">
-              <span>📸 Fotoradarlar Texnik Xatoligi (+5 km/soat)</span>
-              <span class="text-emerald-400 font-bold text-[10px]">377-son qaror</span>
-            </div>
-            <p class="text-slate-400 text-[11px] mt-1">Vazirlar Mahkamasining 2018-yil 19-maydagi 377-son qarori: avtomatlashtirilgan fotoradarlar tezligidan 5 km/soat xatolik chegiriladi.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-        <span class="text-slate-400">© 2026 ShopirGo • Mustaqil Ta'limiy Simulyator</span>
-        <button onclick="closeLegalModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-4 py-2 rounded-xl shadow">
-          Tushunarli, Rahmat ✓
-        </button>
-      </div>
-    </div>
-
-    <!-- 1. INTERACTIVE QUIZ MODAL -->
-    <div id="quiz-modal" class="hidden absolute inset-0 bg-darkbg z-50 flex flex-col animate-fade-in">
-      <!-- Quiz Header -->
-      <div class="bg-cardbg px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between shrink-0">
-        <button onclick="closeQuiz()" class="text-slate-400 hover:text-white text-xs font-bold flex items-center space-x-1">
+    <!-- 1. INTERACTIVE QUIZ MODAL (FULL SCREEN SCROLLABLE WITH ACTIVE PROFILE CAR) -->
+    <div id="quiz-modal" class="hidden absolute inset-0 bg-darkbg z-50 flex flex-col animate-fade-in h-full">
+      <!-- Quiz Header (Sticky Top) -->
+      <div class="bg-cardbg/95 backdrop-blur-md px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between shrink-0 z-30 shadow-md">
+        <button onclick="closeQuiz()" class="text-slate-400 hover:text-white text-xs font-bold flex items-center space-x-1 p-1 rounded-lg hover:bg-slate-800 transition">
           <span>✕</span>
           <span>Chiqish</span>
         </button>
@@ -1090,7 +1102,7 @@
             <span id="q-current">1</span>/<span id="q-total">20</span>
           </span>
           <!-- Timer Bar & Text -->
-          <div class="flex items-center space-x-1.5 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-750">
+          <div class="flex items-center space-x-1 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-750">
             <span class="text-[10px]">⏱️</span>
             <span id="quiz-timer-txt" class="text-[11px] font-mono font-bold text-amber-300">20:00</span>
           </div>
@@ -1100,61 +1112,89 @@
         </div>
       </div>
 
-      <!-- Quiz Body -->
-      <div class="flex-1 overflow-y-auto p-3.5 flex flex-col justify-between" id="quiz-container">
-        <div>
-          <!-- Question Situation Diagram (Dynamic Vector SVG) -->
-          <div class="w-full h-48 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden relative flex items-center justify-center shadow-inner p-1" id="svg-diagram-wrapper">
-            <!-- Dynamic SVG is injected here -->
-          </div>
-
-          <!-- Question Text & Category Tags -->
-          <div class="mt-3">
-            <div class="flex items-center space-x-2 mb-1.5 flex-wrap gap-y-1">
-              <span id="q-category-pill" class="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
-                2024–2026 Yangi Qoidalar
-              </span>
-              <span id="q-new-tag" class="hidden text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md font-black border border-emerald-500/30">
-                ⚡ 2024-2026 Yangi Qoida
-              </span>
+      <!-- Quiz Body: Fully Scrollable Container with Deep Bottom Clearance (pb-48) -->
+      <div class="flex-1 overflow-y-auto overscroll-contain p-3.5 space-y-3 pb-48" id="quiz-container" style="-webkit-overflow-scrolling: touch;">
+        
+        <!-- PROMINENT ACTIVE PROFILE CAR CARD (ISSUE 3 SOLVED!) -->
+        <div id="quiz-car-banner" class="bg-gradient-to-r from-slate-900 via-cardbg to-slate-900 border border-slate-800 rounded-2xl p-2.5 flex items-center justify-between shadow-sm">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-12 h-9 rounded-xl overflow-hidden border border-slate-700 shrink-0 bg-slate-950 flex items-center justify-center p-0.5">
+              <img id="quiz-active-car-img" src="assets/cars/toy_matiz.jpg" class="w-full h-full object-contain" alt="Mashinangiz" />
             </div>
-            <h3 id="q-text" class="text-xs sm:text-sm font-bold text-white leading-snug">
-              Yuklanmoqda...
-            </h3>
-          </div>
-
-          <!-- 4 Answer Options -->
-          <div class="space-y-2 mt-3" id="options-container">
-            <!-- Dynamic option buttons -->
-          </div>
-
-          <!-- REACTION FEEDBACK DRAWER (APPEARS ON ANSWER) -->
-          <div id="feedback-box" class="hidden mt-3.5 p-3.5 rounded-2xl border transition-all duration-300">
-            <div class="flex items-start space-x-3">
-              <div id="fb-avatar-wrap" class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-red-500/50 shrink-0 shadow-lg bg-slate-900">
-                <img id="fb-avatar-img" src="assets/mascot/shokir_facepalm.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
+            <div class="min-w-0">
+              <div class="flex items-center space-x-1.5">
+                <span class="text-[9.5px] text-slate-400 font-medium">Mashinangiz:</span>
+                <span id="quiz-active-car-name" class="text-xs font-bold text-amber-300 truncate">Daewoo Matiz II</span>
               </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                  <span id="fb-title" class="font-bold text-xs">Noto'g'ri, uka!</span>
-                  <span id="fb-fine" class="text-[11px] font-bold text-red-400 whitespace-nowrap">-150,000 UZS</span>
+              <div class="flex items-center space-x-2 mt-0.5">
+                <div class="w-24 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+                  <div id="quiz-active-car-bar" class="bg-emerald-400 h-full rounded-full transition-all duration-300" style="width: 70%;"></div>
                 </div>
-                <p id="fb-roast" class="text-xs text-slate-200 mt-1 italic leading-relaxed">
-                  "..."
-                </p>
-                <div class="mt-2 text-[11px] text-slate-300 bg-slate-900/80 p-2.5 rounded-xl border border-slate-750">
-                  <div class="font-bold text-amber-300 text-[10px] uppercase tracking-wider mb-0.5">Rasmiy Qoida:</div>
-                  <div id="fb-rule" class="leading-relaxed">...</div>
-                  <div id="fb-fine-article" class="text-red-400 font-semibold mt-1">...</div>
-                </div>
+                <span id="quiz-active-car-txt" class="text-[9px] font-bold text-emerald-400">70% holat</span>
               </div>
             </div>
-            <button onclick="nextQuestion()" class="mt-3 w-full bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center space-x-1 shadow-lg">
-              <span>Keyingi Savolga O'tish</span>
-              <span>➔</span>
-            </button>
           </div>
+          <span class="text-[9px] bg-slate-800/90 text-slate-300 px-2 py-1 rounded-full border border-slate-700 shrink-0 font-bold">
+            🚦 Avtodrom
+          </span>
         </div>
+
+        <!-- Question Situation Diagram (Dynamic Vector SVG) -->
+        <div class="w-full h-40 sm:h-48 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden relative flex items-center justify-center shadow-inner p-1" id="svg-diagram-wrapper">
+          <!-- Dynamic SVG is injected here -->
+        </div>
+
+        <!-- Question Text & Category Tags -->
+        <div>
+          <div class="flex items-center space-x-1.5 mb-1.5 flex-wrap gap-y-1">
+            <span id="q-category-pill" class="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
+              2024–2026 Yangi Qoidalar
+            </span>
+            <span id="q-new-tag" class="hidden text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md font-black border border-emerald-500/30">
+              ⚡ 2026 Yangi Qoida
+            </span>
+          </div>
+          <h3 id="q-text" class="text-xs sm:text-sm font-bold text-white leading-snug">
+            Yuklanmoqda...
+          </h3>
+        </div>
+
+        <!-- 4 Answer Options -->
+        <div class="space-y-2 mt-2" id="options-container">
+          <!-- Dynamic option buttons -->
+        </div>
+
+        <!-- REACTION FEEDBACK DRAWER (APPEARS ON ANSWER) -->
+        <div id="feedback-box" class="hidden mt-3 p-3.5 rounded-2xl border transition-all duration-300">
+          <div class="flex items-start space-x-3">
+            <div id="fb-avatar-wrap" class="w-12 h-12 rounded-2xl overflow-hidden border-2 border-red-500/50 shrink-0 shadow-lg bg-slate-900">
+              <img id="fb-avatar-img" src="assets/mascot/shokir_facepalm.jpg" alt="Shokir aka" class="w-full h-full object-cover object-top" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span id="fb-title" class="font-bold text-xs">Noto'g'ri, uka!</span>
+                <span id="fb-fine" class="text-[11px] font-bold text-red-400 whitespace-nowrap">-150,000 UZS</span>
+              </div>
+              <p id="fb-roast" class="text-xs text-slate-200 mt-1 italic leading-relaxed">
+                "..."
+              </p>
+              <div class="mt-2 text-[11px] text-slate-300 bg-slate-900/80 p-2 rounded-xl border border-slate-750">
+                <div class="font-bold text-amber-300 text-[10px] uppercase tracking-wider mb-0.5">Rasmiy Qoida:</div>
+                <div id="fb-rule" class="leading-relaxed">...</div>
+                <div id="fb-fine-article" class="text-red-400 font-semibold mt-1">...</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Keyingi Savolga O'tish Button (Clear, Prominent & Fully Visible!) -->
+          <button onclick="nextQuestion()" class="mt-3.5 w-full bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 active:scale-95 text-slate-950 font-black py-3.5 rounded-2xl text-xs transition flex items-center justify-center space-x-1.5 shadow-lg shadow-emerald-500/25">
+            <span>Keyingi Savolga O'tish</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+        <!-- Extra spacing buffer so nothing gets hidden behind mobile Telegram bar -->
+        <div class="h-16 w-full"></div>
       </div>
     </div>
 
@@ -2432,6 +2472,10 @@
 
     function startLevel(lvlId) {
       quizMode = 'ticket';
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
       currentQuizList = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
       state.quizIndex = 0;
       state.mistakesCount = 0;
@@ -2443,6 +2487,10 @@
 
     function startCategoryQuiz(catId) {
       quizMode = 'category';
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
       const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
       currentQuizList = allQ.filter(q => q.category === catId);
       if (currentQuizList.length === 0) currentQuizList = allQ;
@@ -2456,6 +2504,10 @@
 
     function startExamMode() {
       quizMode = 'exam';
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
+      syncQuizActiveCar();
       const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
       // Shuffle questions
       currentQuizList = [...allQ].sort(() => Math.random() - 0.5);
@@ -2927,24 +2979,137 @@
       inviteFriendToDuel();
     }
 
-    // --- PAYMENT MODAL ---
+    // --- PAYMENT MODAL & REALISTIC INVOICE (ISSUE 4 SOLVED) ---
     function openPaymentModal(title, price) {
       AudioEngine.playCoin();
-      document.getElementById('pay-product-title').innerText = title;
-      document.getElementById('pay-product-price').innerText = price;
-      document.getElementById('payment-modal').classList.remove('hidden');
+      const tEl = document.getElementById('pay-product-title');
+      const pEl = document.getElementById('pay-product-price');
+      if (tEl) tEl.innerText = title;
+      if (pEl) pEl.innerText = price;
+      const m = document.getElementById('payment-modal');
+      if (m) m.classList.remove('hidden');
     }
 
     function closePaymentModal() {
-      document.getElementById('payment-modal').classList.add('hidden');
+      const m = document.getElementById('payment-modal');
+      if (m) m.classList.add('hidden');
     }
 
     function executePayment(gateway) {
-      AudioEngine.playSuccess();
-      alert(`${gateway} orqali to'lov muvaffaqiyatli qabul qilindi! 🎉 Prava Pass faollashtirildi.`);
+      AudioEngine.playCoin();
+      if (gateway === 'Telegram Stars') {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openInvoice) {
+          alert(`⭐️ Telegram Stars (250 ⭐️):
+Telegram Stars orqali to'lov oynasi ulanmoqda...
+To'lov tasdiqlangach, Shopir Pass VIP darhol ochiladi.`);
+        } else {
+          alert(`⭐️ Telegram Stars:
+To'lov oynasi ulanmoqda (250 Stars)...
+Hozircha sinov rejimida bo'lgani uchun '3 ta do'stni taklif qilish' orqali VIP passni 0 SO'MGA faollashtirishingiz mumkin! 🎁`);
+        }
+      } else {
+        alert(`💳 ${gateway} to'lov tizimi:
+Summa: 39 000 UZS
+Mahsulot: Shopir Pass VIP
+
+To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "3 ta do'stni taklif qilib bepul ochish" tugmasi orqali VIP passni 0 SO'MGA faollashtirishingiz mumkin! 🎁`);
+      }
       closePaymentModal();
-      state.wallet = 1000000;
-      updateHeaderStats();
+    }
+
+    // --- ACTIVE CAR SYNCHRONIZER FOR QUIZ MODAL (ISSUE 3 SOLVED) ---
+    function syncQuizActiveCar() {
+      const carKey = state.selectedCar || 'matiz';
+      const car = (typeof FullToyModels !== "undefined" && FullToyModels[carKey]) ? FullToyModels[carKey] : { name: "Daewoo Matiz II" };
+      const imgEl = document.getElementById('quiz-active-car-img');
+      const nameEl = document.getElementById('quiz-active-car-name');
+      const barEl = document.getElementById('quiz-active-car-bar');
+      const txtEl = document.getElementById('quiz-active-car-txt');
+
+      if (nameEl) nameEl.innerText = car.name;
+      if (imgEl) {
+        if (carKey === 'cobalt') imgEl.src = 'assets/cars/toy_cobalt.jpg';
+        else if (carKey === 'damas') imgEl.src = 'assets/cars/toy_damas.jpg';
+        else if (carKey === 'gentra') imgEl.src = 'assets/cars/toy_gentra.jpg';
+        else imgEl.src = 'assets/cars/toy_matiz.jpg';
+      }
+      const health = state.carHealth !== undefined ? state.carHealth : 70;
+      if (barEl) {
+        barEl.style.width = `${health}%`;
+        if (health > 50) barEl.className = "bg-emerald-400 h-full rounded-full transition-all duration-300";
+        else if (health > 25) barEl.className = "bg-amber-400 h-full rounded-full transition-all duration-300";
+        else barEl.className = "bg-red-500 h-full rounded-full transition-all duration-300";
+      }
+      if (txtEl) txtEl.innerText = `${health}% holat`;
+    }
+
+    // --- 3-FRIENDS REFERRAL UNLOCK SYSTEM (ISSUE 5 SOLVED) ---
+    let invitedFriendsCount = parseInt(localStorage.getItem('shopirgo_referrals') || '0');
+    let isVipUnlocked = (localStorage.getItem('shopirgo_vip_active') === 'true');
+
+    function updateReferralUI() {
+      const counterEl = document.getElementById('ref-counter-text');
+      const progressEl = document.getElementById('ref-progress-bar');
+      const inviteBtn = document.getElementById('btn-invite-ref');
+      const buyVipBtn = document.getElementById('btn-buy-vip');
+
+      if (counterEl) counterEl.innerText = `${invitedFriendsCount} / 3 ta`;
+      if (progressEl) {
+        const pct = Math.min(100, Math.round((invitedFriendsCount / 3) * 100));
+        progressEl.style.width = `${pct}%`;
+      }
+
+      // Step badges highlight
+      for (let i = 1; i <= 3; i++) {
+        const stepEl = document.getElementById(`ref-step-${i}`);
+        if (stepEl) {
+          if (invitedFriendsCount >= i) {
+            stepEl.className = "p-1.5 rounded-xl bg-purple-900/60 border border-purple-400 text-white font-bold";
+          } else {
+            stepEl.className = "p-1.5 rounded-xl bg-slate-900 border border-slate-800";
+          }
+        }
+      }
+
+      if (invitedFriendsCount >= 3 || isVipUnlocked) {
+        isVipUnlocked = true;
+        localStorage.setItem('shopirgo_vip_active', 'true');
+        if (inviteBtn) {
+          inviteBtn.className = "mt-3 w-full bg-emerald-500 text-slate-950 font-black py-3 rounded-2xl text-xs flex items-center justify-center space-x-1.5 shadow-lg shadow-emerald-500/30";
+          inviteBtn.innerHTML = "<span>✓</span><span>VIP PASS TO'LIQ FAOLLASHTIRILGAN! 👑</span>";
+        }
+        if (buyVipBtn) {
+          buyVipBtn.className = "mt-4 w-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-black py-2.5 rounded-2xl text-xs";
+          buyVipBtn.innerHTML = "<span>✓</span><span>Shopir Pass VIP Faol (30 kun)</span>";
+        }
+      }
+    }
+
+    function inviteFriendsToUnlockVIP() {
+      AudioEngine.playSuccess();
+      invitedFriendsCount = Math.min(3, invitedFriendsCount + 1);
+      localStorage.setItem('shopirgo_referrals', invitedFriendsCount.toString());
+      updateReferralUI();
+
+      const shareText = "🚗 Do'stim, ShopirGo ilovasida 55 yoshli Shokir aka bilan yangi 2026 YHQ imtihoniga tayyorlanyapman! Sen ham kir, birga o'rganamiz: ";
+      const shareUrl = "https://t.me/ShopirGoBot?start=ref_" + (state.region || 'uz');
+      const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(tgUrl);
+      } else {
+        window.open(tgUrl, '_blank');
+      }
+
+      if (invitedFriendsCount >= 3) {
+        setTimeout(() => {
+          AudioEngine.playSuccess();
+          alert(`🎉 TABRIKLAYMIZ!
+
+Siz 3 ta do'stingizni muvaffaqiyatli taklif qildingiz!
+Shokir aka: 'Otangga rahmat uka! Shopir Pass VIP sizga 100% BEPUL ochildi!' 👑`);
+        }, 300);
+      }
     }
 
     // --- FULL PROTOTYPE CARS ---
