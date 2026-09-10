@@ -125,7 +125,7 @@
         </div>
         <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Profilni sozlash">
           <div class="flex items-center space-x-1">
-            <h1 class="font-bold text-xs text-white truncate max-w-[90px] sm:max-w-[130px]">Ibrohim</h1>
+            <h1 class="font-bold text-xs text-white truncate max-w-[90px] sm:max-w-[130px]" id="header-user-name">Jasur</h1>
             <span class="text-[8px] bg-emerald-500/20 text-emerald-400 font-medium px-1 rounded border border-emerald-500/30 shrink-0">Shogird</span>
           </div>
           <p class="text-[9px] text-slate-400 truncate" id="user-demographic-badge">22 yosh • Uka</p>
@@ -1089,6 +1089,18 @@
           </div>
         </div>
 
+        <!-- Step 0: User Name Input -->
+        <div class="mb-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+          <label class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-1.5 flex items-center justify-between">
+            <span>1. Ismingiz (Sertifikat va bayonnomaga yoziladi):</span>
+            <span class="text-[9px] text-slate-400">o'zgartirish mumkin</span>
+          </label>
+          <div class="flex items-center space-x-2">
+            <input type="text" id="profile-name-input" value="Jasur" oninput="setUserName(this.value)" placeholder="Ismingizni kiriting..." class="bg-slate-950 border border-slate-700 text-white text-xs font-bold rounded-xl px-3 py-2 w-full focus:outline-none focus:border-amber-400" />
+            <span class="text-xs">✍️</span>
+          </div>
+        </div>
+
         <!-- Step 1: Shokir aka - Yagona Bosh Ustoz (Andijon • Asaka) -->
         <div class="mb-3 bg-gradient-to-r from-amber-500/15 via-slate-900 to-amber-500/5 p-3 rounded-2xl border border-amber-500/40 flex items-center space-x-3 shadow-md">
           <div class="w-12 h-12 rounded-xl overflow-hidden border-2 border-amber-500/60 shrink-0 bg-slate-950">
@@ -1445,7 +1457,7 @@
           <div class="mt-2.5 space-y-1.5 text-xs">
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Haydovchi nomzodi:</span>
-              <span class="font-bold text-white" id="proto-driver-name">Ibrohim</span>
+              <span class="font-bold text-white" id="proto-driver-name">Jasur</span>
             </div>
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Avtomobil modeli:</span>
@@ -1488,7 +1500,7 @@
           <div class="mt-2.5 space-y-1.5 text-xs">
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Haydovchi:</span>
-              <span class="font-bold text-white">Ibrohim</span>
+              <span class="font-bold text-white" id="cert-driver-name">Jasur</span>
             </div>
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Natija:</span>
@@ -1957,7 +1969,39 @@
     }
 
     // --- STATE MANAGEMENT ---
+    function getInitialUserName() {
+      try {
+        const saved = localStorage.getItem('shopirgo_user_name');
+        if (saved && saved.trim()) return saved.trim();
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+          const tgName = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+          if (tgName && tgName.trim()) return tgName.trim();
+        }
+      } catch(e) {}
+      return "Jasur";
+    }
+
+    function updateUserNameUI() {
+      const name = state.userName || "Jasur";
+      const headerEl = document.getElementById('header-user-name');
+      if (headerEl) headerEl.innerText = name;
+      const protoEl = document.getElementById('proto-driver-name');
+      if (protoEl) protoEl.innerText = name;
+      const certEl = document.getElementById('cert-driver-name');
+      if (certEl) certEl.innerText = name;
+      const inputEl = document.getElementById('profile-name-input');
+      if (inputEl && inputEl.value !== name) inputEl.value = name;
+    }
+
+    function setUserName(newName) {
+      if (!newName || !newName.trim()) return;
+      state.userName = newName.trim();
+      localStorage.setItem('shopirgo_user_name', state.userName);
+      updateUserNameUI();
+    }
+
     const state = {
+      userName: getInitialUserName(),
       userGender: autoDetectTelegramGender(),      // 'male' | 'female'
       userAgeGroup: localStorage.getItem('shopirgo_age_group') || 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
       userAge: 22,
@@ -5697,7 +5741,7 @@
       ctx.fillStyle = '#94a3b8';
       ctx.fillText('Haydovchi nomzodi:', 60, 170);
       ctx.fillStyle = '#ffffff';
-      ctx.fillText('Ibrohim (Toshkent)', 240, 170);
+      ctx.fillText(`${state.userName || 'Jasur'} (O'zbekiston)`, 240, 170);
 
       const carName = (typeof FullToyCars !== "undefined" && FullToyCars[state.selectedCar]) ? FullToyCars[state.selectedCar].name : "Chevrolet Cobalt";
       ctx.fillStyle = '#94a3b8';
