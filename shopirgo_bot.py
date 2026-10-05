@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8860852821:AAH_rDL4s4pSsF7sd57FoNOjHacZqcMBhIc")
 BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
-WEBAPP_URL = "https://gptify.github.io/ShopirGo/?v=3.0"
+WEBAPP_URL = "https://gptify.github.io/ShopirGo/?v=3.2"
 
 
 def send_message(chat_id, text, reply_markup=None):
