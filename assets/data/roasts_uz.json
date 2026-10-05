@@ -1,0 +1,55 @@
+{
+  "regional_instructors": {
+    "andijon": {
+      "name": "Shokir aka",
+      "region": "Andijon (Asaka)",
+      "title": "Asaka avtomobil zavodi sinovchisi va faxriy ustozi",
+      "avatar": "shokir_default.jpg",
+      "dialect_features": "Vodiy/Andijon shevasi: yumshoq kinoya, -votti/ne qivosiz/to'xtamiysizmi, 'aylanay', 'jo'ra', 'Asaka zavodi'",
+      "quotes": {
+        "mild": "Shoshilmang uka, aylanay. Asakada moshinani bittadan ehtiyotlab terishadi, siz ham sekin-asta o'rganasiz-da.",
+        "medium": "Hov uka, ne qivosiz?! Asaka zavodidan chiqqan yangi Cobaltni ezib tashlaysiz-ku! Tormozni bosing-da!",
+        "spicy": "Iya uka, ko'zingiz qattedi?! Svetofor qizarib ketdi-ku, nega gazni bosvurasiz?! O'zingizni Asaka bozorida yuribman deb o'ylavosizmi?!"
+      },
+      "praises": [
+        "Iye, otangizga rahmat uka! Haqiqiy Andijoncha chaqqon shafyor bo'bsiz!",
+        "Balli! Mana buni haydash desa bo'ladi! Ertaga Asaka zavodiga sinovchi qilib ishga olamiz sizni!",
+        "Yashang jo'ra! Bitta qaynoq Andijon somsasi mendan bugun!"
+      ]
+    },
+    "toshkent": {
+      "name": "Rustam aka",
+      "region": "Toshkent (Chilonzor)",
+      "title": "Poytaxt probkalari va shahar ko'chalari faxriysi",
+      "avatar": "rustam_default.jpg",
+      "dialect_features": "Toshkent shahar lahjasi: qvos/ketvos/tiqvoldiz, 'bratiwka', 'o'rto', 'chotki', 'Amir Temur', 'Chilonzor', 'A-polosa'",
+      "quotes": {
+        "mild": "Sekinroq uka. Toshkent ko'chalari keng bo'lgani bilan, kameralar har burchakda turibdi, qoidani buzma.",
+        "medium": "Eee bratiwka, nima qvos?! Chilonzor probkasida qolib ketmagan bo'sen hali haydovchiman dema! Stop-liniyani ezvordiz-ku!",
+        "spicy": "Eee uka, Yunusobodga yetmasdan moshinani jarima maydonchasiga tiqasan shekilli bu yurishda?!"
+      },
+      "praises": [
+        "Chotki! Gap yo'q uka, Toshkenni ko'chasini biladigan bola ekansan!",
+        "Molodets! Chilonzorda birinchi marta krugdan to'g'ri o'tgan shafyorni ko'rdim!",
+        "Kallenga balli brat! Amir Temurdagi hamma kameralar senga qarsak chalvotti!"
+      ]
+    },
+    "xorazm": {
+      "name": "Polvon aka",
+      "region": "Xorazm (Urganch & Xiva)",
+      "title": "Urganch va Xiva pahlavon shafyori",
+      "avatar": "polvon_default.jpg",
+      "dialect_features": "Xorazm O'g'uz lahjasi: gal/get/go'r/dur/garak/moshin, etyansan/bilyangmi/galyotir, 'og'am', 'og'asi', 'inim', 'bora-kalla'",
+      "quotes": {
+        "mild": "Biyoqa qara og'am, shoshilma. Qoidani sekin-sekin o'rgansang, yo'ling ravon bo'ladi, inim.",
+        "medium": "Ie og'am, nima etyansan?! Urganch kruginda bunaqa qilsang moshinni urib olasan-ku! Stop-chiziqni bosma!",
+        "spicy": "Voy dodingni beray og'asi, ko'zing qayoqda yotibdi?! Svetofor qizil yonib duribdi-ku, ne gozni bosyansan?!"
+      },
+      "praises": [
+        "Bora-kalla og'am! Xosh haydading! Xorazmning eng zo'r shafyori bo'lding-ku!",
+        "Yashasin inim! Biyoqa qara, to'ppa-to'g'ri! Bitta shirin Xorazm qovuni mendan!",
+        "Otangga ming balli og'am! Endi Xivagacha go'ngling to'q getaverasan!"
+      ]
+    }
+  }
+}

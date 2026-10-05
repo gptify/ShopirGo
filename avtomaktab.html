@@ -177,9 +177,9 @@
           <div class="w-14 h-14 rounded-2xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-2xl">
             📊
           </div>
-          <h4 class="text-xl font-bold text-white">Direktor & O'qituvchi Boshqaruv Paneli</h4>
+          <h4 class="text-xl font-bold text-white">Elektron Imtihon Protokoli & Hisobot</h4>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Qaysi guruh qaysi mavzuda oqsayapti? Qaysi o'quvchi dars qilmayapti? Barchasi real vaqt rejimida avtomaktab direktorining telefonida!
+            Har bir o'quvchi test topshirgach, xatolari va to'plagan ballari aks etgan rasmiy elektron bayonnoma shakllanadi. O'quvchilar natijalarini oson tekshiring.
           </p>
         </div>
 
@@ -197,9 +197,9 @@
           <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-2xl">
             🏷️
           </div>
-          <h4 class="text-xl font-bold text-white">Maktabingiz Shaxsiy Brendi (Co-branding)</h4>
+          <h4 class="text-xl font-bold text-white">Guruhlar Uchun Korporativ Paketlar</h4>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Ilovada o'quvchilaringiz sizning avtomaktab logotipi va sertifikatlarini ko'radi. Har bir bitiruvchiga rasmiy elektron sertifikat beriladi.
+            Avtomaktabingiz o'quvchilari uchun maxsus guruh tariflari, barcha 100 ta YHQ vaziyatli savollari va Shokir aka master-klasslariga to'liq kirish huquqi.
           </p>
         </div>
 
@@ -494,6 +494,11 @@
           <div class="text-3xl">🎉</div>
           <div class="text-base font-black text-emerald-300">Arizangiz qabul qilindi!</div>
           <p class="text-xs text-slate-200">Tez orada mutaxassisimiz siz bilan bog'lanadi va avtomaktabingiz o'quvchilari uchun bepul test kalitlarini faollashtiradi.</p>
+          <div class="pt-2">
+            <a href="https://t.me/ShopirGoSupportBot" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#24A1DE] text-white hover:bg-[#1E8BC3] transition shadow-md">
+              <span>💬 Telegram Orqali Darhol Bog'lanish (@ShopirGoSupportBot)</span>
+            </a>
+          </div>
         </div>
 
       </div>
@@ -592,6 +597,26 @@
         const existing = JSON.parse(localStorage.getItem('shopirgo_partner_leads') || '[]');
         existing.push(leadData);
         localStorage.setItem('shopirgo_partner_leads', JSON.stringify(existing));
+      } catch(err) {}
+
+      // Real Backend API Ingestion
+      try {
+        const apiPayload = {
+          school_name: school,
+          contact_name: name + (city ? ` (${city})` : ''),
+          phone: phone,
+          student_count: students,
+          plan_type: '14-kunlik sinov (B2B)'
+        };
+        const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          ? 'http://127.0.0.1:8008/api/leads/submit'
+          : '/api/leads/submit';
+
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(apiPayload)
+        }).catch(() => {});
       } catch(err) {}
 
       document.getElementById('partner-form').classList.add('hidden');

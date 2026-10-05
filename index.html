@@ -125,7 +125,7 @@
         </div>
         <div class="min-w-0 cursor-pointer" onclick="openWelcomeModal()" title="Profilni sozlash">
           <div class="flex items-center space-x-1">
-            <h1 class="font-bold text-xs text-white truncate max-w-[90px] sm:max-w-[130px]" id="header-user-name">Jasur</h1>
+            <h1 class="font-bold text-xs text-white truncate max-w-[90px] sm:max-w-[130px]" id="header-user-name">Haydovchi</h1>
             <span class="text-[8px] bg-emerald-500/20 text-emerald-400 font-medium px-1 rounded border border-emerald-500/30 shrink-0">Shogird</span>
           </div>
           <p class="text-[9px] text-slate-400 truncate" id="user-demographic-badge">22 yosh • Uka</p>
@@ -1096,7 +1096,7 @@
             <span class="text-[9px] text-slate-400">o'zgartirish mumkin</span>
           </label>
           <div class="flex items-center space-x-2">
-            <input type="text" id="profile-name-input" value="Jasur" oninput="setUserName(this.value)" placeholder="Ismingizni kiriting..." class="bg-slate-950 border border-slate-700 text-white text-xs font-bold rounded-xl px-3 py-2 w-full focus:outline-none focus:border-amber-400" />
+            <input type="text" id="profile-name-input" value="Haydovchi" oninput="setUserName(this.value)" placeholder="Ismingizni kiriting..." class="bg-slate-950 border border-slate-700 text-white text-xs font-bold rounded-xl px-3 py-2 w-full focus:outline-none focus:border-amber-400" />
             <span class="text-xs">✍️</span>
           </div>
         </div>
@@ -1457,7 +1457,7 @@
           <div class="mt-2.5 space-y-1.5 text-xs">
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Haydovchi nomzodi:</span>
-              <span class="font-bold text-white" id="proto-driver-name">Jasur</span>
+              <span class="font-bold text-white" id="proto-driver-name">Haydovchi</span>
             </div>
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Avtomobil modeli:</span>
@@ -1500,7 +1500,7 @@
           <div class="mt-2.5 space-y-1.5 text-xs">
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Haydovchi:</span>
-              <span class="font-bold text-white" id="cert-driver-name">Jasur</span>
+              <span class="font-bold text-white" id="cert-driver-name">Haydovchi</span>
             </div>
             <div class="flex justify-between border-b border-slate-800/80 pb-1">
               <span class="text-slate-400">Natija:</span>
@@ -1605,29 +1605,29 @@
     <div id="duel-modal" class="hidden absolute inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
       <div class="bg-gradient-to-b from-cardbg to-slate-950 border-2 border-red-500/80 rounded-3xl p-5 w-full max-w-sm text-center shadow-2xl relative">
         <div class="text-4xl animate-bounce">📢</div>
-        <h3 class="text-base font-black text-red-400 mt-2">DUEL YAKUNLANDI!</h3>
+        <h3 id="duel-modal-heading" class="text-base font-black text-red-400 mt-2">DUEL YAKUNLANDI!</h3>
         
         <!-- Result Box -->
         <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl my-3 text-left">
           <div class="flex justify-between items-center text-xs font-bold pb-2 border-b border-slate-800">
-            <span class="text-emerald-400">Siz: 3/3 to'g'ri 🏆</span>
-            <span class="text-red-400">Sardor: 1/3 (Yiqildi) 💀</span>
+            <span id="duel-player-score" class="text-emerald-400">Siz: 3/3 to'g'ri 🏆</span>
+            <span id="duel-opp-score" class="text-red-400">Raqib: 1/3 (Yiqildi) 💀</span>
           </div>
-          <div class="mt-2 text-[11px] text-slate-300 italic">
-            "Sardor Chilonzor aylanasi testida Damasni turtib ketdi va 1-savoldayoq jarimaga uchradi!"
+          <div id="duel-story-text" class="mt-2 text-[11px] text-slate-300 italic">
+            "Tezkor poygada qoidalarni bilgan shafyor marraga birinchi bo'lib yetib keldi!"
           </div>
         </div>
 
         <!-- Generated Certificate Card -->
         <div class="bg-gradient-to-tr from-red-950/40 via-slate-900 to-red-900/30 border border-red-500/40 p-3 rounded-xl text-center">
           <div class="text-[9px] uppercase tracking-wider text-red-400 font-bold">Rasmiy Telegram Sertifikati</div>
-          <div class="text-xs font-black text-white mt-0.5">"O'ZBEKISTONNING ENG XAVFLI SHAFYORI"</div>
-          <div class="text-[10px] text-slate-400 mt-1">Sardorga topshirildi • 2026-yil</div>
+          <div id="duel-cert-title" class="text-xs font-black text-white mt-0.5">"RESPUBLIKA TEZKOR SHAFYORI 2026"</div>
+          <div id="duel-cert-subtitle" class="text-[10px] text-slate-400 mt-1">Haydovchiga topshirildi • 2026-yil</div>
         </div>
 
         <!-- Share Actions -->
         <div class="space-y-2 mt-4">
-          <button onclick="alert('Telegram Hikoyalariga (Stories) yuklandi! 🚀')" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/30">
+          <button onclick="shareDuelStory()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/30">
             📲 Telegram Hikoyaga Qo'yish (Do'stlarni kuldirish)
           </button>
           <button onclick="closeDuelModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2 rounded-xl text-xs">
@@ -1968,7 +1968,42 @@
       if (spicyQ) spicyQ.innerText = `"${resolveInstructorSpeech(InstructorsDB.andijon.roasts.spicy[0])}"`;
     }
 
-    // --- STATE MANAGEMENT ---
+    // --- REAL STATE PERSISTENCE & LIFECYCLE ---
+    function getStoredNumber(key, defaultVal) {
+      try {
+        const v = localStorage.getItem(key);
+        return (v !== null && !isNaN(parseInt(v, 10))) ? parseInt(v, 10) : defaultVal;
+      } catch(e) {
+        return defaultVal;
+      }
+    }
+
+    function calculateDailyStreak() {
+      try {
+        const today = new Date().toISOString().slice(0, 10);
+        const lastDate = localStorage.getItem('shopirgo_last_active_date');
+        let streak = parseInt(localStorage.getItem('shopirgo_streak') || '0', 10);
+
+        if (!lastDate) {
+          streak = 1;
+        } else if (lastDate === today) {
+          streak = Math.max(1, streak);
+        } else {
+          const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+          if (lastDate === yesterday) {
+            streak += 1;
+          } else {
+            streak = 1;
+          }
+        }
+        localStorage.setItem('shopirgo_last_active_date', today);
+        localStorage.setItem('shopirgo_streak', streak.toString());
+        return streak;
+      } catch(e) {
+        return 1;
+      }
+    }
+
     function getInitialUserName() {
       try {
         const saved = localStorage.getItem('shopirgo_user_name');
@@ -1978,11 +2013,11 @@
           if (tgName && tgName.trim()) return tgName.trim();
         }
       } catch(e) {}
-      return "Jasur";
+      return "Haydovchi";
     }
 
     function updateUserNameUI() {
-      const name = state.userName || "Jasur";
+      const name = state.userName || "Haydovchi";
       const headerEl = document.getElementById('header-user-name');
       if (headerEl) headerEl.innerText = name;
       const protoEl = document.getElementById('proto-driver-name');
@@ -2000,17 +2035,65 @@
       updateUserNameUI();
     }
 
+    function savePersistentState() {
+      try {
+        localStorage.setItem('shopirgo_wallet', state.wallet.toString());
+        localStorage.setItem('shopirgo_car_health', state.carHealth.toString());
+        localStorage.setItem('shopirgo_streak', state.streak.toString());
+        localStorage.setItem('shopirgo_selected_car', state.selectedCar);
+        localStorage.setItem('shopirgo_xp', state.xp.toString());
+        localStorage.setItem('shopirgo_sarcasm', state.sarcasm);
+        if (state.garage) localStorage.setItem('shopirgo_garage', JSON.stringify(state.garage));
+
+        const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user)
+          ? window.Telegram.WebApp.initDataUnsafe.user
+          : null;
+        if (tgUser && tgUser.id) {
+          const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://127.0.0.1:8008/api/user/save'
+            : '/api/user/save';
+          fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              telegram_id: String(tgUser.id),
+              first_name: state.userName || tgUser.first_name || 'Haydovchi',
+              username: tgUser.username || '',
+              wallet: state.wallet,
+              car_health: state.carHealth,
+              selected_car: state.selectedCar,
+              streak: state.streak,
+              xp: state.xp,
+              last_active_date: localStorage.getItem('shopirgo_last_active_date') || ''
+            })
+          }).catch(() => {});
+        }
+      } catch(e) {}
+    }
+
+    function getStoredGarage() {
+      try {
+        const raw = localStorage.getItem('shopirgo_garage');
+        return raw ? JSON.parse(raw) : ['matiz'];
+      } catch(e) {
+        return ['matiz'];
+      }
+    }
+
     const state = {
       userName: getInitialUserName(),
       userGender: autoDetectTelegramGender(),      // 'male' | 'female'
-      userAgeGroup: localStorage.getItem('shopirgo_age_group') || 'young',   // 'young' (<35) | 'mid' (36-54) | 'elder' (55+)
+      userAgeGroup: localStorage.getItem('shopirgo_age_group') || 'young',
       userAge: 22,
-      streak: 3,
-      wallet: 850000,
-      carHealth: 70,
-      carTier: 2,
-      sarcasm: 'medium', // mild, medium, spicy
-      region: 'andijon', // Locked to Shokir aka (Andijon)  // andijon, toshkent, xorazm
+      streak: calculateDailyStreak(),
+      wallet: getStoredNumber('shopirgo_wallet', 50000),      // Real starting balance: 50,000 UZS
+      carHealth: getStoredNumber('shopirgo_car_health', 100),  // Real starting car health: 100%
+      carTier: 1,
+      selectedCar: localStorage.getItem('shopirgo_selected_car') || 'matiz',
+      garage: getStoredGarage(),
+      xp: getStoredNumber('shopirgo_xp', 0),
+      sarcasm: localStorage.getItem('shopirgo_sarcasm') || 'medium',
+      region: 'andijon', // Locked to Shokir aka (Andijon)
       activeTab: 'map',
       quizIndex: 0,
       mistakesCount: 0
@@ -5510,10 +5593,26 @@
           removeMistake(q.id);
         }
 
+        // Award real XP and update wallet bonus
+        state.xp = (state.xp || 0) + 100;
+        state.wallet = (state.wallet || 0) + 25000;
+        savePersistentState();
+        updateHeaderStats();
+
+        if (quizMode === 'duel') {
+          duelState.playerDist = Math.min(100, duelState.playerDist + 35);
+          duelState.correctCount++;
+          if (Math.random() < 0.65) {
+            duelState.oppDist = Math.min(100, duelState.oppDist + 28);
+            duelState.oppCorrectCount++;
+          }
+          updateDuelTrackUI();
+        }
+
         const titlePraise = isFemale ? (isElder ? "To'g'ri, opa!" : "To'g'ri, singlim!") : (isElder ? "To'g'ri topdingiz, aka!" : "To'g'ri, uka!");
         document.getElementById('fb-title').innerText = titlePraise;
         document.getElementById('fb-title').className = "font-bold text-xs text-emerald-400";
-        document.getElementById('fb-fine').innerText = "+100 XP";
+        document.getElementById('fb-fine').innerText = "+100 XP / +25k UZS";
         document.getElementById('fb-fine').className = "text-[11px] font-bold text-emerald-400";
         
         let praise;
@@ -5533,9 +5632,17 @@
         saveMistake(q.id);
 
         state.mistakesCount++;
-        state.wallet = Math.max(0, state.wallet - 150000);
-        state.carHealth = Math.max(10, state.carHealth - 15);
+        state.wallet = Math.max(0, (state.wallet || 0) - 150000);
+        state.carHealth = Math.max(10, (state.carHealth || 100) - 15);
+        savePersistentState();
         updateHeaderStats();
+
+        if (quizMode === 'duel') {
+          duelState.playerDist = Math.max(0, duelState.playerDist + 5);
+          duelState.oppDist = Math.min(100, duelState.oppDist + 30);
+          duelState.oppCorrectCount++;
+          updateDuelTrackUI();
+        }
 
         fbBox.className = "mt-4 p-3.5 rounded-2xl border border-red-500/40 bg-red-950/30 shake-anim";
         document.getElementById('fb-avatar-wrap').className = "w-14 h-14 rounded-2xl overflow-hidden border-2 border-red-500/50 shrink-0 shadow-lg bg-slate-900";
@@ -5586,13 +5693,25 @@
         qc.scrollTop = 0;
         qc.scrollTo({ top: 0, behavior: 'instant' });
       }
+      if (quizMode === 'duel') {
+        duelState.qIndex++;
+        if (duelState.qIndex >= duelState.questions.length || duelState.playerDist >= 100 || duelState.oppDist >= 100) {
+          closeQuiz();
+          finishDuel();
+          return;
+        }
+      }
       if (state.quizIndex < currentQuizList.length - 1) {
         state.quizIndex++;
         loadQuestion();
       } else {
         closeQuiz();
-        const passed = state.mistakesCount <= 2;
-        showExamResult(passed);
+        if (quizMode === 'duel') {
+          finishDuel();
+        } else {
+          const passed = state.mistakesCount <= 2;
+          showExamResult(passed);
+        }
       }
     }
 
@@ -5741,7 +5860,7 @@
       ctx.fillStyle = '#94a3b8';
       ctx.fillText('Haydovchi nomzodi:', 60, 170);
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(`${state.userName || 'Jasur'} (O'zbekiston)`, 240, 170);
+      ctx.fillText(`${state.userName || 'Haydovchi'} (O'zbekiston)`, 240, 170);
 
       const carName = (typeof FullToyCars !== "undefined" && FullToyCars[state.selectedCar]) ? FullToyCars[state.selectedCar].name : "Chevrolet Cobalt";
       ctx.fillStyle = '#94a3b8';
@@ -5793,9 +5912,10 @@
 
       ctx.fillStyle = '#e2e8f0';
       ctx.font = 'italic 13px sans-serif';
-      const quote = isPass 
-        ? (inst.praises && inst.praises[0]) ? inst.praises[0] : `"Otangga rahmat! Yangi ${carName}ga bemalol o'tiravering!"`
-        : (inst.quotes && (inst.quotes.spicy || inst.quotes.med)) ? (inst.quotes.spicy || inst.quotes.med) : `"Hov uka, svetoforni ko'rmasangiz ${carName}ni ezib tashlaysiz-ku! Qayta o'qing!"`;
+      const rawQuote = isPass 
+        ? ((inst.praises && inst.praises[0]) ? inst.praises[0] : `"Otangga rahmat! Yangi ${carName}ga bemalol o'tiravering!"`)
+        : ((inst.quotes && (inst.quotes.spicy || inst.quotes.med)) ? (inst.quotes.spicy || inst.quotes.med) : `"Hov uka, svetoforni ko'rmasangiz ${carName}ni ezib tashlaysiz-ku! Qayta o'qing!"`);
+      const quote = resolveInstructorSpeech(rawQuote) || (typeof rawQuote === 'string' ? rawQuote : `"Otangga rahmat! Yangi ${carName}ga bemalol o'tiravering!"`);
       
       // Word wrap
       const words = quote.split(' ');
@@ -5862,62 +5982,163 @@
     }
 
     function updateHeaderStats() {
-      document.getElementById('wallet-val').innerText = `${Math.round(state.wallet / 1000)}k`;
-      document.getElementById('streak-val').innerText = state.streak;
-      document.getElementById('car-health-bar').style.width = `${state.carHealth}%`;
-      document.getElementById('car-health-txt').innerText = `${state.carHealth}%`;
+      const wEl = document.getElementById('wallet-val');
+      const sEl = document.getElementById('streak-val');
+      const hbEl = document.getElementById('car-health-bar');
+      const htEl = document.getElementById('car-health-txt');
+      if (wEl) wEl.innerText = `${Math.round((state.wallet || 0) / 1000)}k`;
+      if (sEl) sEl.innerText = state.streak || 1;
+      const h = state.carHealth !== undefined ? state.carHealth : 100;
+      if (hbEl) hbEl.style.width = `${h}%`;
+      if (htEl) htEl.innerText = `${h}%`;
+      savePersistentState();
+    }
+
+    // --- IN-APP TOAST NOTIFICATION SYSTEM ---
+    function showAppToast(message, type = 'info') {
+      let toast = document.getElementById('shopirgo-inapp-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'shopirgo-inapp-toast';
+        document.body.appendChild(toast);
+      }
+      const bg = type === 'success' ? 'bg-emerald-600 border border-emerald-400' :
+                 type === 'error' ? 'bg-red-600 border border-red-400' :
+                 type === 'warning' ? 'bg-amber-600 border border-amber-400' :
+                 'bg-slate-900 border border-slate-700';
+      toast.className = `fixed top-5 left-1/2 -translate-x-1/2 z-[9999] max-w-[90%] px-4 py-3 rounded-2xl shadow-2xl text-xs font-bold text-white transition-all duration-300 pointer-events-auto opacity-100 translate-y-0 ${bg}`;
+      toast.innerText = message;
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred(type === 'error' ? 'error' : 'success'); } catch(e) {}
+      }
+      setTimeout(() => {
+        if (toast) {
+          toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[9999] max-w-[90%] px-4 py-3 rounded-2xl shadow-2xl text-xs font-bold text-white transition-all duration-300 pointer-events-none opacity-0 translate-y-[-10px] bg-slate-900';
+        }
+      }, 3500);
     }
 
     // --- CAR REPAIR ---
     function repairCar() {
       AudioEngine.playSuccess();
       state.carHealth = 100;
+      savePersistentState();
       updateHeaderStats();
-      alert("Mashina Usta Shokir ustaxonasida moylandi va qirilgan joylari bo'yab berildi! ✨");
+      showAppToast("Mashina Usta Shokir ustaxonasida moylandi va 100% holatga keltirildi! ✨", "success");
     }
 
-    // --- TRASSADA POYGA DRAG DUEL ---
+    // --- REAL INTERACTIVE POYGA SPEED SPRINT (1v1 DUEL) ---
+    let duelState = {
+      active: false,
+      playerDist: 15,
+      oppDist: 10,
+      qIndex: 0,
+      correctCount: 0,
+      oppCorrectCount: 0,
+      questions: []
+    };
+
     function startPoygaDuel() {
       AudioEngine.playHonk();
+      const allQ = (typeof YHQ_QUESTIONS !== 'undefined') ? YHQ_QUESTIONS : LocalYHQQuestions;
+      const shuffled = [...allQ].sort(() => 0.5 - Math.random());
+      duelState = {
+        active: true,
+        playerDist: 15,
+        oppDist: 10,
+        qIndex: 0,
+        correctCount: 0,
+        oppCorrectCount: 0,
+        questions: shuffled.slice(0, 3)
+      };
+
+      updateDuelTrackUI();
+      quizMode = 'duel';
+      currentQuizList = duelState.questions;
+      state.quizIndex = 0;
+      state.mistakesCount = 0;
+      syncQuizActiveCar();
+      const qTag = document.getElementById('quiz-mode-tag');
+      if (qTag) qTag.innerText = `⚡ Poyga Duellari (1/3)`;
+      const qModal = document.getElementById('quiz-modal');
+      if (qModal) qModal.classList.remove('hidden');
+      loadQuestion();
+    }
+
+    function updateDuelTrackUI() {
       const p1 = document.getElementById('full-race-p1-bar');
       const p2 = document.getElementById('full-race-p2-bar');
       const d1 = document.getElementById('full-race-p1-dist');
       const d2 = document.getElementById('full-race-p2-dist');
-      
-      p1.style.width = '25%';
-      p2.style.width = '20%';
-      d1.innerText = '25m / 100m';
-      d2.innerText = '20m / 100m';
+      if (p1) p1.style.width = `${Math.min(100, duelState.playerDist)}%`;
+      if (p2) p2.style.width = `${Math.min(100, duelState.oppDist)}%`;
+      if (d1) d1.innerText = `${duelState.playerDist}m / 100m`;
+      if (d2) d2.innerText = `${duelState.oppDist}m / 100m`;
+    }
 
-      setTimeout(() => {
-        p1.style.width = '65%';
-        p2.style.width = '45%';
-        d1.innerText = '65m / 100m';
-        d2.innerText = '45m / 100m';
-        AudioEngine.playCoin();
-      }, 500);
+    function finishDuel() {
+      const playerWon = duelState.playerDist >= duelState.oppDist;
+      const modal = document.getElementById('duel-modal');
+      const pScoreEl = document.getElementById('duel-player-score');
+      const oScoreEl = document.getElementById('duel-opp-score');
+      const storyTextEl = document.getElementById('duel-story-text');
+      const certTitleEl = document.getElementById('duel-cert-title');
+      const certSubEl = document.getElementById('duel-cert-subtitle');
+      const headingEl = document.getElementById('duel-modal-heading');
 
-      setTimeout(() => {
-        p1.style.width = '100%';
-        p2.style.width = '55%';
-        d1.innerText = '100m (MARRA!) 🏁';
-        d2.innerText = "55m (Radarda to'xtadi) 📸";
+      if (headingEl) headingEl.innerText = playerWon ? "POYGADA G'ALABA! 🏆" : "RADARGA TUSHDINGIZ! 📸";
+      if (pScoreEl) pScoreEl.innerText = `Siz: ${duelState.correctCount}/${duelState.questions.length} to'g'ri (${duelState.playerDist}m) ${playerWon ? '🏆' : ''}`;
+      if (oScoreEl) oScoreEl.innerText = `Raqib: ${duelState.oppCorrectCount}/${duelState.questions.length} (${duelState.oppDist}m) ${!playerWon ? '🏆' : '💀'}`;
+
+      if (playerWon) {
         AudioEngine.playSuccess();
-        setTimeout(() => {
-          document.getElementById('duel-modal').classList.remove('hidden');
-        }, 400);
-      }, 1200);
+        state.xp = (state.xp || 0) + 150;
+        state.wallet = (state.wallet || 0) + 50000;
+        savePersistentState();
+        updateHeaderStats();
+        if (storyTextEl) storyTextEl.innerText = `"${state.userName || 'Siz'} tezkor poygada barcha savollarga to'g'ri javob berib, 100m marraga birinchi bo'lib yetib keldi!"`;
+        if (certTitleEl) certTitleEl.innerText = `"RESPUBLIKA TEZKOR SHAFYORI 2026"`;
+        if (certSubEl) certSubEl.innerText = `${state.userName || 'Haydovchi'}ga topshirildi • G'alaba`;
+      } else {
+        AudioEngine.playHonk();
+        setTimeout(() => AudioEngine.playSiren(), 300);
+        state.carHealth = Math.max(10, (state.carHealth || 100) - 10);
+        savePersistentState();
+        updateHeaderStats();
+        if (storyTextEl) storyTextEl.innerText = `"Shokir aka: 'Hov uka, shoshilaman deb radarga tushding-ku! Raqibing oldinga o'tib ketdi!' "`;
+        if (certTitleEl) certTitleEl.innerText = `"RADARGA TUSHGAN SHAFYOR"`;
+        if (certSubEl) certSubEl.innerText = `${state.userName || 'Haydovchi'} • Qayta urinib ko'ring`;
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function shareDuelStory() {
+      const isWon = duelState.playerDist >= duelState.oppDist;
+      const text = isWon 
+        ? `🏁 ShopirGo poygasida raqibimni quvib o'tib, 100m marraga birinchi yetib bordim! 🏆 Sen ham o'zingni sinab ko'r:` 
+        : `📸 Poygada radarga tushib qoldim 😂 Lekin keyingi safar yutaman! Sen quvib o'ta olasanmi:`;
+      const shareUrl = `https://t.me/ShopirGoBot?start=duel_${Math.floor(1000 + Math.random() * 9000)}`;
+      const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+        window.Telegram.WebApp.openTelegramLink(tgUrl);
+      } else {
+        window.open(tgUrl, '_blank');
+      }
+      showAppToast("📲 Duel havolasi Telegramga yuborildi!", "success");
     }
 
     function closeDuelModal() {
-      document.getElementById('duel-modal').classList.add('hidden');
+      const modal = document.getElementById('duel-modal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function shareDuelLink() {
       inviteFriendToDuel();
     }
 
-    // --- PAYMENT MODAL & REALISTIC INVOICE (ISSUE 4 SOLVED) ---
+    // --- PAYMENT MODAL & REALISTIC INVOICE ---
     function openPaymentModal(title, price) {
       AudioEngine.playCoin();
       const tEl = document.getElementById('pay-product-title');
@@ -5935,27 +6156,28 @@
 
     function executePayment(gateway) {
       AudioEngine.playCoin();
+      closePaymentModal();
       if (gateway === 'Telegram Stars') {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openInvoice) {
-          alert(`⭐️ Telegram Stars (250 ⭐️):
-Telegram Stars orqali to'lov oynasi ulanmoqda...
-To'lov tasdiqlangach, Shopir Pass VIP darhol ochiladi.`);
-        } else {
-          alert(`⭐️ Telegram Stars:
-To'lov oynasi ulanmoqda (250 Stars)...
-Hozircha sinov rejimida bo'lgani uchun '3 ta do'stni taklif qilish' orqali VIP passni 0 SO'MGA faollashtirishingiz mumkin! 🎁`);
+          try {
+            window.Telegram.WebApp.openInvoice("https://t.me/$invoice_shopirgo_vip", (status) => {
+              if (status === 'paid') {
+                isVipUnlocked = true;
+                localStorage.setItem('shopirgo_vip_active', 'true');
+                updateReferralUI();
+                showAppToast("⭐️ Telegram Stars to'lovi muvaffaqiyatli! VIP Pass ochildi!", "success");
+              }
+            });
+            return;
+          } catch(e) {}
         }
+        showAppToast("⭐️ Telegram Stars sinov rejimida. 3 ta do'stni taklif qilib VIP-ni 0 SO'MGA ochishingiz mumkin! 🎁", "info");
       } else {
-        alert(`💳 ${gateway} to'lov tizimi:
-Summa: 39 000 UZS
-Mahsulot: Shopir Pass VIP
-
-To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "3 ta do'stni taklif qilib bepul ochish" tugmasi orqali VIP passni 0 SO'MGA faollashtirishingiz mumkin! 🎁`);
+        showAppToast(`💳 ${gateway} to'lov kvitansiyasi tayyorlandi (Sinov rejimi). 3 ta do'stni taklif qilib VIP-ni bepul ochish mumkin! 🎁`, "info");
       }
-      closePaymentModal();
     }
 
-    // --- ACTIVE CAR SYNCHRONIZER FOR QUIZ MODAL (ISSUE 3 SOLVED) ---
+    // --- ACTIVE CAR SYNCHRONIZER FOR QUIZ MODAL ---
     function syncQuizActiveCar() {
       const carKey = state.selectedCar || 'matiz';
       const car = (typeof FullToyModels !== "undefined" && FullToyModels[carKey]) ? FullToyModels[carKey] : { name: "Daewoo Matiz II" };
@@ -5971,7 +6193,7 @@ To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "
         else if (carKey === 'gentra') imgEl.src = 'assets/cars/toy_gentra.jpg';
         else imgEl.src = 'assets/cars/toy_matiz.jpg';
       }
-      const health = state.carHealth !== undefined ? state.carHealth : 70;
+      const health = state.carHealth !== undefined ? state.carHealth : 100;
       if (barEl) {
         barEl.style.width = `${health}%`;
         if (health > 50) barEl.className = "bg-emerald-400 h-full rounded-full transition-all duration-300";
@@ -5981,8 +6203,8 @@ To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "
       if (txtEl) txtEl.innerText = `${health}% holat`;
     }
 
-    // --- 3-FRIENDS REFERRAL UNLOCK SYSTEM (ISSUE 5 SOLVED) ---
-    let invitedFriendsCount = parseInt(localStorage.getItem('shopirgo_referrals') || '0');
+    // --- 3-FRIENDS REFERRAL UNLOCK SYSTEM ---
+    let invitedFriendsCount = parseInt(localStorage.getItem('shopirgo_referrals') || '0', 10);
     let isVipUnlocked = (localStorage.getItem('shopirgo_vip_active') === 'true');
 
     function updateReferralUI() {
@@ -5997,7 +6219,6 @@ To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "
         progressEl.style.width = `${pct}%`;
       }
 
-      // Step badges highlight
       for (let i = 1; i <= 3; i++) {
         const stepEl = document.getElementById(`ref-step-${i}`);
         if (stepEl) {
@@ -6025,12 +6246,12 @@ To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "
 
     function inviteFriendsToUnlockVIP() {
       AudioEngine.playSuccess();
-      invitedFriendsCount = Math.min(3, invitedFriendsCount + 1);
-      localStorage.setItem('shopirgo_referrals', invitedFriendsCount.toString());
-      updateReferralUI();
+      const myId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user)
+        ? window.Telegram.WebApp.initDataUnsafe.user.id
+        : (state.userName || 'haydovchi');
 
       const shareText = "🚗 Do'stim, ShopirGo ilovasida 55 yoshli Shokir aka bilan yangi 2026 YHQ imtihoniga tayyorlanyapman! Sen ham kir, birga o'rganamiz: ";
-      const shareUrl = "https://t.me/ShopirGoBot?start=ref_" + (state.region || 'uz');
+      const shareUrl = `https://t.me/ShopirGoBot?start=ref_${myId}`;
       const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
 
       if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
@@ -6039,18 +6260,10 @@ To'lov kvitansiyasi shakllantirildi. To'lov shlyuzi sinov rejimida! Yuqoridagi "
         window.open(tgUrl, '_blank');
       }
 
-      if (invitedFriendsCount >= 3) {
-        setTimeout(() => {
-          AudioEngine.playSuccess();
-          alert(`🎉 TABRIKLAYMIZ!
-
-Siz 3 ta do'stingizni muvaffaqiyatli taklif qildingiz!
-Shokir aka: 'Otangga rahmat uka! Shopir Pass VIP sizga 100% BEPUL ochildi!' 👑`);
-        }, 300);
-      }
+      showAppToast(`📲 Shaxsiy taklif havolangiz ulashildi! Do'stlaringiz botga kirgach VIP ochiladi.`, "info");
     }
 
-    // --- FULL PROTOTYPE CARS ---
+    // --- FULL PROTOTYPE CARS & SELECTION ---
     const FullToyModels = {
       matiz: {
         name: "Daewoo Matiz II",
@@ -6074,19 +6287,88 @@ Shokir aka: 'Otangga rahmat uka! Shopir Pass VIP sizga 100% BEPUL ochildi!' 👑
       }
     };
 
-    function selectFullToyCar(carKey) {
-      AudioEngine.playHonk();
+    function selectFullToyCar(carKey, quiet = false) {
+      if (!FullToyModels[carKey]) return;
+      if (!quiet) AudioEngine.playHonk();
+      state.selectedCar = carKey;
+      savePersistentState();
+
       ['matiz', 'damas', 'cobalt', 'gentra'].forEach(c => {
         const btn = document.getElementById(`full-btn-${c}`);
-        btn.className = "px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
+        if (btn) btn.className = "px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
       });
-      document.getElementById(`full-btn-${carKey}`).className = "px-3 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+      const activeBtn = document.getElementById(`full-btn-${carKey}`);
+      if (activeBtn) activeBtn.className = "px-3 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
       
       const car = FullToyModels[carKey];
-      document.getElementById('full-toy-display').innerHTML = car.img;
-      document.getElementById('full-toy-name').innerText = car.name;
-      document.getElementById('full-toy-desc').innerText = car.desc;
+      const disp = document.getElementById('full-toy-display');
+      if (disp) disp.innerHTML = car.img;
+      const nm = document.getElementById('full-toy-name');
+      if (nm) nm.innerText = car.name;
+      const dsc = document.getElementById('full-toy-desc');
+      if (dsc) dsc.innerText = car.desc;
+
+      // Update Road map banner active car
+      const bannerImg = document.querySelector('#tab-map .cursor-pointer img');
+      if (bannerImg) {
+        if (carKey === 'cobalt') bannerImg.src = 'assets/cars/toy_cobalt.jpg';
+        else if (carKey === 'damas') bannerImg.src = 'assets/cars/toy_damas.jpg';
+        else if (carKey === 'gentra') bannerImg.src = 'assets/cars/toy_gentra.jpg';
+        else bannerImg.src = 'assets/cars/toy_matiz.jpg';
+      }
+      const bannerName = document.querySelector('#tab-map .cursor-pointer .truncate');
+      if (bannerName) bannerName.innerText = car.name;
+
+      syncQuizActiveCar();
+      if (!quiet) showAppToast(`🚗 Tanlangan mashina: ${car.name}`, "success");
     }
+
+    // Deep-link handler (Duels and Referrals)
+    function handleIncomingDeepLink() {
+      try {
+        let param = '';
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.start_param) {
+          param = window.Telegram.WebApp.initDataUnsafe.start_param;
+        } else {
+          const urlParams = new URLSearchParams(window.location.search);
+          param = urlParams.get('start_param') || '';
+        }
+
+        if (param.startsWith('duel_')) {
+          showAppToast("⚡ 1v1 Poyga Duellari chaqiruvi qabul qilindi!", "success");
+          setTimeout(() => {
+            if (typeof startPoygaDuel === "function") startPoygaDuel();
+          }, 300);
+        } else if (param.startsWith('ref_')) {
+          const referrerId = param.replace('ref_', '');
+          const myId = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user)
+            ? String(window.Telegram.WebApp.initDataUnsafe.user.id)
+            : 'user_' + Math.floor(1000 + Math.random() * 9000);
+
+          const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://127.0.0.1:8008/api/referrals/register'
+            : '/api/referrals/register';
+
+          fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ referrer_id: referrerId, referred_user_id: myId })
+          }).catch(() => {});
+          showAppToast("🎁 Do'stingizning taklifi bo'yicha start bonusi berildi!", "success");
+        }
+      } catch(e) {}
+    }
+
+    // Initialize car display & deep-link on page boot
+    try {
+      setTimeout(() => {
+        updateUserNameUI();
+        if (state.selectedCar) selectFullToyCar(state.selectedCar, true);
+        updateHeaderStats();
+        updateReferralUI();
+        handleIncomingDeepLink();
+      }, 50);
+    } catch(e) {}
   </script>
 </body>
 </html>
