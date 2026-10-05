@@ -1972,6 +1972,11 @@
     function getStoredNumber(key, defaultVal) {
       try {
         const v = localStorage.getItem(key);
+        // Clean out legacy demo wallet if preserved from earlier prototype
+        if (key === 'shopirgo_wallet' && v === '850000') {
+          localStorage.setItem('shopirgo_wallet', '50000');
+          return 50000;
+        }
         return (v !== null && !isNaN(parseInt(v, 10))) ? parseInt(v, 10) : defaultVal;
       } catch(e) {
         return defaultVal;
@@ -2007,10 +2012,15 @@
     function getInitialUserName() {
       try {
         const saved = localStorage.getItem('shopirgo_user_name');
-        if (saved && saved.trim()) return saved.trim();
+        // Clean out legacy demo name if stored from earlier prototype
+        if (saved && saved.trim() && saved.trim().toLowerCase() !== "jasur") return saved.trim();
+
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
           const tgName = window.Telegram.WebApp.initDataUnsafe.user.first_name;
-          if (tgName && tgName.trim()) return tgName.trim();
+          if (tgName && tgName.trim()) {
+            localStorage.setItem('shopirgo_user_name', tgName.trim());
+            return tgName.trim();
+          }
         }
       } catch(e) {}
       return "Haydovchi";
